@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
 sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
+ln -s "/usr/share/vim/vimfiles/plugin/fzf.vim" "$HOME/.config/nvim/after/plugin/fzf.vim"

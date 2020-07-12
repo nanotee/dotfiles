@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"

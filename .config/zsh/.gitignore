@@ -1,0 +1,11 @@
+/*
+!.gitignore
+
+!.zshrc
+!.zshenv
+!.options.zsh
+!.plug-options.zsh
+!.aliases.sh
+!xdg.sh
+!zsh_plugins.txt
+!.p10k.zsh

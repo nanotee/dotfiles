@@ -1,0 +1,7 @@
+romkatv/powerlevel10k
+zdharma/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions
+zsh-users/zsh-history-substring-search
+Aloxaf/fzf-tab
+spwhitt/nix-zsh-completions

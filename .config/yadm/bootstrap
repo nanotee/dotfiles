@@ -1,4 +1,10 @@
 #!/usr/bin/env sh
 
-sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
-ln -s "/usr/share/vim/vimfiles/plugin/fzf.vim" "$HOME/.config/nvim/after/plugin/fzf.vim"
+echo 'Setting up XDG environement variables'
+[ ! -e "/etc/profile.d/xdg.sh" ] && sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
+
+echo 'Creating symbolic link to fzf.vim in ~/.config/nvim/after/plugin'
+[ ! -e "$HOME/.config/nvim/after/plugin/fzf.vim" ] && ln -s "/usr/share/vim/vimfiles/plugin/fzf.vim" "$HOME/.config/nvim/after/plugin/fzf.vim"
+
+echo 'Installing a package manager for Neovim'
+[ ! -d "$HOME/.config/nvim/pack/packager/opt/vim-packager" ] && git clone "https://github.com/kristijanhusak/vim-packager" "$HOME/.config/nvim/pack/packager/opt/vim-packager"

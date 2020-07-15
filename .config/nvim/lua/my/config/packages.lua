@@ -1,12 +1,4 @@
 local M = {}
-local config = vim.fn.stdpath('config')
-
--- Automatically install vim-packager
-if vim.fn.has('unix') == 1 then
-    if vim.fn.empty(vim.fn.glob(config..'/pack/packager/opt/vim-packager/autoload/packager.vim')) == 1 then
-        vim.cmd('!git clone https://github.com/kristijanhusak/vim-packager '..config..'/pack/packager/opt/vim-packager')
-    end
-end
 
 function M.init()
     vim.cmd 'packadd vim-packager'

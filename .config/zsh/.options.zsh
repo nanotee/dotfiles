@@ -2,6 +2,11 @@
 
 ## Utility
 setopt CORRECT
+setopt INTERACTIVE_COMMENTS # Enable comments in interactive shell.
+autoload -Uz bracketed-paste-url-magic
+zle -N bracketed-paste bracketed-paste-url-magic
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
 
 ## Directory
 setopt AUTO_CD              # Auto changes to a directory without typing cd.
@@ -14,7 +19,8 @@ setopt MULTIOS              # Write to multiple descriptors.
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
                             # Use >! and >>! to bypass.
-# History
+
+## History
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt SHARE_HISTORY             # Share history between all sessions.

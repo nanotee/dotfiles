@@ -4,6 +4,7 @@ vim.g.colors_name = 'dracula'
 vim.cmd 'hi link NormalNC Pmenu' -- Make inactive windows darker
 vim.o.termguicolors = true
 vim.wo.number = true
+-- vim.wo.signcolumn = 'number'
 vim.wo.list = true
 local listchars = {
      'tab:│ ',
@@ -27,7 +28,7 @@ vim.o.title = true
 
 -- Cursor
 vim.wo.cursorline = true
-vim.o.scrolloff = 10
+vim.o.scrolloff = 5
 vim.o.mouse = 'a'
 vim.o.whichwrap = 'b,h,l,s,<,>,[,],~'
 local guicursor = {

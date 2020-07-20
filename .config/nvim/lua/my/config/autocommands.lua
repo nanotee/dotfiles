@@ -8,7 +8,7 @@ local autocmds = {
         {'TermOpen', '*', 'setlocal bufhidden=hide'},
         {'TermOpen', '*', 'setlocal nonumber'},
         {'TermOpen', '*', 'setlocal scrolloff=0'}, -- Fix terminal flicker
-        {'TermOpen', '*', 'startinsert'},
+        {'TermOpen', '*zsh*', 'startinsert'},
     },
     no_cursorline_in_insert_mode = {
         {'InsertLeave,WinEnter', '*', 'set cursorline'},

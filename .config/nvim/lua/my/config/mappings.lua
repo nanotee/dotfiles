@@ -80,7 +80,8 @@ local mappings = {
     {'o', 'ad', '<Cmd>normal! ggVG<CR>'},
     {'x', 'ad', 'ggo0G$'},
 
-    -- Run the line of code under the cursor
+    -- Run code quickly
+    {'n', '<leader>rr', '<Cmd>Run<CR>'},
     {'n', '<leader>rl', '<Cmd>.Run<CR>'},
 }
 

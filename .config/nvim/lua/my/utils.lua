@@ -3,9 +3,11 @@ local M = {}
 local fn = vim.fn
 
 function _G.dump(...)
+    local str = ''
     for _, object in pairs{...} do
-        print(vim.inspect(object))
+        str = str..vim.inspect(object)
     end
+    print(str)
 end
 
 -- Visual Mode */# from Scrooloose
@@ -60,8 +62,13 @@ function M.quickfix_make_signs(make_type)
     end
 end
 
-function M.run(line1, line2)
+function M.run(line1, line2, cmd)
     local lines = fn.getline(line1, line2)
+    if cmd ~= '' then
+        local stdout = fn.system(cmd, lines)
+        print(stdout)
+        return
+    end
 
     if vim.bo.filetype == 'vim' then
         print(fn.execute(lines))
@@ -100,7 +107,7 @@ function M.scratch(mods, range, line1, line2, filetype)
         vim.b.original_mark_end = mark_end
         vim.b.original_ns = ns
         -- Send the code in the scratch buffer back to its original buffer
-        vim.cmd'command! -buffer SendBack lua require"my.utils".send_back()'
+        vim.cmd 'command! -buffer SendBack lua require"my.utils".send_back()'
     end
 
     vim.bo.filetype = scratch_ft
@@ -116,6 +123,8 @@ function M.send_back()
         print('The original buffer was closed')
         return
     end
+
+    local text_to_send = fn.getline(1, fn.line('$'))
 
     local line1 = vim.api.nvim_buf_get_extmark_by_id(
         vim.b.original_bufnr,
@@ -133,8 +142,32 @@ function M.send_back()
         line1 - 1,
         line2,
         true,
-        fn.getline(1, fn.line('$'))
+        text_to_send
         )
+
+    vim.b.original_mark_start = vim.api.nvim_buf_set_extmark(
+        vim.b.original_bufnr,
+        vim.b.original_ns,
+        vim.b.original_mark_start,
+        line1,
+        0,
+        {}
+        )
+
+    vim.b.original_mark_end = vim.api.nvim_buf_set_extmark(
+        vim.b.original_bufnr,
+        vim.b.original_ns,
+        vim.b.original_mark_end,
+        line1 + #text_to_send - 1,
+        0,
+        {}
+        )
+end
+
+function M.extmarks_debug(extmark_group)
+end
+
+function M.extmarks_debug_stop()
 end
 
 return M

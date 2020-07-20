@@ -13,7 +13,8 @@ command! -nargs=* -complete=command Redirect
 
 " Takes a range of lines of code from the current buffer and runs them (the
 " whole buffer is run by default)
-command! -range=% Run lua require'my.utils'.run('<line1>', '<line2>')
+" Accepts a shell command to run the code in a specific program
+command! -range=% -nargs=? -complete=shellcmd Run lua require'my.utils'.run('<line1>', '<line2>', '<args>')
 
 " Creates a scratch buffer in a new window.
 " Accepts a range to copy a set of lines over from the current buffer
@@ -21,3 +22,7 @@ command! -range=% Run lua require'my.utils'.run('<line1>', '<line2>')
 " Accepts a filetype to set the scratch buffer to
 " Accepts a modifier to create a vertical split or a new tab
 command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scratch('<mods>', <range>, <line1>, <line2>, '<args>')
+
+" TODO
+command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug('<args>')
+command! ExtmarksDebugStop lua require'my.utils'.extmarks_debug_stop()

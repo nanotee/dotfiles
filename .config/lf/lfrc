@@ -101,7 +101,7 @@ cmd Link %{{
         lf -remote "send $id echo no files to link"
         exit 0
     fi
-    # symbolicly copy mode is indicating a soft link
+    # symbolically copy mode is indicating a soft link
     if [[ "$mode" == copy ]]; then
         ln -sr $files -t .
     # while a move mode is indicating a hard link
@@ -111,23 +111,36 @@ cmd Link %{{
 }}
 map P :Link
 
-cmd bulk-rename ${{
-    old=$(mktemp)
-    new=$(mktemp)
-    [ -n $fs ] && fs=$(ls)
-    printf "$fs\n" > $old
-    printf "$fs\n" > $new
-    $EDITOR $new
-    [ $(cat $new | wc -l) -ne $(cat $old | wc -l) ] && exit
-    paste $old $new | while read names; do
-        src=$(printf $names | cut -f1)
-        dst=$(printf $names | cut -f2)
-        [ $src = $dst ] && continue
-        [ -e $dst ] && continue
-        mv $src $dst
+# taken from https://github.com/gokcehan/lf/pull/157/files
+cmd bulk-rename !{{
+    tmp() { umask 077; mktemp /tmp/lf-bulkrename-index.XXXXXXXXXX; }
+    index_a="$(tmp)"
+    index_b="$(tmp)"
+    trap 'rm "$index_a" "$index_b"' EXIT INT QUIT
+    if [ -n "${fs:-}" ]; then
+        printf '%s\n' "$fs" > "$index_a"
+    else
+        ls -1Ap > "$index_a"
+    fi
+    cat "$index_a" > "$index_b"
+    "$EDITOR" "$index_b"
+    if [ "$(wc -l "$index_a" "$index_b" |
+        awk 'NR==1 {a=$1} NR==2 {b=$1} END {print a-b}' )" -ne 0 ]; then
+        echo "Number of lines must stay the same." >&2
+        exit 1
+    fi
+    tty="$(tty)"
+    line=0
+    paste -d "\n" "$index_a" "$index_b" | while read -r name; do
+        : $((line += 1))
+        if [ $((line % 2)) -eq 1 ]; then
+            a="$name"; continue
+        else
+            b="$name"
+        fi
+        [ "$a" = "$b" ] && continue
+        mv -vi -- "$a" "$b" < "$tty"
     done
-    rm $old $new
-    lf -remote "send $id unselect"
 }}
 
 # Rename without changing the extension

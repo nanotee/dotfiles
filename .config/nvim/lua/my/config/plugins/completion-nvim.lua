@@ -25,6 +25,9 @@ vim.g.completion_chain_complete_list = {
         vim = {
             {mode = 'cmd'},
         },
+        sql = {
+            {complete_items = {'vim-dadbod-completion'}}
+        }
     }
 }
 

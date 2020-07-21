@@ -25,6 +25,8 @@ command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scra
 
 command! -nargs=1 -complete=shellcmd Tldr <mods> new | call termopen(['tldr', '<args>']) | setlocal nonumber nolist noswapfile bufhidden=delete
 
+command! LiveServer lua require'my.utils'.live_server()
+
 " TODO
 command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug('<args>')
 command! ExtmarksDebugStop lua require'my.utils'.extmarks_debug_stop()

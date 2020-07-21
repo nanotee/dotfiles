@@ -62,6 +62,24 @@ function M.quickfix_make_signs(make_type)
     end
 end
 
+local live_server_running = false
+
+function M.live_server()
+    if live_server_running then
+        print('Live server already running')
+        return
+    end
+    local job_id = fn.jobstart({'live-server', '.'})
+    vim.cmd('command! LiveServerStop lua require"my.utils".live_server_stop('..job_id..')')
+    live_server_running = true
+end
+
+function M.live_server_stop(job_id)
+    fn.jobstop(job_id)
+    live_server_running = false
+    vim.cmd 'delcommand LiveServerStop'
+end
+
 function M.run(line1, line2, cmd)
     local lines = fn.getline(line1, line2)
     if cmd ~= '' then

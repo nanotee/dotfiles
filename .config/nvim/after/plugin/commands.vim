@@ -23,6 +23,8 @@ command! -range=% -nargs=? -complete=shellcmd Run lua require'my.utils'.run('<li
 " Accepts a modifier to create a vertical split or a new tab
 command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scratch('<mods>', <range>, <line1>, <line2>, '<args>')
 
+command! -nargs=1 -complete=shellcmd Tldr <mods> new | call termopen(['tldr', '<args>']) | setlocal nonumber nolist noswapfile bufhidden=delete
+
 " TODO
 command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug('<args>')
 command! ExtmarksDebugStop lua require'my.utils'.extmarks_debug_stop()

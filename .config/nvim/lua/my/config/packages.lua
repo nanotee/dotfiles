@@ -15,6 +15,7 @@ function M.init()
         {'neoclide/coc.nvim', {branch = 'release', type = 'opt'}},
         {'neomake/neomake', {type = 'opt'}},
         {'junegunn/fzf.vim'},
+        {'liuchengxu/vista.vim'},
         {'lervag/wiki.vim', {type = 'opt'}},
         {'bfredl/nvim-incnormal'},
         {'tpope/vim-unimpaired'},

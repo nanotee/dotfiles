@@ -3,11 +3,8 @@ local M = {}
 local fn = vim.fn
 
 function _G.dump(...)
-    local str = ''
-    for _, object in pairs{...} do
-        str = str..vim.inspect(object)
-    end
-    print(str)
+    local objects = vim.tbl_map(vim.inspect, {...})
+    print(unpack(objects))
 end
 
 -- Visual Mode */# from Scrooloose
@@ -64,12 +61,12 @@ end
 
 local live_server_running = false
 
-function M.live_server()
+function M.live_server(folder)
     if live_server_running then
         print('Live server already running')
         return
     end
-    local job_id = fn.jobstart({'live-server', '.'})
+    local job_id = fn.jobstart({'live-server', folder or '.'})
     vim.cmd('command! LiveServerStop lua require"my.utils".live_server_stop('..job_id..')')
     live_server_running = true
 end

@@ -12,6 +12,6 @@ alias ln="ln -i"
 alias mkdirs="mkdir -p"
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
-alias G=git
+alias g=git
 
 alias nvimm='nvim --cmd "let minimal_config=v:true"'

@@ -9,7 +9,6 @@ function M.init()
         {'neovim/nvim-lsp', {type = 'opt'}},
         {'nvim-lua/completion-nvim', {type = 'opt'}},
         {'norcalli/snippets.nvim', {type = 'opt'}},
-        {'steelsojka/completion-buffers', {type = 'opt'}},
         {'nvim-lua/diagnostic-nvim', {type = 'opt'}},
         {'nvim-treesitter/nvim-treesitter', {type = 'opt'}},
         {'neoclide/coc.nvim', {branch = 'release', type = 'opt'}},

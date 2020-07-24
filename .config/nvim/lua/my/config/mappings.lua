@@ -83,6 +83,9 @@ local mappings = {
     -- Run code quickly
     {'n', '<leader>rr', '<Cmd>Run<CR>'},
     {'n', '<leader>rl', '<Cmd>.Run<CR>'},
+
+    -- Toggle Vista window
+    {'n', '<leader>v', '<Cmd>Vista!!<CR>'},
 }
 
 require'my.utils'.setup_keymaps(mappings)

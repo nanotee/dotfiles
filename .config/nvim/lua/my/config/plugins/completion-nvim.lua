@@ -1,7 +1,6 @@
 local M = {}
 
 vim.cmd 'packadd completion-nvim'
--- vim.cmd 'packadd completion-buffers'
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noinsert,noselect'
@@ -15,9 +14,9 @@ vim.g.completion_confirm_key = [[<C-space>]]
 vim.g.completion_chain_complete_list = {
     default = {
         default = {
-            {complete_items = {'lsp', 'snippet', 'buffers'}},
-            {mode = '<c-p>'},
+            {complete_items = {'lsp', 'snippet'}},
             {mode = '<c-n>'},
+            {mode = '<c-p>'},
         },
         ['string'] = {
             {complete_items = {'path', 'buffers'}},

@@ -23,9 +23,16 @@ command! -range=% -nargs=? -complete=shellcmd Run lua require'my.utils'.run('<li
 " Accepts a modifier to create a vertical split or a new tab
 command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scratch('<mods>', <range>, <line1>, <line2>, '<args>')
 
-command! -nargs=1 -complete=shellcmd Tldr <mods> new | call termopen(['tldr', '<args>']) | setlocal nonumber nolist noswapfile bufhidden=delete
+" I want https://github.com/neovim/neovim/pull/10842 so bad
+command! -nargs=+ -complete=file -bang T <mods> new | call termopen([<f-args>]) | setlocal nonumber nolist noswapfile bufhidden=delete
+cabbrev ! T!
 
-command! LiveServer lua require'my.utils'.live_server()
+command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)
+
+command! -nargs=1 -bang Z
+    \ let s:folder = system('zoxide query <args>') |
+    \ let s:cmd = <bang>0 ? 'lcd' : 'cd' |
+    \ execute s:cmd s:folder
 
 " TODO
 command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug('<args>')

@@ -15,3 +15,4 @@ mkcd() { mkdir -p "$@" && cd "$@"; }
 alias g=git
 
 alias nvimm='nvim --cmd "let minimal_config=v:true"'
+alias vim="MYVIMRC=\$XDG_CONFIG_HOME/vim/vimrc vim +'source \$MYVIMRC'"

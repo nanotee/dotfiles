@@ -41,6 +41,7 @@ SAVEHIST=10000                   # The maximum number of events to save in the h
 autoload -Uz compinit && compinit
 autoload -Uz bashcompinit && bashcompinit
 source /usr/share/bash-completion/completions/eopkg
+_comp_options+=(globdots)  # Complete hidden files
 
 setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
 setopt ALWAYS_TO_END       # Move cursor to the end of a completed word.

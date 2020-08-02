@@ -179,6 +179,16 @@ function M.send_back()
         )
 end
 
+function M.zoxide(bang, q_args)
+    local shell_result = q_args == '' and '' or fn.system('zoxide query '..q_args)
+    local cmd = bang == '!' and 'lcd' or 'cd'
+    if vim.v.shell_error == 1 then
+        print(shell_result)
+    else
+        vim.cmd(string.format('%s %s', cmd, shell_result))
+    end
+end
+
 function M.extmarks_debug(extmark_group)
 end
 

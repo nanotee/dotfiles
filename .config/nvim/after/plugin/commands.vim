@@ -8,7 +8,7 @@ command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('Mak
 command! -nargs=* -complete=command Redirect
     \ let s:result = execute(<q-args>) |
     \ <mods> new |
-    \ setlocal nonumber nolist noswapfile bufhidden=delete buftype=nofile |
+    \ setlocal nonumber nolist noswapfile bufhidden=wipe buftype=nofile |
     \ put =s:result
 
 " Takes a range of lines of code from the current buffer and runs them (the
@@ -24,15 +24,12 @@ command! -range=% -nargs=? -complete=shellcmd Run lua require'my.utils'.run(<lin
 command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scratch('<mods>', <range>, <line1>, <line2>, <q-args>)
 
 " I want https://github.com/neovim/neovim/pull/10842 so bad
-command! -nargs=+ -complete=file -bang T <mods> new | call termopen([<f-args>]) | setlocal nonumber nolist noswapfile bufhidden=delete
-cabbrev ! T!
+command! -nargs=+ -complete=file T <mods> new | setlocal nonumber nolist noswapfile bufhidden=wipe | call termopen([<f-args>]) | startinsert
+cabbrev ! T
 
 command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)
 
-command! -nargs=1 -bang Z
-    \ let s:folder = system('zoxide query <args>') |
-    \ let s:cmd = <bang>0 ? 'lcd' : 'cd' |
-    \ execute s:cmd s:folder
+command! -nargs=? -bang Z lua require'my.utils'.zoxide('<bang>', <q-args>)
 
 " TODO
 command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug(<q-args>)

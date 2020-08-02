@@ -1,4 +1,4 @@
-vim.cmd 'packadd! neomake'
+vim.cmd 'packadd neomake'
 
 vim.fn['neomake#configure#automake']('rw', 1000)
 

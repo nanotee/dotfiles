@@ -23,7 +23,7 @@ require'my.config.plugins.vista-vim'
 if not vim.g.minimal_config then
     require'my.config.plugins.completion-nvim'
     require'my.config.plugins.nvim-lsp'.init()
-    require'my.config.plugins.neomake'
+    vim.cmd'autocmd InsertEnter,CmdlineEnter * ++once lua require"my.config.plugins.neomake"'
     -- require'my.config.plugins.nvim-treesitter'
     -- require'my.config.plugins.coc-nvim'
 end

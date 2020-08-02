@@ -23,7 +23,7 @@ function M.init()
         {'tpope/vim-abolish'},
         {'tpope/vim-dadbod'},
         {'kristijanhusak/vim-dadbod-ui'},
-        {'kristijanhusak/vim-dadbod-completion'},
+        {'kristijanhusak/vim-dadbod-completion', {type = 'opt'}},
         {'mattn/emmet-vim'},
         {'tomtom/tcomment_vim'},
         {'machakann/vim-sandwich'},

@@ -40,8 +40,7 @@ local mappings = {
     {'i', '<C-u>', '<C-g>u<C-u>'},
     {'i', '<C-w>', '<C-g>u<C-w>'},
 
-    -- Edit/open file under cursor + URL handling
-    {'', 'gf', '<Cmd>edit <cfile><CR>', {noremap = false}},
+    -- URL handling
     {'', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")])<CR>', {noremap = false}},
 
     -- Quickly edit my Neovim configuration
@@ -83,9 +82,6 @@ local mappings = {
     -- Run code quickly
     {'n', '<leader>rr', '<Cmd>Run<CR>'},
     {'n', '<leader>rl', '<Cmd>.Run<CR>'},
-
-    -- Toggle Vista window
-    {'n', '<leader>v', '<Cmd>Vista!!<CR>'},
 }
 
 require'my.utils'.setup_keymaps(mappings)

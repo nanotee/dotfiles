@@ -58,8 +58,11 @@ vim.o.inccommand = 'split'
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Filesystem
+-- External programs
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case'
+vim.o.formatprg = 'prettier --stdin-filepath=%'
+
+-- Filesystem
 local wildignore = {
     'node_modules/',
 }

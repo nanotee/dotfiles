@@ -1,6 +1,5 @@
 package.loaded['my.config.options'] = false
 package.loaded['my.config.mappings'] = false
-package.loaded['my.config.packages'] = false
 require'my.utils'
 require'my.statusline'
 require'my.config.options'

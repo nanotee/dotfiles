@@ -8,7 +8,7 @@ set shell zsh
 # $fx variables contain names with '*' or '?' characters. However, this option
 # is used selectively within individual commands as it can be limiting at
 # times.
-set shellopts '-eu'
+set shellopts '-eu:--shwordsplit'
 
 # set internal field separator (IFS) to "\n" for shell commands
 # This is useful to automatically split file names in $fs and $fx properly
@@ -22,6 +22,17 @@ set scrolloff 10
 
 # display nerdfont icons
 set icons
+
+set incsearch
+
+set hiddenfiles ".*:~/snap"
+
+# zoxide wrapper
+cmd z %lf -remote "send $id cd '$(zoxide query $1)'"
+
+# konsole wrapper
+cmd tabnew %konsole --new-tab -e $(which lf) $PWD
+map <c-t> tabnew
 
 # habits die hard
 cmd q :quit
@@ -42,7 +53,7 @@ map x $$f
 map X !$f
 
 # move current file or selected files to trash folder
-cmd trash %trash-put $f
+cmd trash %trash-put $fx
 
 # extract the current file with the right command
 # (xkcd link: https://xkcd.com/1168/)
@@ -77,7 +88,7 @@ cmd zip ${{
 }}
 
 # jump to directory using fzf
-cmd fzf_jump ${{
+cmd fzf-jump ${{
    res="$(fd -aH | fzf --reverse --header='Jump to location')"
    if [ -f "$res" ]; then
      cmd="select"
@@ -86,10 +97,10 @@ cmd fzf_jump ${{
    fi
 lf -remote "send $id $cmd \"$res\""
 }}
-map <c-f> :fzf_jump
+map <c-f> :fzf-jump
 
 # Create symlinks
-cmd Link %{{
+cmd link %{{
     lf -remote 'load' | while read file; do
         if [ ! -n "${mode+1}" ]; then
             mode="$file"
@@ -109,38 +120,26 @@ cmd Link %{{
         ln $files -t .
     fi
 }}
-map P :Link
+map P :link
 
 # taken from https://github.com/gokcehan/lf/pull/157/files
 cmd bulk-rename !{{
-    tmp() { umask 077; mktemp /tmp/lf-bulkrename-index.XXXXXXXXXX; }
-    index_a="$(tmp)"
-    index_b="$(tmp)"
-    trap 'rm "$index_a" "$index_b"' EXIT INT QUIT
-    if [ -n "${fs:-}" ]; then
-        printf '%s\n' "$fs" > "$index_a"
-    else
-        ls -1Ap > "$index_a"
-    fi
-    cat "$index_a" > "$index_b"
-    "$EDITOR" "$index_b"
-    if [ "$(wc -l "$index_a" "$index_b" |
-        awk 'NR==1 {a=$1} NR==2 {b=$1} END {print a-b}' )" -ne 0 ]; then
-        echo "Number of lines must stay the same." >&2
-        exit 1
-    fi
-    tty="$(tty)"
-    line=0
-    paste -d "\n" "$index_a" "$index_b" | while read -r name; do
-        : $((line += 1))
-        if [ $((line % 2)) -eq 1 ]; then
-            a="$name"; continue
-        else
-            b="$name"
-        fi
-        [ "$a" = "$b" ] && continue
-        mv -vi -- "$a" "$b" < "$tty"
+    old=$(mktemp)
+    new=$(mktemp)
+    [ -n $fs ] && fs=$(ls)
+    printf "$fs\n" > $old
+    printf "$fs\n" > $new
+    $EDITOR $new
+    [ $(cat $new | wc -l) -ne $(cat $old | wc -l) ] && exit
+    paste $old $new | while read names; do
+        src=$(printf $names | cut -f1)
+        dst=$(printf $names | cut -f2)
+        [ $src = $dst ] && continue
+        [ -e $dst ] && continue
+        mv $src $dst
     done
+    rm $old $new
+    lf -remote "send $id unselect"
 }}
 
 # Rename without changing the extension

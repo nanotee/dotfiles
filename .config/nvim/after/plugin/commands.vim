@@ -31,6 +31,14 @@ command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-
 
 command! -nargs=? -bang Z lua require'my.utils'.zoxide('<bang>', <q-args>)
 
+function! s:align(line1, line2, ...)
+    let l:separator = shellescape(a:1)
+    let l:output_separator = exists('a:2') ? shellescape(a:2) : l:separator
+    execute a:line1..","..a:line2.."!column -t -s"..l:separator.." -o"..l:output_separator
+endfunction
+
+command! -nargs=+ -range Align call s:align(<line1>, <line2>, <f-args>)
+
 " TODO
 command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug(<q-args>)
 command! ExtmarksDebugStop lua require'my.utils'.extmarks_debug_stop()

@@ -2,14 +2,9 @@ local M = {}
 
 vim.cmd 'packadd completion-nvim'
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noinsert,noselect'
--- Enable Fuzzy Matching
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
--- Auto parens when completing methods
 vim.g.completion_enable_auto_paren = 1
--- This mapping is necessary to avoid breaking <CR> with Pear-Tree
-vim.g.completion_confirm_key = [[<C-space>]]
+vim.g.completion_confirm_key = ''
 
 vim.g.completion_chain_complete_list = {
     default = {
@@ -41,7 +36,9 @@ end
 
 local mappings = {
     {'i', '<Tab>',
-        "pumvisible() ? '<C-n>' : v:lua.check_back_space() ? '<Tab>' : completion#trigger_completion()",
+        [[complete_info()["selected"] != "-1" ?]]..
+        [["\<Plug>(completion_confirm_completion)" : v:lua.check_back_space() ?]]..
+        [["\<Tab>" : completion#trigger_completion()]],
         {expr = true, silent = true}
     },
     {'i', '<S-Tab>', "pumvisible() ? '<C-p>' : '<C-h>'", {expr = true}},

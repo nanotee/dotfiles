@@ -93,3 +93,8 @@ vim.bo.undofile = true
 vim.o.undofile = true
 vim.o.switchbuf = 'usetab'
 vim.o.shortmess = vim.o.shortmess..'cI'
+local completeopt = {
+    'menuone',
+    'noinsert',
+}
+vim.o.completeopt = table.concat(completeopt, ',')

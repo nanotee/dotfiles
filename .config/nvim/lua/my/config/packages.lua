@@ -26,7 +26,7 @@ function M.init()
         {'kristijanhusak/vim-dadbod-completion', {type = 'opt'}},
         {'mattn/emmet-vim'},
         {'tomtom/tcomment_vim'},
-        {'machakann/vim-sandwich'},
+        {'machakann/vim-sandwich', {type = 'opt'}},
         {'tmsvg/pear-tree'},
         {'editorconfig/editorconfig-vim'},
         {'ptzz/lf.vim'},

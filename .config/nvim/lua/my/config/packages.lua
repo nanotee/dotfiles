@@ -41,8 +41,16 @@ function M.init()
         {'Konfekt/vim-compilers'},
     }
 
+    local local_packages = {
+        {'$HOME/Projets/dev/zoxide.vim'}
+    }
+
     for _, pack in ipairs(packages) do
         vim.fn['packager#add'](unpack(pack))
+    end
+
+    for _, pack in ipairs(local_packages) do
+        vim.fn['packager#local'](unpack(pack))
     end
 
     return {

@@ -29,8 +29,6 @@ cabbrev ! T
 
 command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)
 
-command! -nargs=? -bang Z lua require'my.utils'.zoxide('<bang>', <q-args>)
-
 function! s:align(line1, line2, ...)
     let l:separator = shellescape(a:1)
     let l:output_separator = exists('a:2') ? shellescape(a:2) : l:separator

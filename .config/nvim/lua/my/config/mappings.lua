@@ -16,6 +16,9 @@ local mappings = {
     {'', '<leader>p', '"+p', {noremap = false}},
     {'', '<leader>P', '"+P', {noremap = false}},
 
+    -- Ex-mode be gone
+    {'', 'Q', ''},
+
     -- Keep */# from automatically jumping to the next result
     {'n', '*', [[<Cmd>call setreg('/', expand('<cword>'))<CR><Cmd>set hlsearch<CR>]]},
     {'n', '#', '#<C-o>'},
@@ -29,7 +32,7 @@ local mappings = {
     {'i', '<C-w>', '<C-g>u<C-w>'},
 
     -- URL handling
-    {'', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")])<CR>', {noremap = false}},
+    {'', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', {noremap = false}},
 
     -- Quickly edit my Neovim configuration
     {'n', '<leader>rc', '<Cmd>tabedit $MYVIMRC<CR>'},

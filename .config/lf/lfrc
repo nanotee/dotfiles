@@ -17,26 +17,38 @@ set shellopts '-eu:--shwordsplit'
 # commands accordingly.
 set ifs "\n"
 
-# leave some space at the top and the bottom of the screen
+
 set scrolloff 10
-
-# display nerdfont icons
 set icons
-
 set incsearch
-
 set hiddenfiles ".*:~/snap"
 
-# zoxide wrapper
-cmd z %lf -remote "send $id cd '$(zoxide query $1)'"
+# zoxide wrappers
+cmd z %{{
+    dir=$(zoxide query "$@")
+    if [[ -e $dir ]]; then
+        lf -remote "send $id cd $dir"
+        zoxide add "$dir"
+    fi
+}}
+
+cmd zi ${{
+    dir=$(zoxide query --interactive "$@")
+    if [[ -e $dir ]]; then
+        lf -remote "send $id cd $dir"
+        zoxide add "$dir"
+    fi
+}}
+
+cmd za %zoxide add "$@"
+cmd zr %zoxide remove "$@"
 
 # konsole wrapper
-cmd tabnew %konsole --new-tab -e $(which lf) $PWD
+cmd tabnew &konsole --new-tab -e $(which lf) $PWD
 map <c-t> tabnew
 
 # habits die hard
 cmd q :quit
-map <esc> :quit
 
 # use . to toggle dotfiles visibility, like nnn
 map . set hidden!
@@ -45,15 +57,19 @@ map . set hidden!
 set previewer ~/.config/lf/pv.sh
 map i $~/.config/lf/pv.sh $f | less -R
 
-# use the delete key to delete
-map D delete
+# move current file or selected files to trash folder
+cmd trash $trash-put $fx
+map D trash
 
 # execute current file (must be executable)
 map x $$f
 map X !$f
 
-# move current file or selected files to trash folder
-cmd trash %trash-put $fx
+# Yank the full path of a file
+cmd yank-path $echo "$f" | xclip -selection clipboard -in
+
+# Copy a file to the system clipboard
+map <c-c> $echo "file://$f" | xclip -selection clipboard -in -target text/uri-list
 
 # extract the current file with the right command
 # (xkcd link: https://xkcd.com/1168/)
@@ -122,7 +138,6 @@ cmd link %{{
 }}
 map P :link
 
-# taken from https://github.com/gokcehan/lf/pull/157/files
 cmd bulk-rename !{{
     old=$(mktemp)
     new=$(mktemp)

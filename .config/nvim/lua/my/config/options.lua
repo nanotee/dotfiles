@@ -4,7 +4,7 @@ vim.g.colors_name = 'dracula'
 vim.cmd 'hi link NormalNC Pmenu' -- Make inactive windows darker
 vim.o.termguicolors = true
 vim.wo.number = true
--- vim.wo.signcolumn = 'number'
+vim.wo.signcolumn = 'number'
 vim.wo.list = true
 local listchars = {
      'tab:│ ',

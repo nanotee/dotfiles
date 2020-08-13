@@ -16,7 +16,6 @@ function M.init()
         {'junegunn/fzf.vim'},
         {'liuchengxu/vista.vim'},
         {'lervag/wiki.vim', {type = 'opt'}},
-        {'bfredl/nvim-incnormal'},
         {'tpope/vim-unimpaired'},
         {'tpope/vim-fugitive'},
         {'tpope/vim-eunuch'},

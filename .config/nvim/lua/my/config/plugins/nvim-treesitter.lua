@@ -25,14 +25,3 @@ require'nvim-treesitter.configs'.setup {
         },
     },
 }
-
-local autocmds = {
-    nvim_treesitter = {
-        {'VimEnter', '*', 'TSEnableAll highlight'},
-        {'VimEnter', '*', 'TSEnableAll incremental_selection'},
-        {'VimEnter', '*', 'TSEnableAll refactor.highlight_definitions'},
-        {'VimEnter', '*', 'TSEnableAll textobjects'},
-    }
-}
-
-require'my.utils'.nvim_create_augroups(autocmds)

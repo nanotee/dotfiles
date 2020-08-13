@@ -79,22 +79,18 @@ end
 
 function M.run(line1, line2, cmd)
     local lines = fn.getline(line1, line2)
-    if cmd ~= '' then
-        local stdout = fn.system(cmd, lines)
-        print(stdout)
-        return
-    end
+    if cmd == '' then cmd = vim.bo.filetype end
 
-    if vim.bo.filetype == 'vim' then
+    if cmd == 'vim' then
         print(fn.execute(lines))
-    elseif vim.bo.filetype == 'lua' then
+    elseif cmd == 'lua' then
         assert(loadstring(table.concat(lines, '\n')))()
     else
         local filetype_cmds = {
             javascript = 'node',
             typescript = 'deno',
         }
-        local stdout = fn.system(filetype_cmds[vim.bo.filetype] or vim.bo.filetype, lines)
+        local stdout = fn.system(filetype_cmds[cmd] or cmd, lines)
         print(stdout)
     end
 end
@@ -177,16 +173,6 @@ function M.send_back()
         0,
         {}
         )
-end
-
-function M.zoxide(bang, q_args)
-    local shell_result = q_args == '' and '' or fn.system('zoxide query '..q_args)
-    local cmd = bang == '!' and 'lcd' or 'cd'
-    if vim.v.shell_error == 1 then
-        print(shell_result)
-    else
-        vim.cmd(string.format('%s %s', cmd, shell_result))
-    end
 end
 
 function M.extmarks_debug(extmark_group)

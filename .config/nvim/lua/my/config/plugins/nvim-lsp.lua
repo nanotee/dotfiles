@@ -51,7 +51,7 @@ function M.init()
         lsp.nimls,
         lsp.pyls,
         lsp.bashls,
-        lsp.ccls,
+        lsp.clangd,
     }
 
     for _, server in ipairs(servers) do

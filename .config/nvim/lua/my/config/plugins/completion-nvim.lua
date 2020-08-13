@@ -41,7 +41,6 @@ local mappings = {
         [["\<Tab>" : completion#trigger_completion()]],
         {expr = true, silent = true}
     },
-    {'i', '<S-Tab>', "pumvisible() ? '<C-p>' : '<C-h>'", {expr = true}},
 }
 
 require'my.utils'.setup_keymaps(mappings)

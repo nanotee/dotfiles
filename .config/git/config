@@ -3,23 +3,18 @@
     name = Timothée Sterle
     signingkey = 22196ED5
 [core]
-    pager = delta --dark --theme='Dracula'
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    syntax-theme = Dracula
+    # navigate = true
+    features = side-by-side line-numbers decorations
+[delta "decorations"]
+    commit-decoration-style = yellow box ul
+    file-style = bold yellow ul
 [help]
     autocorrect = 30
-[color]
-    ui = true
-[color "diff-highlight"]
-    oldNormal = red bold
-    oldHighlight = red bold 52
-    newNormal = green bold
-    newHighlight = green bold 22
-[color "diff"]
-    meta = 11
-    frag = magenta bold
-    commit = yellow bold
-    old = red bold
-    new = green bold
-    whitespace = red reverse
 [alias]
     hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     unstage = restore --staged
@@ -34,6 +29,7 @@
 [tag]
     gpgSign = true
 [diff]
+    colorMoved = default
     tool = nvimdiff
 [difftool "nvimdiff"]
     cmd = nvim -d "$LOCAL" "$REMOTE"

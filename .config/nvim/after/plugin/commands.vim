@@ -24,7 +24,11 @@ command! -range=% -nargs=? -complete=shellcmd Run lua require'my.utils'.run(<lin
 command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scratch('<mods>', <range>, <line1>, <line2>, <q-args>)
 
 " I want https://github.com/neovim/neovim/pull/10842 so bad
-command! -nargs=+ -complete=file T <mods> new | setlocal nonumber nolist noswapfile bufhidden=wipe | call termopen([<f-args>]) | startinsert
+command! -nargs=+ -bang -complete=file T
+    \ <mods> new | setlocal nonumber nolist noswapfile bufhidden=wipe |
+    \ call termopen([<f-args>]) |
+    \ if <bang>0 | wincmd _ | wincmd | | endif |
+    \ startinsert
 cabbrev ! T
 
 command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)

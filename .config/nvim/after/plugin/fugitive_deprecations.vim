@@ -13,9 +13,8 @@ delcommand Gpush
 delcommand Gfetch
 delcommand Glog
 delcommand Gstatus
-delcommand Gsplit
-delcommand Gvsplit
-delcommand Gpedit
+delcommand GcLog
+delcommand GlLog
 
 augroup fugitive_deprecations
     autocmd!

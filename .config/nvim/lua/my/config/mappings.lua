@@ -19,14 +19,6 @@ local mappings = {
     -- Ex-mode be gone
     {'', 'Q', ''},
 
-    -- Keep */# from automatically jumping to the next result
-    {'n', '*', [[<Cmd>call setreg('/', expand('<cword>'))<CR><Cmd>set hlsearch<CR>]]},
-    {'n', '#', '#<C-o>'},
-
-    -- Visual Mode */# from Scrooloose
-    {'x', '*', [[:<C-u>lua require'my.utils'.VSetSearch()<CR>//<CR><C-o>]]},
-    {'x', '#', [[:<C-u>lua require'my.utils'.VSetSearch()<CR>??<CR><C-o>]]},
-
     -- Make <C-u> and <C-w> undoable
     {'i', '<C-u>', '<C-g>u<C-u>'},
     {'i', '<C-w>', '<C-g>u<C-w>'},

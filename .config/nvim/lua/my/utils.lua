@@ -7,15 +7,6 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
--- Visual Mode */# from Scrooloose
-function M.VSetSearch()
-    local temp = fn.getreg('@')
-    vim.cmd [[norm! gvy]]
-    local search_string =
-        [[\V]]..fn.substitute(fn.escape(fn.getreg('@'), [[\]]), [[\n]], [[\\n]], 'g')
-    fn.setreg('/', search_string)
-    fn.setreg('@', temp)
-end
 
 -- Taken from https://github.com/norcalli/nvim_utils/blob/master/lua/nvim_utils.lua#L554-L567
 function M.nvim_create_augroups(definitions)

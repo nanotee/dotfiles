@@ -19,7 +19,7 @@ command! -range=% -nargs=? -complete=shellcmd Run lua require'my.utils'.run(<lin
 " (The code can be sent back to its original buffer with :SendBack)
 " Accepts a filetype to set the scratch buffer to
 " Accepts a modifier to create a vertical split or a new tab
-command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils'.scratch('<mods>', <range>, <line1>, <line2>, <q-args>)
+command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils.scratch'.open('<mods>', <range>, <line1>, <line2>, <q-args>)
 
 " I want https://github.com/neovim/neovim/pull/10842 so bad
 command! -nargs=+ -complete=file T

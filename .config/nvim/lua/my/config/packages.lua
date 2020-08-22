@@ -6,6 +6,8 @@ function M.init()
 
     local packages = {
         {'kristijanhusak/vim-packager', {type = 'opt'}},
+        {'sheerun/vim-polyglot'},
+        {'dracula/vim', {name = 'dracula'}},
         {'neovim/nvim-lsp', {type = 'opt'}},
         {'nvim-lua/completion-nvim', {type = 'opt'}},
         {'norcalli/snippets.nvim', {type = 'opt'}},
@@ -31,13 +33,7 @@ function M.init()
         {'ptzz/lf.vim'},
         {'rbgrouleff/bclose.vim'},
         {'norcalli/nvim-colorizer.lua'},
-        {'dracula/vim', {name = 'dracula'}},
         {'KabbAmine/vCoolor.vim', {type = 'opt'}},
-
-        -- Filetype plugins
-        {'sheerun/vim-polyglot'},
-        {'bakpakin/fennel.vim'},
-        {'Konfekt/vim-compilers'},
     }
 
     local local_packages = {

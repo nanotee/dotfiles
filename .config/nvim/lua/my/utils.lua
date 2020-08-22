@@ -7,7 +7,6 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
-
 -- Taken from https://github.com/norcalli/nvim_utils/blob/master/lua/nvim_utils.lua#L554-L567
 function M.nvim_create_augroups(definitions)
     for group_name, definition in pairs(definitions) do
@@ -78,8 +77,8 @@ function M.run(line1, line2, cmd)
         assert(loadstring(table.concat(lines, '\n')))()
     else
         local filetype_cmds = {
-            javascript = 'node',
-            typescript = 'deno',
+            javascript = {'node'},
+            typescript = {'deno'},
         }
         local stdout = fn.system(filetype_cmds[cmd] or cmd, lines)
         print(stdout)

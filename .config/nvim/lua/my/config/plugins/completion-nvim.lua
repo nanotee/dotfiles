@@ -14,14 +14,14 @@ vim.g.completion_chain_complete_list = {
             {mode = '<c-p>'},
         },
         ['string'] = {
-            {complete_items = {'path', 'buffers'}},
+            {complete_items = {'path'}},
         },
         vim = {
             {mode = 'cmd'},
         },
         sql = {
-            {complete_items = {'vim-dadbod-completion'}}
-        }
+            {complete_items = {'vim-dadbod-completion'}},
+        },
     }
 }
 

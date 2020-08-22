@@ -1,6 +1,4 @@
 command! ReloadInit luafile $MYVIMRC
-command! InsertDate call append(line('.'), strftime('%Y-%m-%d'))
-command! InsertDateLong call append(line('.'), strftime('%Y-%m-%dT%H:%M:%S') .. "+01:00")
 command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('MakeWarnings')
 
 " Redirects the output of an ex command in a scratch buffer. May become

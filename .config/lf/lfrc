@@ -172,3 +172,23 @@ map I ${{
 
     display $f
 }}
+
+# Implementation of Shdo from vim-dirvish
+cmd shdo !{{
+    script=$(mktemp)
+    [ -n $fs ] && fs=$(ls)
+    for file in $fs; do
+        echo "$@" | sed "s#{}#$file#g" >> $script
+    done
+    $EDITOR $script
+    printf "Run script? y/n: "
+    read answer
+    case $answer in
+    [yY])
+        paste $script | sh
+        ;;
+    *)
+    esac
+    rm $script
+    lf -remote "send $id unselect"
+}}

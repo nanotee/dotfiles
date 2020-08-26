@@ -50,9 +50,9 @@ local function mode_indicator()
 
     local spell = ''
     if vim.wo.spell then
-        spell = string.format(' | SPELL [%s]', vim.o.spelllang)
+        spell = (' | SPELL [%s]'):format(vim.o.spelllang)
     end
-    return string.format('%s %s%s %s', color, val, spell, clear_hi)
+    return ('%s %s%s %s'):format(color, val, spell, clear_hi)
 end
 
 local function git_indicator()
@@ -61,8 +61,7 @@ local function git_indicator()
         if branch ~= '' then
             branch = ' '..branch
         end
-        return string.format(
-            '%s %s %s',
+        return ('%s %s %s'):format(
             '%#SLSecondary#',
             branch,
             '%#StatusLine#'
@@ -72,8 +71,7 @@ local function git_indicator()
     end
 end
 
-local file_indicator = string.format(
-    ' %s %s%s%s ',
+local file_indicator = (' %s %s%s%s '):format(
     path,
     modified_flag,
     help_buffer_flag,
@@ -83,8 +81,7 @@ local file_indicator = string.format(
 local filetype = ' %y '
 
 local function fileencoding()
-    return string.format(
-        '%s %s %s',
+    return ('%s %s %s'):format(
         '%#SLSecondary#',
         vim.bo.fileencoding,
         '%#StatusLine#'
@@ -92,8 +89,7 @@ local function fileencoding()
 end
 
 local function buffer_info_indicator()
-    return string.format(
-        '%s %s  %s/%s:%s%s',
+    return ('%s %s  %s/%s:%s%s'):format(
         current_mode[vim.api.nvim_get_mode()['mode']].color,
         percentage_through_file,
         line_number,

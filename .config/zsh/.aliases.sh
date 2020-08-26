@@ -20,3 +20,5 @@ alias vim="VIM=$XDG_CONFIG_HOME/vim vim"
 detach() { "$@" &>/dev/null &! }
 
 define() { curl "dict://dict.org/d:$1"; }
+
+alias path='echo $PATH | tr ":" "\n" | nl'

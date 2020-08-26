@@ -50,7 +50,6 @@ function M.init()
         lsp.cssls,
         lsp.nimls,
         lsp.pyls,
-        lsp.bashls,
         lsp.clangd,
     }
 

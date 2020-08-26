@@ -178,7 +178,7 @@ cmd shdo !{{
     script=$(mktemp)
     [ -n $fs ] && fs=$(ls)
     for file in $fs; do
-        echo "$@" | sed "s#{}#$file#g" >> $script
+        echo "$@" | sed "s{}$fileg" >> $script
     done
     $EDITOR $script
     printf "Run script? y/n: "

@@ -12,8 +12,6 @@ alias ln="ln -i"
 alias mkdirs="mkdir -p"
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
-alias g=git
-
 alias nvimm='nvim --cmd "let minimal_config=v:true"'
 alias vim="VIM=$XDG_CONFIG_HOME/vim vim"
 

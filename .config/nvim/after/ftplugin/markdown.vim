@@ -1,2 +1,2 @@
 setlocal keywordprg=sdcv
-nnoremap gO <Cmd>Toc<CR>
+nnoremap <buffer> gO <Cmd>Toc<CR>

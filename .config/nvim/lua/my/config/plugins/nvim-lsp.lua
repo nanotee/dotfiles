@@ -1,4 +1,4 @@
-vim.cmd 'packadd nvim-lsp'
+vim.cmd 'packadd nvim-lspconfig'
 require'my.config.plugins.diagnostic-nvim'
 
 local M = {}

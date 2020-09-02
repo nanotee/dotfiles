@@ -5,6 +5,7 @@ vim.cmd 'packadd completion-nvim'
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 vim.g.completion_enable_auto_paren = 1
 vim.g.completion_confirm_key = ''
+vim.g.completion_enable_snippet = 'snippets.nvim'
 
 vim.g.completion_chain_complete_list = {
     default = {
@@ -36,7 +37,8 @@ end
 
 local mappings = {
     {'i', '<Tab>',
-        [[complete_info()["selected"] != "-1" ?]]..
+        [[luaeval("require('snippets').has_active_snippet()") ?]]..
+        [[luaeval("require('snippets').expand_or_advance()") : complete_info()["selected"] != "-1" ?]]..
         [["\<Plug>(completion_confirm_completion)" : v:lua.check_back_space() ?]]..
         [["\<Tab>" : completion#trigger_completion()]],
         {expr = true, silent = true}

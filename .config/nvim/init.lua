@@ -26,3 +26,7 @@ if not vim.g.minimal_config then
     -- require'my.config.plugins.nvim-treesitter'
     -- require'my.config.plugins.coc-nvim'
 end
+if vim.g.started_by_firenvim then
+    vim.cmd 'packadd firenvim'
+    vim.o.laststatus = 0
+end

@@ -27,4 +27,7 @@ require'snippets'.snippets = {
         req = "local ${2:${1|S.v:match'[^.]+$'}} = require('$1')",
         ["local"] = 'local ${2:${1|S.v:match"[^.]+$"}} = ${1}',
     },
+    markdown = {
+        cb = '```${1:}\n$0\n```',
+    }
 }

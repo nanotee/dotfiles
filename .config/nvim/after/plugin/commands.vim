@@ -38,6 +38,15 @@ endfunction
 
 command! -nargs=+ -range Align call s:align(<line1>, <line2>, <f-args>)
 
+command! -bang Trash
+            \ let s:file = fnamemodify(bufname(<q-args>),':p') |
+            \ execute 'bdelete<bang>' |
+            \ call system(['kioclient5', 'move', s:file, 'trash:/']) |
+            \ if !bufloaded(s:file) && v:shell_error |
+            \ echoerr 'Failed to move "'.s:file.'" to trash' |
+            \ endif |
+            \ unlet s:file
+
 " TODO
 command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug(<q-args>)
 command! ExtmarksDebugStop lua require'my.utils'.extmarks_debug_stop()

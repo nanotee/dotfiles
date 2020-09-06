@@ -1,4 +1,4 @@
-vim.g.mapleader = ','
+vim.g.mapleader = 'ù'
 
 local mappings = {
     -- Better shortcut to exit insert mode
@@ -37,9 +37,9 @@ local mappings = {
     {'', 'k', "(v:count? 'k' : 'gk')", {noremap = true, expr = true}},
 
     -- Quickly open a terminal in a different window/tab
-    {'n', '<leader>ts', '<Cmd>split term://$SHELL<CR>'},
-    {'n', '<leader>tv', '<Cmd>vsplit term://$SHELL<CR>'},
-    {'n', '<leader>tt', '<Cmd>tabedit term://$SHELL<CR>'},
+    {'n', '<leader>ts', '<Cmd>new +term<CR>'},
+    {'n', '<leader>tv', '<Cmd>vnew +term<CR>'},
+    {'n', '<leader>tt', '<Cmd>tabedit +term<CR>'},
 
     -- Open zeal doc for current word
     {'n', '<leader>zl', [[<Cmd>call jobstart(['zeal', &filetype..':'..expand('<cword>')], {'detach': v:true})<CR>]]},

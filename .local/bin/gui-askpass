@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+kdialog --password "[sudo] password for $USER:"
+exit 0

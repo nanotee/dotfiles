@@ -1,9 +1,7 @@
-package.loaded['my.config.options'] = false
-package.loaded['my.config.mappings'] = false
 require'my.utils'
 require'my.statusline'
-require'my.config.options'
-require'my.config.mappings'
+reload'my.config.options'
+reload'my.config.mappings'
 require'my.config.extra-text-objects'
 require'my.config.packages'
 require'my.config.autocommands'

@@ -7,6 +7,11 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
+function _G.reload(module)
+    package.loaded[module] = nil
+    return require(module)
+end
+
 -- Taken from https://github.com/norcalli/nvim_utils/blob/master/lua/nvim_utils.lua#L554-L567
 function M.nvim_create_augroups(definitions)
     for group_name, definition in pairs(definitions) do

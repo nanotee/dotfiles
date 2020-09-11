@@ -57,9 +57,9 @@ function M.init()
     }
 end
 
-vim.cmd [[command! PackagerInstall lua package.loaded['my.config.packages'] = false; require'my.config.packages'.init().install()]]
-vim.cmd [[command! -bang PackagerUpdate lua package.loaded['my.config.packages'] = false; require'my.config.packages'.init().update({ force_hooks = '<bang>' })]]
-vim.cmd [[command! PackagerClean lua package.loaded['my.config.packages'] = false; require'my.config.packages'.init().clean()]]
-vim.cmd [[command! PackagerStatus lua package.loaded['my.config.packages'] = false; require'my.config.packages'.init().status()]]
+vim.cmd [[command! PackagerInstall lua reload'my.config.packages'.init().install()]]
+vim.cmd [[command! -bang PackagerUpdate lua reload'my.config.packages'.init().update({ force_hooks = '<bang>' })]]
+vim.cmd [[command! PackagerClean lua reload'my.config.packages'.init().clean()]]
+vim.cmd [[command! PackagerStatus lua reload'my.config.packages'.init().status()]]
 
 return M

@@ -5,6 +5,7 @@ export BROWSER="firefox"
 export OPENER="xdg-open"
 export LESS=" -R "
 export FZF_DEFAULT_COMMAND="fd --type f --follow --exclude .git"
+export FZF_DEFAULT_OPTS="--exact"
 export GTK_USE_PORTAL=1
 export SUDO_ASKPASS="$HOME/.local/bin/gui-askpass"
 

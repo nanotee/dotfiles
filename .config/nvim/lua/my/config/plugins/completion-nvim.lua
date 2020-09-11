@@ -37,8 +37,7 @@ end
 
 local mappings = {
     {'i', '<Tab>',
-        [[luaeval("require('snippets').has_active_snippet()") ?]]..
-        [[luaeval("require('snippets').expand_or_advance()") : complete_info()["selected"] != "-1" ?]]..
+        [[complete_info()["selected"] != "-1" ?]]..
         [["\<Plug>(completion_confirm_completion)" : v:lua.check_back_space() ?]]..
         [["\<Tab>" : completion#trigger_completion()]],
         {expr = true, silent = true}

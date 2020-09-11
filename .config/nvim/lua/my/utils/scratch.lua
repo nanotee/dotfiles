@@ -10,8 +10,8 @@ function M.open(mods, range, line1, line2, filetype)
     local tempname = fn.tempname()
     local range_of_lines = {}
     if range ~= 0 then
-        mark_start = vim.api.nvim_buf_set_extmark(original_bufnr, ns, 0, line1, 0, {})
-        mark_end = vim.api.nvim_buf_set_extmark(original_bufnr, ns, 0, line2, 0, {})
+        mark_start = vim.api.nvim_buf_set_extmark(original_bufnr, ns, line1, 0, {})
+        mark_end = vim.api.nvim_buf_set_extmark(original_bufnr, ns, line2, 0, {})
         range_of_lines = fn.getline(line1, line2)
     end
     local scratch_ft = vim.bo.filetype
@@ -47,12 +47,14 @@ function M.send_back()
     local line1 = vim.api.nvim_buf_get_extmark_by_id(
         vim.b.original_bufnr,
         vim.b.original_ns,
-        vim.b.original_mark_start
+        vim.b.original_mark_start,
+        {}
         )[1]
     local line2 = vim.api.nvim_buf_get_extmark_by_id(
         vim.b.original_bufnr,
         vim.b.original_ns,
-        vim.b.original_mark_end
+        vim.b.original_mark_end,
+        {}
         )[1]
 
     vim.api.nvim_buf_set_lines(
@@ -66,19 +68,17 @@ function M.send_back()
     vim.b.original_mark_start = vim.api.nvim_buf_set_extmark(
         vim.b.original_bufnr,
         vim.b.original_ns,
-        vim.b.original_mark_start,
         line1,
         0,
-        {}
+        {id = vim.b.original_mark_start}
         )
 
     vim.b.original_mark_end = vim.api.nvim_buf_set_extmark(
         vim.b.original_bufnr,
         vim.b.original_ns,
-        vim.b.original_mark_end,
         line1 + #text_to_send - 1,
         0,
-        {}
+        {id = vim.b.original_mark_end}
         )
 end
 

@@ -27,6 +27,13 @@ function M.setup_keymaps(mappings)
     end
 end
 
+function M.setup_buf_keymaps(mappings)
+    local default_opts = {noremap = true}
+    for _, mapping in ipairs(mappings) do
+        vim.api.nvim_buf_set_keymap(0, mapping[1], mapping[2], mapping[3], mapping[4] or default_opts)
+    end
+end
+
 function M.quickfix_make_signs(make_type)
     fn.sign_define('MakeError', {text = 'x', texthl = 'DraculaError'})
     fn.sign_define('MakeWarning', {text = '!', texthl = 'DraculaOrange'})

@@ -31,7 +31,7 @@ local function custom_attach()
         {'n', '<leader>di', "<Cmd>lua require'jumpLoc'.openLineDiagnostics()<CR>"},
     }
 
-    require'my.utils'.setup_keymaps(mappings)
+    require'my.utils'.setup_buf_keymaps(mappings)
 
     -- Stop all language servers
     vim.cmd 'command! LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())'

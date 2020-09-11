@@ -85,10 +85,4 @@ function M.run(line1, line2, cmd)
     end
 end
 
-function M.extmarks_debug(extmark_group)
-end
-
-function M.extmarks_debug_stop()
-end
-
 return M

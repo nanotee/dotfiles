@@ -46,7 +46,3 @@ command! -bang Trash
             \ echoerr 'Failed to move "'.s:file.'" to trash' |
             \ endif |
             \ unlet s:file
-
-" TODO
-command! -nargs=1 ExtmarksDebug lua require'my.utils'.extmarks_debug(<q-args>)
-command! ExtmarksDebugStop lua require'my.utils'.extmarks_debug_stop()

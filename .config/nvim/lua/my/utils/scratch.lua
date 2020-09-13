@@ -63,11 +63,14 @@ function ScratchPad:send_back()
     local text_to_send = api.nvim_buf_get_lines(self.bufnr, 0, -1, false)
 
     local line1 =
-        vim.api.nvim_buf_get_extmark_by_id(self.original_bufnr, self.namespace, self.mark_start, {})[1]
+        api.nvim_buf_get_extmark_by_id(self.original_bufnr, self.namespace, self.mark_start, {})[1]
     local line2 =
-        vim.api.nvim_buf_get_extmark_by_id(self.original_bufnr, self.namespace, self.mark_end, {})[1]
+        api.nvim_buf_get_extmark_by_id(self.original_bufnr, self.namespace, self.mark_end, {})[1]
 
     api.nvim_buf_set_lines(self.original_bufnr, line1 - 1, line2, true, text_to_send)
+
+    api.nvim_buf_del_extmark(self.original_bufnr, self.namespace, self.mark_start)
+    api.nvim_buf_del_extmark(self.original_bufnr, self.namespace, self.mark_end)
 
     self.mark_start =
         api.nvim_buf_set_extmark(self.original_bufnr, self.namespace, line1, 0, {id = self.mark_start})

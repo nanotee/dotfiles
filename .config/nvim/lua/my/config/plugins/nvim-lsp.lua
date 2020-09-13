@@ -3,14 +3,6 @@ require'my.config.plugins.diagnostic-nvim'
 
 local M = {}
 
-function M.show_documentation()
-    if vim.tbl_contains({'vim','help'}, vim.bo.filetype) then
-        vim.cmd('help '..vim.fn.expand('<cword>'))
-    else
-        vim.lsp.buf.hover()
-    end
-end
-
 local function custom_attach()
     require'diagnostic'.on_attach()
 
@@ -25,7 +17,7 @@ local function custom_attach()
         {'n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>'},
 
         -- Use K to show documentation in preview window
-        {'n', 'K', "<Cmd>lua require'my.config.plugins.nvim-lsp'.show_documentation()<CR>"},
+        {'n', 'K', "<Cmd>lua vim.lsp.buf.hover()<CR>"},
 
         -- Show diagnostics popup
         {'n', '<leader>di', "<Cmd>lua require'jumpLoc'.openLineDiagnostics()<CR>"},

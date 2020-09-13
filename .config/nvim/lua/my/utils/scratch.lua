@@ -1,85 +1,82 @@
-local M = {}
+local api = vim.api
 
-local fn = vim.fn
+local ScratchPad = {}
 
-function M.open(mods, range, line1, line2, filetype)
-    local ns = vim.api.nvim_create_namespace('scratch_buffer')
-    local mark_start, mark_end
+local list = {}
 
-    local original_bufnr = fn.bufnr()
-    local tempname = fn.tempname()
-    local range_of_lines = {}
-    if range ~= 0 then
-        mark_start = vim.api.nvim_buf_set_extmark(original_bufnr, ns, line1, 0, {})
-        mark_end = vim.api.nvim_buf_set_extmark(original_bufnr, ns, line2, 0, {})
-        range_of_lines = fn.getline(line1, line2)
-    end
-    local scratch_ft = vim.bo.filetype
-    if filetype ~= '' then scratch_ft = filetype end
-
-    vim.cmd(mods..' new '..tempname)
-
-    if range ~= 0 then
-        vim.b.original_bufnr = original_bufnr
-        vim.b.original_mark_start = mark_start
-        vim.b.original_mark_end = mark_end
-        vim.b.original_ns = ns
-        -- Send the code in the scratch buffer back to its original buffer
-        vim.cmd 'command! -buffer SendBack lua require"my.utils.scratch".send_back()'
-    end
-
-    vim.bo.filetype = scratch_ft
-    vim.bo.buftype = 'nofile'
-    vim.bo.bufhidden = 'hide'
-    vim.bo.swapfile = false
-
-    fn.setline(1, range_of_lines)
+local function create(mods, range, line1, line2, filetype)
+    local refname = vim.fn.tempname()
+    list[refname] = ScratchPad:new(mods, range, line1, line2, filetype, refname):create_buf():open_win()
 end
 
-function M.send_back()
-    if fn.buflisted(vim.b.original_bufnr) == 0 then
-        print('The original buffer was closed')
+function ScratchPad:new(mods, range, line1, line2, filetype, refname)
+    local o = {}
+    o.mods = mods
+    o.range = range
+    o.line1 = line1
+    o.line2 = line2
+    o.refname = refname
+    o.namespace = api.nvim_create_namespace('scratch_pad')
+    o.original_bufnr = api.nvim_get_current_buf()
+    o.filetype = filetype
+    if o.filetype == '' then
+        o.filetype = vim.bo[o.original_bufnr].filetype
+    end
+    if o.range ~= 0 then
+        o.mark_start = api.nvim_buf_set_extmark(o.original_bufnr, o.namespace, o.line1, 0, {})
+        o.mark_end = api.nvim_buf_set_extmark(o.original_bufnr, o.namespace, o.line2, 0, {})
+    end
+    self.__index = self
+    return setmetatable(o, self)
+end
+
+function ScratchPad:create_buf()
+    self.bufnr = api.nvim_create_buf(false, false)
+    vim.bo[self.bufnr].filetype = self.filetype
+    vim.bo[self.bufnr].buftype = 'nofile'
+    vim.bo[self.bufnr].bufhidden = 'hide'
+    vim.bo[self.bufnr].swapfile = false
+    if self.range ~= 0 then
+        local lines_to_copy = api.nvim_buf_get_lines(self.original_bufnr, self.line1 - 1, self.line2, false)
+        api.nvim_buf_set_lines(self.bufnr, 0, 1, false, lines_to_copy)
+        -- TODO: This would be better if I could create commands and autocommands in Lua directly...
+        api.nvim_buf_call(self.bufnr, function()
+            vim.cmd('command! -buffer SendBack lua require"my.utils.scratch".list["'..self.refname..'"]:send_back()')
+            vim.cmd('autocmd BufDelete <buffer> lua require"my.utils.scratch".list["'..self.refname..'"] = nil')
+        end)
+    end
+    return self
+end
+
+function ScratchPad:open_win()
+    vim.cmd(('%s split'):format(self.mods))
+    api.nvim_win_set_buf(0, self.bufnr)
+    return self
+end
+
+function ScratchPad:send_back()
+    if vim.bo[self.original_bufnr].buflisted == 0 then
+        api.nvim_err_writeln('The original buffer was closed')
         return
     end
 
-    local text_to_send = fn.getline(1, fn.line('$'))
+    local text_to_send = api.nvim_buf_get_lines(self.bufnr, 0, -1, false)
 
-    local line1 = vim.api.nvim_buf_get_extmark_by_id(
-        vim.b.original_bufnr,
-        vim.b.original_ns,
-        vim.b.original_mark_start,
-        {}
-        )[1]
-    local line2 = vim.api.nvim_buf_get_extmark_by_id(
-        vim.b.original_bufnr,
-        vim.b.original_ns,
-        vim.b.original_mark_end,
-        {}
-        )[1]
+    local line1 =
+        vim.api.nvim_buf_get_extmark_by_id(self.original_bufnr, self.namespace, self.mark_start, {})[1]
+    local line2 =
+        vim.api.nvim_buf_get_extmark_by_id(self.original_bufnr, self.namespace, self.mark_end, {})[1]
 
-    vim.api.nvim_buf_set_lines(
-        vim.b.original_bufnr,
-        line1 - 1,
-        line2,
-        true,
-        text_to_send
-        )
+    api.nvim_buf_set_lines(self.original_bufnr, line1 - 1, line2, true, text_to_send)
 
-    vim.b.original_mark_start = vim.api.nvim_buf_set_extmark(
-        vim.b.original_bufnr,
-        vim.b.original_ns,
-        line1,
-        0,
-        {id = vim.b.original_mark_start}
-        )
-
-    vim.b.original_mark_end = vim.api.nvim_buf_set_extmark(
-        vim.b.original_bufnr,
-        vim.b.original_ns,
-        line1 + #text_to_send - 1,
-        0,
-        {id = vim.b.original_mark_end}
-        )
+    self.mark_start =
+        api.nvim_buf_set_extmark(self.original_bufnr, self.namespace, line1, 0, {id = self.mark_start})
+    self.mark_end =
+        api.nvim_buf_set_extmark(self.original_bufnr, self.namespace, line1 + #text_to_send - 1, 0, {id = self.mark_end})
 end
 
-return M
+return {
+    ScratchPad = ScratchPad,
+    create = create,
+    list = list,
+}

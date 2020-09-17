@@ -6,29 +6,40 @@ set -o nounset
 
 xdg_variables() {
     if [ ! -e "/etc/profile.d/xdg.sh" ]; then
-        echo 'Setting up XDG environement variables'
+        echo 'Setting up XDG environement variables...'
         sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
+        echo 'Done.'
     fi
 }
 
 fzf() {
     if [ ! -e "$HOME/.config/nvim/after/plugin/fzf.vim" ]; then
-        echo 'Creating symbolic link to fzf.vim in ~/.config/nvim/after/plugin'
+        echo 'Creating symbolic link to fzf.vim in ~/.config/nvim/after/plugin...'
         ln -s "/usr/share/vim/vimfiles/plugin/fzf.vim" "$HOME/.config/nvim/after/plugin/fzf.vim"
+        echo 'Done.'
     fi
 }
 
 neovim_package_manager() {
     if [ ! -d "$HOME/.config/nvim/pack/packager/opt/vim-packager" ]; then
-        echo 'Installing a package manager for Neovim'
+        echo 'Installing a package manager for Neovim...'
         git clone "https://github.com/kristijanhusak/vim-packager" "$HOME/.config/nvim/pack/packager/opt/vim-packager"
+        echo 'Done.'
     fi
+}
+
+neovim_packages() {
+    nvim -u NONE \
+        +'lua require"my.utils"' \
+        +'lua require"my.config.packages"' \
+        +PackagerInstall
 }
 
 main() {
     xdg_variables
     fzf
     neovim_package_manager
+    neovim_packages
     exit 0
 }
 

@@ -7,7 +7,7 @@ command! -nargs=* -complete=command Redirect
     \ let s:result = execute(<q-args>) |
     \ <mods> new |
     \ setlocal nonumber nolist noswapfile bufhidden=wipe buftype=nofile |
-    \ put =s:result
+    \ put =s:result | unlet s:result
 
 " Takes a range of lines of code from the current buffer and runs them (the
 " whole buffer is run by default)

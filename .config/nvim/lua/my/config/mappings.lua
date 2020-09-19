@@ -41,9 +41,6 @@ local mappings = {
     {'n', '<leader>tv', '<Cmd>vnew +term<CR>'},
     {'n', '<leader>tt', '<Cmd>tabedit +term<CR>'},
 
-    -- Open zeal doc for current word
-    {'n', '<leader>zl', [[<Cmd>call jobstart(['zeal', &filetype..':'..expand('<cword>')], {'detach': v:true})<CR>]]},
-
     -- Expand current window to take the entire screen
     {'n', '<C-w>e', '<Cmd>wincmd _ | wincmd |<CR>'},
     {'n', '<C-w><C-e>', '<Cmd>wincmd _ | wincmd |<CR>'},

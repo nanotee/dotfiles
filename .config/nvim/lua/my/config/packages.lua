@@ -16,6 +16,7 @@ function M.init()
         {'neoclide/coc.nvim', {branch = 'release', type = 'opt'}},
         {'neomake/neomake', {type = 'opt'}},
         {'junegunn/fzf.vim'},
+        {'KabbAmine/zeavim.vim'},
         {'liuchengxu/vista.vim'},
         {'lervag/wiki.vim', {type = 'opt'}},
         {'glacambre/firenvim', {type = 'opt', ['do'] = ':packadd firenvim | call firenvim#install(0)'}},

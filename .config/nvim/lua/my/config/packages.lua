@@ -13,6 +13,8 @@ function M.init()
         {'norcalli/snippets.nvim', {type = 'opt'}},
         {'nvim-lua/diagnostic-nvim', {type = 'opt'}},
         {'nvim-treesitter/nvim-treesitter', {type = 'opt'}},
+        {'nvim-treesitter/nvim-treesitter-refactor', {type = 'opt'}},
+        {'nvim-treesitter/nvim-treesitter-textobjects', {type = 'opt'}},
         {'neoclide/coc.nvim', {branch = 'release', type = 'opt'}},
         {'neomake/neomake', {type = 'opt'}},
         {'junegunn/fzf.vim'},

@@ -31,8 +31,7 @@ neovim_package_manager() {
 neovim_packages() {
     nvim -u NONE \
         +'lua require"my.utils"' \
-        +'lua require"my.config.packages"' \
-        +PackagerInstall
+        +'lua require"my.config.packages".init().install({on_finish = "quitall"})'
 }
 
 main() {

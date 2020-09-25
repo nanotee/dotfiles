@@ -1,6 +1,6 @@
 -- Lots of inspiration was taken from these dotfiles:
 -- https://github.com/haorenW1025/dotfiles/blob/master/nvim/lua/status-line.lua
--- https://github.com/kyazdani42/dotfiles/blob/master/config/nvim/lua/statusline.lua
+-- https://github.com/kyazdani42/dotfiles/blob/master/config/common/nvim/lua/statusline.lua
 
 _G.statusline = {}
 

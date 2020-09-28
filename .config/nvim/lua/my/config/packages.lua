@@ -1,72 +1,222 @@
-local M = {}
+vim.cmd 'packadd! packer.nvim'
 
-function M.init()
-    vim.cmd 'packadd vim-packager'
-    vim.fn['packager#init']()
+package.loaded['packer'] = nil
+local packer = require('packer')
 
-    local packages = {
-        {'kristijanhusak/vim-packager', {type = 'opt'}},
-        {'sheerun/vim-polyglot'},
-        {'dracula/vim', {name = 'dracula'}},
-        {'neovim/nvim-lspconfig', {type = 'opt'}},
-        {'nvim-lua/completion-nvim', {type = 'opt'}},
-        {'norcalli/snippets.nvim', {type = 'opt'}},
-        {'nvim-lua/diagnostic-nvim', {type = 'opt'}},
-        {'nvim-treesitter/nvim-treesitter', {type = 'opt'}},
-        {'nvim-treesitter/nvim-treesitter-refactor', {type = 'opt'}},
-        {'nvim-treesitter/nvim-treesitter-textobjects', {type = 'opt'}},
-        {'neoclide/coc.nvim', {branch = 'release', type = 'opt'}},
-        {'neomake/neomake', {type = 'opt'}},
-        {'TimUntersberger/neogit'},
-        {'junegunn/fzf.vim'},
-        {'blackCauldron7/surround.nvim', {type = 'opt'}},
-        {'bfredl/nvim-luadev'},
-        {'KabbAmine/zeavim.vim'},
-        {'liuchengxu/vista.vim'},
-        {'lervag/wiki.vim', {type = 'opt'}},
-        {'glacambre/firenvim', {type = 'opt', ['do'] = ':packadd firenvim | call firenvim#install(0)'}},
-        {'tpope/vim-unimpaired'},
-        {'tpope/vim-fugitive'},
-        {'tpope/vim-rhubarb'},
-        {'tpope/vim-eunuch'},
-        {'tpope/vim-abolish'},
-        {'tpope/vim-dadbod'},
-        {'kristijanhusak/vim-dadbod-ui'},
-        {'kristijanhusak/vim-dadbod-completion', {type = 'opt'}},
-        {'mattn/emmet-vim'},
-        {'tomtom/tcomment_vim'},
-        {'machakann/vim-sandwich', {type = 'opt'}},
-        {'tmsvg/pear-tree'},
-        {'editorconfig/editorconfig-vim'},
-        {'ptzz/lf.vim'},
-        {'rbgrouleff/bclose.vim'},
-        {'norcalli/nvim-colorizer.lua'},
-        {'KabbAmine/vCoolor.vim', {type = 'opt'}},
+packer.init {
+    max_jobs = 5,
+}
+
+packer.startup(function(use)
+    use { 'wbthomason/packer.nvim', opt = true }
+    use 'sheerun/vim-polyglot'
+    use { 'dracula/vim', as = 'dracula' }
+    use {
+        'neovim/nvim-lspconfig',
+        cond = 'not vim.g.minimal_config',
+        requires = {
+            'nvim-lua/diagnostic-nvim',
+            cond = 'not vim.g.minimal_config',
+            config = 'vim.g.diagnostic_insert_delay = 1',
+        },
+        config = 'require("my.config.plugins.nvim-lsp").init()',
+    }
+    use {
+        'nvim-lua/completion-nvim',
+        cond = 'not vim.g.minimal_config',
+        config = 'require("my.config.plugins.completion-nvim")',
+    }
+    use {
+        'norcalli/snippets.nvim',
+        config = 'require("my.config.plugins.snippets-nvim")'
+    }
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        -- cond = 'not vim.g.minimal_config',
+        opt = true,
+        config = 'require("my.config.plugins.nvim-treesitter")',
+        requires = {
+            { 'nvim-treesitter/nvim-treesitter-refactor', opt = true },
+            { 'nvim-treesitter/nvim-treesitter-textobjects', opt = true },
+        },
+    }
+    use {
+        'neoclide/coc.nvim',
+        branch = 'release',
+        -- cond = 'not vim.g.minimal_config',
+        opt = true,
+    }
+    use {
+        'neomake/neomake',
+        event = 'InsertEnter,CmdlineEnter *',
+        config = function()
+            -- Already handled by language servers
+            vim.g.neomake_lua_enabled_makers = {}
+            vim.g.neomake_nim_enabled_makers = {}
+            vim.g.neomake_typescript_enabled_makers = {}
+            vim.g.neomake_c_enabled_makers = {}
+
+            vim.fn['neomake#configure#automake']('rw', 1000)
+        end,
+    }
+    use {
+        'junegunn/fzf.vim',
+        setup = function()
+            vim.g.fzf_layout = {window = {width = 0.9, height = 0.9}}
+            vim.g.fzf_buffers_jump = 1
+
+            local mappings = {
+                {'n', '<Space>', '<Cmd>Buffers<CR>'},
+                {'n', '<leader>sf', '<Cmd>Files<CR>'},
+
+                -- Quickly search through my config files
+                {'n', '<leader>sc', '<Cmd>Files '..vim.fn.stdpath('config')..'<CR>'},
+
+                -- Search through my packages
+                {'n', '<leader>sp', '<Cmd>Files '..vim.fn.stdpath('data')..'/site<CR>'},
+
+                -- Search through my personal wiki
+                {'n', '<leader>sw', '<Cmd>Files '..vim.g.wiki_root..'<CR>'},
+
+                -- Use Rg on the word under my cursor
+                {'n', '<leader>rw', ':<C-u>Rg <C-r><C-w><CR>'},
+            }
+
+            require'my.utils'.setup_keymaps(mappings)
+        end,
+    }
+    use { 'blackCauldron7/surround.nvim', opt = true }
+    use 'bfredl/nvim-luadev'
+    use 'KabbAmine/zeavim.vim'
+    use {
+        'liuchengxu/vista.vim',
+        setup = function()
+            vim.g.vista_fzf_preview = {'right:50%'}
+            vim.g.vista_default_executive = 'nvim_lsp'
+        end,
+    }
+    use {
+        'lervag/wiki.vim',
+        event = 'VimEnter *',
+        setup = function()
+            vim.g.wiki_root = '~/Documents/wiki'
+            vim.g.wiki_filetypes = {'md'}
+            vim.g.wiki_link_extension = '.md'
+            vim.g.wiki_link_target_type = 'md'
+            vim.g.wiki_export = {
+                args = '--highlight-style=tango',
+                from_format = 'markdown',
+                ext = 'pdf',
+                view = true,
+                viewer = 'okular',
+            }
+        end,
+    }
+    use 'tweekmonster/helpful.vim'
+    use {
+        'glacambre/firenvim',
+        cond = 'vim.g.started_by_firenvim',
+        run = ':packadd firenvim | call firenvim#install(0)',
+        setup = function()
+            vim.g.firenvim_config = {
+                localSettings = {
+                    ['.*'] = {
+                        cmdline = 'firenvim',
+                        takeover = 'never',
+                    }
+                }
+            }
+        end,
+        config = function()
+            vim.o.laststatus = 0
+            vim.bo.filetype = 'markdown'
+        end,
+    }
+    use 'tpope/vim-unimpaired'
+    use 'tpope/vim-fugitive'
+    use 'TimUntersberger/neogit'
+    use 'tpope/vim-rhubarb'
+    use 'tpope/vim-eunuch'
+    use 'tpope/vim-abolish'
+    use 'tpope/vim-dadbod'
+    use { 'kristijanhusak/vim-dadbod-ui', cmd = 'DBUI'}
+    use { 'kristijanhusak/vim-dadbod-completion', ft = {'sql'} }
+    use {
+        'ptzz/lf.vim',
+        requires = { 'rbgrouleff/bclose.vim' },
+        setup = function()
+            vim.g.lf_replace_netrw = true
+            vim.g.lf_command_override = 'lf -command "map e open"'
+        end,
+    }
+    use {
+        'mattn/emmet-vim',
+        setup = function()
+            vim.g.user_emmet_settings = {
+                html = {
+                    snippets = {
+                        ['html:5'] =
+                        '!!!+html[lang=fr]>(head>(meta[charset=${charset}]' ..
+                        '+meta[name="viewport" content="width=device-width,initial-scale=1.0"]' ..
+                        ' +meta[http-equiv="X-UA-Compatible" content="ie=edge"]title{}<body>{}'
+                    }
+                }
+            }
+        end,
+    }
+    use 'tomtom/tcomment_vim'
+    use {
+        'machakann/vim-sandwich',
+        setup = function()
+            vim.cmd("packadd! vim-sandwich")
+            vim.cmd("runtime macros/sandwich/keymap/surround.vim")
+        end,
+    }
+    use {
+        'tmsvg/pear-tree',
+        setup = function()
+            vim.g.pear_tree_repeatable_expand = 0
+            vim.g.pear_tree_smart_backspace = 1
+        end,
+    }
+    use 'editorconfig/editorconfig-vim'
+    use {
+        'norcalli/nvim-colorizer.lua',
+        config = function()
+            require'colorizer'.setup {
+                'html',
+                'htmldjango',
+                'markdown',
+                'css',
+                'scss',
+                'javascript',
+                'php',
+                'vim',
+
+                css = {
+                    RGB      = true,
+                    RRGGBB   = true,
+                    names    = true,
+                    RRGGBBAA = true,
+                    rgb_fn   = true,
+                    hsl_fn   = true,
+                    css      = true,
+                    css_fn   = true,
+                }
+
+            }
+        end,
+    }
+    use {
+        'KabbAmine/vCoolor.vim',
+        setup = 'vim.g.vcoolor_custom_picker = "kdialog --getcolor"',
     }
 
-    local local_packages = {
-        {'$HOME/Projets/dev/zoxide.vim'}
-    }
-
-    for _, pack in ipairs(packages) do
-        vim.fn['packager#add'](unpack(pack))
-    end
-
-    for _, pack in ipairs(local_packages) do
-        vim.fn['packager#local'](unpack(pack))
-    end
-
-    return {
-        install = vim.fn['packager#install'],
-        update = vim.fn['packager#update'],
-        clean = vim.fn['packager#clean'],
-        status = vim.fn['packager#status'],
-    }
+    -- My plugins
+    use '~/Projets/dev/zoxide.vim'
 end
+)
 
-vim.cmd [[command! PackagerInstall lua reload'my.config.packages'.init().install()]]
-vim.cmd [[command! -bang PackagerUpdate lua reload'my.config.packages'.init().update({ force_hooks = '<bang>' })]]
-vim.cmd [[command! PackagerClean lua reload'my.config.packages'.init().clean()]]
-vim.cmd [[command! PackagerStatus lua reload'my.config.packages'.init().status()]]
-
-return M
+return {
+    install = packer.install
+}

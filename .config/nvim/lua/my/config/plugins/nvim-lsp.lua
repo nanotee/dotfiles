@@ -1,9 +1,7 @@
-vim.cmd 'packadd nvim-lspconfig'
-require'my.config.plugins.diagnostic-nvim'
-
 local M = {}
 
 local function custom_attach()
+    vim.cmd 'packadd! diagnostic-nvim'
     require'diagnostic'.on_attach()
 
     local mappings = {

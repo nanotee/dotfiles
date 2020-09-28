@@ -1,5 +1,3 @@
-vim.cmd 'packadd! snippets.nvim'
-
 local U = require'snippets.utils'
 local idt = U.match_indentation
 

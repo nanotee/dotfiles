@@ -21,17 +21,15 @@ fzf() {
 }
 
 neovim_package_manager() {
-    if [ ! -d "$HOME/.config/nvim/pack/packager/opt/vim-packager" ]; then
+    if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/opt/packer.nvim" ]; then
         echo 'Installing a package manager for Neovim...'
-        git clone "https://github.com/kristijanhusak/vim-packager" "$HOME/.config/nvim/pack/packager/opt/vim-packager"
+        git clone "https://github.com/wbthomason/packer.nvim" "$HOME/.local/share/nvim/site/pack/packer/opt/packer.nvim"
         echo 'Done.'
     fi
 }
 
 neovim_packages() {
-    nvim -u NONE \
-        +'lua require"my.utils"' \
-        +'lua require"my.config.packages".init().install({on_finish = "quitall"})'
+    nvim -u NONE +'lua require"my.config.packages".install()'
 }
 
 main() {

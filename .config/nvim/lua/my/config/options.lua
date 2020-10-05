@@ -28,7 +28,6 @@ vim.o.title = true
 
 -- Cursor
 vim.wo.cursorline = true
-vim.o.scrolloff = 5
 vim.o.mouse = 'a'
 vim.o.whichwrap = 'b,h,l,s,<,>,[,],~'
 local guicursor = {
@@ -98,3 +97,4 @@ local completeopt = {
     'noinsert',
 }
 vim.o.completeopt = table.concat(completeopt, ',')
+vim.o.joinspaces = false

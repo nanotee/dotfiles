@@ -1,5 +1,3 @@
-local M = {}
-
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 vim.g.completion_enable_auto_paren = 1
 vim.g.completion_confirm_key = ''
@@ -52,5 +50,3 @@ local autocmds = {
 }
 
 require'my.utils'.nvim_create_augroups(autocmds)
-
-return M

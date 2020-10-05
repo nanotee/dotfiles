@@ -87,6 +87,9 @@ packer.startup(function(use)
     }
     use { 'blackCauldron7/surround.nvim', opt = true }
     use 'bfredl/nvim-luadev'
+    use 'tjdevries/nlua.nvim'
+    use 'nvim-lua/plenary.nvim'
+    use 'nvim-lua/popup.nvim'
     use 'KabbAmine/zeavim.vim'
     use {
         'liuchengxu/vista.vim',
@@ -214,6 +217,7 @@ packer.startup(function(use)
 
     -- My plugins
     use '~/Projets/dev/zoxide.vim'
+    use '~/Projets/dev/nvim-if-lua-compat'
 end
 )
 

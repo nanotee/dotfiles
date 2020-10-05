@@ -27,6 +27,17 @@ local autocmds = {
     cmd_line_win = {
         {'CmdWinEnter', '[:>]', 'syntax sync maxlines=1 minlines=1'},
     },
+    restore_curpos = {
+        {
+        'BufReadPost',
+        '*',
+        [[
+        if line("'\"") >= 1 && line("'\"") <= line("$")
+            exe "normal! g`\""
+        endif
+        ]],
+        },
+    },
 }
 
 require'my.utils'.nvim_create_augroups(autocmds)

@@ -65,24 +65,22 @@ packer.startup(function(use)
             vim.g.fzf_layout = {window = {width = 0.9, height = 0.9}}
             vim.g.fzf_buffers_jump = 1
 
-            local mappings = {
-                {'n', '<Space>', '<Cmd>Buffers<CR>'},
-                {'n', '<leader>sf', '<Cmd>Files<CR>'},
+            local map = require('my.utils').map
 
-                -- Quickly search through my config files
-                {'n', '<leader>sc', '<Cmd>Files '..vim.fn.stdpath('config')..'<CR>'},
+            map.n['<Space>'] = {'<Cmd>Buffers<CR>', 'noremap'}
+            map.n['<leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
 
-                -- Search through my packages
-                {'n', '<leader>sp', '<Cmd>Files '..vim.fn.stdpath('data')..'/site<CR>'},
+            -- Quickly search through my config files
+            map.n['<leader>sc'] = {'<Cmd>Files '..vim.fn.stdpath('config')..'<CR>', 'noremap'}
 
-                -- Search through my personal wiki
-                {'n', '<leader>sw', '<Cmd>Files '..vim.g.wiki_root..'<CR>'},
+            -- Search through my packages
+            map.n['<leader>sp'] = {'<Cmd>Files '..vim.fn.stdpath('data')..'/site<CR>', 'noremap'}
 
-                -- Use Rg on the word under my cursor
-                {'n', '<leader>rw', ':<C-u>Rg <C-r><C-w><CR>'},
-            }
+            -- Search through my personal wiki
+            map.n['<leader>sw'] = {'<Cmd>Files '..vim.g.wiki_root..'<CR>', 'noremap'}
 
-            require'my.utils'.setup_keymaps(mappings)
+            -- Use Rg on the word under my cursor
+            map.n['<leader>rw'] = {':<C-u>Rg <C-r><C-w><CR>', 'noremap'}
         end,
     }
     use { 'blackCauldron7/surround.nvim', opt = true }

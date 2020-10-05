@@ -1,18 +1,10 @@
 local U = require'snippets.utils'
 local idt = U.match_indentation
 
-require'my.utils'.setup_keymaps{
-    {
-        'i',
-        '<C-A-k>',
-        "<Cmd>lua require'snippets'.expand_or_advance()<CR>",
-    },
-    {
-        'i',
-        '<C-A-j>',
-        "<Cmd>lua require'snippets'.expand_or_advance(-1)<CR>",
-    },
-}
+local map = require('my.utils').map
+map.i['<C-A-k>'] = {"<Cmd>lua require'snippets'.expand_or_advance()<CR>", 'noremap'}
+map.i['<C-A-j>'] = {"<Cmd>lua require'snippets'.expand_or_advance(-1)<CR>", 'noremap'}
+
 require'snippets'.snippets = {
     _global = {
         date = '${=os.date("%Y-%m-%d")}',

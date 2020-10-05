@@ -1,6 +1,7 @@
 local M = {}
 
 local fn = vim.fn
+local api = vim.api
 
 function _G.dump(...)
     local objects = vim.tbl_map(vim.inspect, {...})
@@ -24,6 +25,21 @@ function M.nvim_create_augroups(definitions)
         vim.cmd('augroup END')
     end
 end
+
+M.map = setmetatable({}, {
+        __index = function(_, mode)
+            return setmetatable({}, {
+                    __newindex = function(_, rhs, tbl)
+                        local lhs = table.remove(tbl, 1)
+                        local opts = {}
+                        for _, v in ipairs(tbl) do
+                            opts[v] = true
+                        end
+                        api.nvim_set_keymap(mode, rhs, lhs, opts)
+                    end
+                })
+        end
+    })
 
 function M.setup_keymaps(mappings)
     local default_opts = {noremap = true}

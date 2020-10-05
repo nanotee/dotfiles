@@ -31,16 +31,17 @@ function _G.check_back_space()
     end
 end
 
-local mappings = {
-    {'i', '<Tab>',
-        [[complete_info()["selected"] != "-1" ?]]..
-        [["\<Plug>(completion_confirm_completion)" : v:lua.check_back_space() ?]]..
-        [["\<Tab>" : completion#trigger_completion()]],
-        {expr = true, silent = true}
-    },
-}
+local map = require('my.utils').map
 
-require'my.utils'.setup_keymaps(mappings)
+map.i['<Tab>'] = {
+
+    [[complete_info()["selected"] != "-1" ?]] ..
+    [["\<Plug>(completion_confirm_completion)" : v:lua.check_back_space() ?]] ..
+    [["\<Tab>" : completion#trigger_completion()]],
+
+    'expr',
+    'silent'
+}
 
 local autocmds = {
     completion_nvim = {

@@ -5,6 +5,7 @@
 !.zshenv
 !.options.zsh
 !.plug-options.zsh
+!.vim.zsh
 !.aliases.sh
 !xdg.sh
 !zsh_plugins.txt

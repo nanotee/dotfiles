@@ -28,33 +28,8 @@ eval "$(pyenv virtualenv-init -)"
 export GPG_TTY=$(tty)
 gpgconf --launch gpg-agent
 
-# Taken from https://thevaluable.dev/zsh-install-configure/
-cursor_mode() {
-    # See https://ttssh2.osdn.jp/manual/4/en/usage/tips/vim.html for cursor shapes
-    cursor_block='\e[2 q'
-    cursor_beam='\e[6 q'
-
-    function zle-keymap-select {
-        if [[ ${KEYMAP} == vicmd ]] ||
-            [[ $1 = 'block' ]]; then
-            echo -ne $cursor_block
-        elif [[ ${KEYMAP} == main ]] ||
-            [[ ${KEYMAP} == viins ]] ||
-            [[ ${KEYMAP} = '' ]] ||
-            [[ $1 = 'beam' ]]; then
-            echo -ne $cursor_beam
-        fi
-    }
-
-    zle-line-init() {
-        echo -ne $cursor_beam
-    }
-
-    zle -N zle-keymap-select
-    zle -N zle-line-init
-}
-
-cursor_mode
+# Vim emulation
+[ -s "${ZDOTDIR:-$HOME}/.vim.zsh" ] && source "${ZDOTDIR:-$HOME}/.vim.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

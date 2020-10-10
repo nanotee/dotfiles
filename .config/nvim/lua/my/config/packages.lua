@@ -9,7 +9,7 @@ packer.init {
 
 packer.startup(function(use)
     use { 'wbthomason/packer.nvim', opt = true }
-    use 'sheerun/vim-polyglot'
+    use { 'sheerun/vim-polyglot', opt = true }
     use { 'dracula/vim', as = 'dracula' }
     use {
         'neovim/nvim-lspconfig',

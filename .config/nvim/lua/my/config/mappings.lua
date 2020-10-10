@@ -40,6 +40,7 @@ map[''].k = {"(v:count? 'k' : 'gk')", 'noremap', 'expr'}
 -- Quickly open a terminal in a different window/tab
 map.n['<leader>ts'] = {'<Cmd>new +term<CR>', 'noremap'}
 map.n['<leader>tv'] = {'<Cmd>vnew +term<CR>', 'noremap'}
+map.n['<leader>tt'] = {'<Cmd>tabedit +term<CR>', 'noremap'}
 
 -- Expand current window to take the entire screen
 map.n['<C-w>e'] = {'<Cmd>wincmd _ | wincmd |<CR>', 'noremap'}

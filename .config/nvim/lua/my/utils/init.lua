@@ -113,4 +113,19 @@ function M.run(line1, line2, cmd)
     end
 end
 
+local function pad(pad_start)
+    return function(str, target_length, pad_string)
+        if not pad_string then pad_string = ' ' end
+        str = tostring(str)
+        pad_string = tostring(pad_string)
+        if pad_start then
+            return string.rep(pad_string, target_length - #str) .. str
+        end
+        return str .. string.rep(pad_string, target_length - #str)
+    end
+end
+
+M.pad_start = pad(true)
+M.pad_end = pad(false)
+
 return M

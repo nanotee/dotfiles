@@ -117,6 +117,7 @@ function _G.statusline.inactive()
     local statusline = {
         '%#StatusLine#',
         file_indicator,
+        '%#EndOfBuffer#',
     }
     return table.concat(statusline)
 end

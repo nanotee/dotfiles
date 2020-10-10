@@ -135,7 +135,7 @@ packer.startup(function(use)
     }
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-fugitive'
-    use 'TimUntersberger/neogit'
+    use { 'TimUntersberger/neogit', opt = true }
     use 'tpope/vim-rhubarb'
     use 'tpope/vim-eunuch'
     use 'tpope/vim-abolish'

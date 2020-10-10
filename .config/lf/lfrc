@@ -27,7 +27,7 @@ set hiddenfiles ".*:~/snap"
 cmd z %{{
     dir=$(zoxide query "$@")
     if [[ -e $dir ]]; then
-        lf -remote "send $id cd $dir"
+        lf -remote "send $id cd \"$dir\""
         zoxide add "$dir"
     fi
 }}
@@ -35,7 +35,7 @@ cmd z %{{
 cmd zi ${{
     dir=$(zoxide query --interactive "$@")
     if [[ -e $dir ]]; then
-        lf -remote "send $id cd $dir"
+        lf -remote "send $id cd \"$dir\""
         zoxide add "$dir"
     fi
 }}

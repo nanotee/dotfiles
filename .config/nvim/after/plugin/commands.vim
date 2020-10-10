@@ -46,3 +46,8 @@ command! -bang Trash
             \ echoerr 'Failed to move "'.s:file.'" to trash' |
             \ endif |
             \ unlet s:file
+
+command! -bang -nargs=* WikiFzfSearch
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>) .. ' ' .. g:wiki_root, 1,
+            \   fzf#vim#with_preview(), <bang>0)

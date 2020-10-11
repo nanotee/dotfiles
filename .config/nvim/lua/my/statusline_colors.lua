@@ -22,5 +22,5 @@ local hi_groups = {
 }
 
 for name, color in pairs(hi_groups) do
-    vim.cmd('hi def '..name..' gui=NONE guifg='..color.guifg..' guibg='..color.guibg)
+    vim.cmd(('hi def %s gui=NONE guifg=%s guibg=%s'):format(name, color.guifg, color.guibg))
 end

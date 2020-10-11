@@ -71,13 +71,13 @@ packer.startup(function(use)
             map.n['<leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
 
             -- Quickly search through my config files
-            map.n['<leader>sc'] = {'<Cmd>Files '..vim.fn.stdpath('config')..'<CR>', 'noremap'}
+            map.n['<leader>sc'] = {'<Cmd>Files ' .. vim.fn.stdpath('config') .. '<CR>', 'noremap'}
 
             -- Search through my packages
-            map.n['<leader>sp'] = {'<Cmd>Files '..vim.fn.stdpath('data')..'/site<CR>', 'noremap'}
+            map.n['<leader>sp'] = {'<Cmd>Files ' .. vim.fn.stdpath('data') .. '/site<CR>', 'noremap'}
 
             -- Search through my personal wiki
-            map.n['<leader>sw'] = {'<Cmd>Files '..vim.g.wiki_root..'<CR>', 'noremap'}
+            map.n['<leader>sw'] = {'<Cmd>Files ' .. vim.g.wiki_root .. '<CR>', 'noremap'}
 
             -- Use Rg on the word under my cursor
             map.n['<leader>rw'] = {':<C-u>Rg <C-r><C-w><CR>', 'noremap'}

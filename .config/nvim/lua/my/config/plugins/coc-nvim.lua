@@ -29,9 +29,9 @@ local mappings = {
 
     -- Tab completion
     {'i', '<Tab>',
-        [[pumvisible() ? coc#_select_confirm() :]]..
-        [[coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :]]..
-        [[v:lua.check_back_space() ? "\<TAB>" :]]..
+        [[pumvisible() ? coc#_select_confirm() :]] ..
+        [[coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :]] ..
+        [[v:lua.check_back_space() ? "\<TAB>" :]] ..
         [[coc#refresh()]],
         {expr = true, silent = true, noremap = true}
     },
@@ -41,7 +41,7 @@ require'my.utils'.setup_keymaps(mappings)
 
 function M.show_documentation()
     if vim.fn.index({'vim','help'}, vim.bo.filetype) >= 0 then
-        vim.cmd('h '..vim.fn.expand('<cword>'))
+        vim.cmd('h ' .. vim.fn.expand('<cword>'))
     else
         vim.fn.CocAction('doHover')
     end

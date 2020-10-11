@@ -16,7 +16,7 @@ end
 -- Taken from https://github.com/norcalli/nvim_utils/blob/master/lua/nvim_utils.lua#L554-L567
 function M.nvim_create_augroups(definitions)
     for group_name, definition in pairs(definitions) do
-        vim.cmd('augroup '..group_name)
+        vim.cmd('augroup ' .. group_name)
         vim.cmd('autocmd!')
         for _, def in ipairs(definition) do
             local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
@@ -85,7 +85,7 @@ function M.live_server(folder)
         return
     end
     local job_id = fn.jobstart({'live-server', folder or '.'})
-    vim.cmd('command! LiveServerStop lua require"my.utils".live_server_stop('..job_id..')')
+    vim.cmd('command! LiveServerStop lua require"my.utils".live_server_stop(' .. job_id .. ')')
     live_server_running = true
 end
 

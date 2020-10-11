@@ -59,16 +59,15 @@ local function git_indicator()
     if vim.g.loaded_fugitive then
         local branch = vim.fn.FugitiveHead()
         if branch ~= '' then
-            branch = ' '..branch
+            branch = ' ' .. branch
         end
         return ('%s %s %s'):format(
             '%#SLSecondary#',
             branch,
             '%#StatusLine#'
             )
-    else
-        return ''
     end
+    return ''
 end
 
 local file_indicator = (' %s %s%s%s '):format(
@@ -76,7 +75,7 @@ local file_indicator = (' %s %s%s%s '):format(
     modified_flag,
     help_buffer_flag,
     readonly_flag
-)
+    )
 
 local filetype = ' %y '
 
@@ -90,7 +89,7 @@ end
 
 local function buffer_info_indicator()
     return ('%s %s  %s/%s:%s%s'):format(
-        current_mode[vim.api.nvim_get_mode()['mode']].color,
+        current_mode[vim.api.nvim_get_mode().mode].color,
         percentage_through_file,
         line_number,
         total_lines_in_buffer,

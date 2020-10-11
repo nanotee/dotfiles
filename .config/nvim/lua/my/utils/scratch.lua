@@ -41,8 +41,8 @@ function ScratchPad:create_buf()
         api.nvim_buf_set_lines(self.bufnr, 0, 1, false, lines_to_copy)
         -- TODO: This would be better if I could create commands and autocommands in Lua directly...
         api.nvim_buf_call(self.bufnr, function()
-            vim.cmd('command! -buffer SendBack lua require"my.utils.scratch".list["'..self.refname..'"]:send_back()')
-            vim.cmd('autocmd BufDelete <buffer> lua require"my.utils.scratch".list["'..self.refname..'"] = nil')
+            vim.cmd('command! -buffer SendBack lua require"my.utils.scratch".list["' .. self.refname .. '"]:send_back()')
+            vim.cmd('autocmd BufDelete <buffer> lua require"my.utils.scratch".list["' .. self.refname .. '"] = nil')
         end)
     end
     return self

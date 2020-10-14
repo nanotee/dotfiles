@@ -4,6 +4,8 @@
 
 _G.statusline = {}
 
+local cat = table.concat
+
 local path = '%f'
 local modified_flag = '%m'
 local readonly_flag = '%r'
@@ -13,61 +15,67 @@ local total_lines_in_buffer = '%L'
 local column_number = '%3c'
 local percentage_through_file = '%3p%%'
 
-local current_mode = {
-    ['n']   = {val = ' NORMAL',     color = '%#SLNormalMode#'},
-    ['niI'] = {val = ' NORMAL',     color = '%#SLNormalMode#'},
-    ['niR'] = {val = ' NORMAL',     color = '%#SLNormalMode#'},
-    ['no']  = {val = ' OP·PENDING', color = '%#SLNormalMode#'},
-    ['v']   = {val = '麗VISUAL',     color = '%#SLVisualMode#'},
-    ['V']   = {val = '麗V·LINE',     color = '%#SLVisualMode#'},
-    ['\22'] = {val = '麗V·BLOCK',    color = '%#SLVisualMode#'},
-    ['s']   = {val = '麗SELECT',     color = '%#SLVisualMode#'},
-    ['S']   = {val = '麗S·LINE',     color = '%#SLVisualMode#'},
-    ['\19'] = {val = '麗S·BLOCK',    color = '%#SLVisualMode#'},
-    ['i']   = {val = ' INSERT',     color = '%#SLInsertMode#'},
-    ['ic']  = {val = ' INSERT',     color = '%#SLInsertMode#'},
-    ['ix']  = {val = ' INSERT',     color = '%#SLInsertMode#'},
-    ['R']   = {val = ' REPLACE',    color = '%#SLReplaceMode#'},
-    ['Rv']  = {val = ' V·REPLACE',  color = '%#SLReplaceMode#'},
-    ['c']   = {val = ' COMMAND',    color = '%#SLCommandLineMode#'},
-    ['cv']  = {val = 'VIM EX',       color = '%#SLCommandLineMode#'},
-    ['ce']  = {val = 'EX',           color = '%#SLCommandLineMode#'},
-    ['r']   = {val = 'PROMPT',       color = '%#SLCommandLineMode#'},
-    ['rm']  = {val = 'MORE',         color = '%#SLCommandLineMode#'},
-    ['r?']  = {val = 'CONFIRM',      color = '%#SLCommandLineMode#'},
-    ['!']   = {val = 'SHELL',        color = '%#SLCommandLineMode#'},
-    ['t']   = {val = ' TERMINAL',   color = '%#SLCommandLineMode#'},
-}
+local function get_mode_info()
+    local modes = {
+        ['n']   = {val = ' NORMAL',     color = '%#SLNormalMode#'},
+        ['niI'] = {val = ' NORMAL',     color = '%#SLNormalMode#'},
+        ['niR'] = {val = ' NORMAL',     color = '%#SLNormalMode#'},
+        ['no']  = {val = ' OP·PENDING', color = '%#SLNormalMode#'},
+        ['v']   = {val = '麗VISUAL',     color = '%#SLVisualMode#'},
+        ['V']   = {val = '麗V·LINE',     color = '%#SLVisualMode#'},
+        ['\22'] = {val = '麗V·BLOCK',    color = '%#SLVisualMode#'},
+        ['s']   = {val = '麗SELECT',     color = '%#SLVisualMode#'},
+        ['S']   = {val = '麗S·LINE',     color = '%#SLVisualMode#'},
+        ['\19'] = {val = '麗S·BLOCK',    color = '%#SLVisualMode#'},
+        ['i']   = {val = ' INSERT',     color = '%#SLInsertMode#'},
+        ['ic']  = {val = ' INSERT',     color = '%#SLInsertMode#'},
+        ['ix']  = {val = ' INSERT',     color = '%#SLInsertMode#'},
+        ['R']   = {val = ' REPLACE',    color = '%#SLReplaceMode#'},
+        ['Rv']  = {val = ' V·REPLACE',  color = '%#SLReplaceMode#'},
+        ['c']   = {val = ' COMMAND',    color = '%#SLCommandLineMode#'},
+        ['cv']  = {val = 'VIM EX',       color = '%#SLCommandLineMode#'},
+        ['ce']  = {val = 'EX',           color = '%#SLCommandLineMode#'},
+        ['r']   = {val = 'PROMPT',       color = '%#SLCommandLineMode#'},
+        ['rm']  = {val = 'MORE',         color = '%#SLCommandLineMode#'},
+        ['r?']  = {val = 'CONFIRM',      color = '%#SLCommandLineMode#'},
+        ['!']   = {val = 'SHELL',        color = '%#SLCommandLineMode#'},
+        ['t']   = {val = ' TERMINAL',   color = '%#SLCommandLineMode#'},
+    }
+    return modes[vim.api.nvim_get_mode().mode]
+end
+
+local function widget(color)
+    return function(module)
+        if type(color) == 'function' then
+            return ('%s%s'):format(color(), module or '')
+        end
+        return ('%s%s'):format(color, module or '')
+    end
+end
+
+local mode_color = widget(function() return get_mode_info().color end)
+local secondary_color = widget('%#SLSecondary#')
+local end_of_buffer = widget('%#EndOfBuffer#')
+local normal_color = widget('%#StatusLine#')
 
 local function mode_indicator()
-    local clear_hi = '%#StatusLine#'
-    local mode = current_mode[vim.api.nvim_get_mode().mode] or {
-        val = vim.api.nvim_get_mode().mode,
-        color = clear_hi,
-    }
-    local color = mode.color
-    local val = mode.val
+    return (' %s '):format(get_mode_info().val)
+end
 
-    local spell = ''
+local function spell_indicator()
     if vim.wo.spell then
-        spell = (' | SPELL [%s]'):format(vim.o.spelllang)
+        return (' SPELL [%s] '):format(vim.o.spelllang)
     end
-    return ('%s %s%s %s'):format(color, val, spell, clear_hi)
 end
 
 local function git_indicator()
-    if vim.g.loaded_fugitive then
+    if vim.g.loaded_fugitive == 1 then
         local branch = vim.fn.FugitiveHead()
         if branch ~= '' then
             branch = ' ' .. branch
         end
-        return ('%s %s %s'):format(
-            '%#SLSecondary#',
-            branch,
-            '%#StatusLine#'
-            )
+        return (' %s '):format(branch)
     end
-    return ''
 end
 
 local file_indicator = (' %s %s%s%s '):format(
@@ -77,46 +85,34 @@ local file_indicator = (' %s %s%s%s '):format(
     readonly_flag
     )
 
-local filetype = ' %y '
-
-local function fileencoding()
-    return ('%s %s %s'):format(
-        '%#SLSecondary#',
-        vim.bo.fileencoding,
-        '%#StatusLine#'
-        )
-end
-
-local function buffer_info_indicator()
-    return ('%s %s  %s/%s:%s%s'):format(
-        current_mode[vim.api.nvim_get_mode().mode].color,
-        percentage_through_file,
-        line_number,
-        total_lines_in_buffer,
-        column_number,
-        '%#StatusLine#'
-        )
-end
+local buffer_info_indicator = (' %s  %s/%s:%s '):format(
+    percentage_through_file,
+    line_number,
+    total_lines_in_buffer,
+    column_number
+    )
 
 function _G.statusline.active()
-    local statusline = {
-        mode_indicator(),
-        git_indicator(),
-        file_indicator,
-        '%<',
-        '%=',
-        filetype,
-        fileencoding(),
-        buffer_info_indicator(),
+    return cat{
+        mode_color(cat({
+                mode_indicator(),
+                spell_indicator(),
+            }, '|')),
+        secondary_color(git_indicator()),
+        normal_color(cat{
+                file_indicator,
+                '%<',
+                '%=',
+                ' %{&filetype} ',
+            }),
+        secondary_color(' %{&fileencoding}[%{&fileformat}] '),
+        mode_color(buffer_info_indicator),
     }
-    return table.concat(statusline)
 end
 
 function _G.statusline.inactive()
-    local statusline = {
-        '%#StatusLine#',
-        file_indicator,
-        '%#EndOfBuffer#',
+    return cat{
+        normal_color(file_indicator),
+        end_of_buffer(),
     }
-    return table.concat(statusline)
 end

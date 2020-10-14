@@ -219,6 +219,4 @@ packer.startup(function(use)
 end
 )
 
-return {
-    install = packer.install
-}
+return packer

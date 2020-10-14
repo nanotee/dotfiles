@@ -4,10 +4,10 @@ command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('Mak
 " Redirects the output of an ex command in a scratch buffer. May become
 " obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
 command! -nargs=* -complete=command Redirect
-    \ let s:result = execute(<q-args>) |
-    \ <mods> new |
-    \ setlocal nonumber nolist noswapfile bufhidden=wipe buftype=nofile |
-    \ put =s:result | unlet s:result
+            \ let s:result = execute(<q-args>) |
+            \ <mods> new |
+            \ setlocal nonumber nolist noswapfile bufhidden=wipe buftype=nofile |
+            \ put =s:result | unlet s:result
 
 " Takes a range of lines of code from the current buffer and runs them (the
 " whole buffer is run by default)
@@ -23,9 +23,9 @@ command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils.scrat
 
 " I want https://github.com/neovim/neovim/pull/10842 so bad
 command! -nargs=+ -complete=file T
-    \ tab new | setlocal nonumber nolist noswapfile bufhidden=wipe |
-    \ call termopen([<f-args>]) |
-    \ startinsert
+            \ tab new | setlocal nonumber nolist noswapfile bufhidden=wipe |
+            \ call termopen([<f-args>]) |
+            \ startinsert
 cabbrev ! T
 
 command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)

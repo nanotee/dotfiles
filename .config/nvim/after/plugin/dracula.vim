@@ -7,6 +7,7 @@ function! s:set_dracula_treesitter_colors() abort
   hi link TSParameter DraculaOrange
   hi link TSVariableBuiltin DraculaPurpleItalic
   hi link TSOperator DraculaPink
+  hi link TSFuncBuiltin DraculaCyan
 endfunction
 
 function! s:set_dracula_custom() abort

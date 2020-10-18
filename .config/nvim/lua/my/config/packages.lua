@@ -83,11 +83,9 @@ packer.startup(function(use)
             map.n['<leader>rw'] = {':<C-u>Rg <C-r><C-w><CR>', 'noremap'}
         end,
     }
-    use { 'blackCauldron7/surround.nvim', opt = true }
-    use 'bfredl/nvim-luadev'
     use 'tjdevries/nlua.nvim'
-    use 'nvim-lua/plenary.nvim'
-    use 'nvim-lua/popup.nvim'
+    use { 'nvim-lua/plenary.nvim', opt = true }
+    use { 'nvim-lua/popup.nvim', opt = true }
     use 'KabbAmine/zeavim.vim'
     use {
         'liuchengxu/vista.vim',
@@ -98,14 +96,14 @@ packer.startup(function(use)
     }
     use {
         'lervag/wiki.vim',
-        event = 'VimEnter *',
         setup = function()
             vim.g.wiki_root = '~/Documents/wiki'
             vim.g.wiki_filetypes = {'md'}
             vim.g.wiki_link_extension = '.md'
             vim.g.wiki_link_target_type = 'md'
+            vim.g.wiki_list_todos = {'TODO', 'DOING', 'DONE'}
             vim.g.wiki_export = {
-                args = '--highlight-style=tango',
+                args = '--highlight-style=tango --template=eisvogel',
                 from_format = 'markdown',
                 ext = 'pdf',
                 view = true,
@@ -133,7 +131,7 @@ packer.startup(function(use)
             vim.bo.filetype = 'markdown'
         end,
     }
-    use 'tpope/vim-unimpaired'
+    use { 'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
     use 'tpope/vim-fugitive'
     use { 'TimUntersberger/neogit', opt = true }
     use 'tpope/vim-rhubarb'
@@ -211,7 +209,10 @@ packer.startup(function(use)
     use {
         'KabbAmine/vCoolor.vim',
         setup = 'vim.g.vcoolor_custom_picker = "kdialog --getcolor"',
+        ft = {'html', 'css', 'scss', 'javascript'},
+        cmd = 'VCoolor',
     }
+    use 'norcalli/profiler.nvim'
 
     -- My plugins
     use '~/Projets/dev/zoxide.vim'

@@ -107,6 +107,7 @@ function M.run(line1, line2, cmd)
         local filetype_cmds = {
             javascript = {'node'},
             typescript = {'deno'},
+            r = {'R', '--vanilla', '--quiet'},
         }
         local stdout = fn.system(filetype_cmds[cmd] or cmd, lines)
         print(stdout)

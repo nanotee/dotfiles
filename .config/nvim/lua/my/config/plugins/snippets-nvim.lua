@@ -19,5 +19,11 @@ require'snippets'.snippets = {
     },
     markdown = {
         cb = '```$1\n$0\n```',
-    }
+    },
+    c = {
+        boilerplate =
+        '#include <stdio.h>\n#include <stdlib.h>\n\n' ..
+        'int main(int argc, char *argv[])\n' ..
+        '{\n    $0\n    return EXIT_SUCCESS;\n}'
+    },
 }

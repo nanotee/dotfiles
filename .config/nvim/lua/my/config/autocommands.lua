@@ -24,9 +24,6 @@ local autocmds = {
     hl_yank = {
         {'TextYankPost',  '*', 'lua require"vim.highlight".on_yank()'},
     },
-    cmd_line_win = {
-        {'CmdWinEnter', '[:>]', 'syntax sync maxlines=1 minlines=1'},
-    },
     restore_curpos = {
         {
         'BufReadPost',

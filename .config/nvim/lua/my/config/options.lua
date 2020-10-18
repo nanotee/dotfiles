@@ -97,3 +97,4 @@ local completeopt = {
 }
 vim.o.completeopt = table.concat(completeopt, ',')
 vim.o.joinspaces = false
+vim.o.shada = "!,'100,<50,s10,h,:1000,/1000"

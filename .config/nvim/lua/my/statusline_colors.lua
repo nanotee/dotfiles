@@ -19,6 +19,7 @@ local hi_groups = {
     ['SLReplaceMode'] = {guifg = colors.bg, guibg = colors.orange},
     ['SLCommandLineMode'] = {guifg = colors.bg, guibg = colors.purple},
     ['SLSecondary'] = {guifg = colors.fg, guibg = colors.comment},
+    ['SLNormal'] = {guifg = colors.fg, guibg = colors.sel}
 }
 
 for name, color in pairs(hi_groups) do

@@ -1,6 +1,8 @@
-vim.cmd 'packadd! nvim-treesitter'
-vim.cmd 'packadd! nvim-treesitter-refactor'
-vim.cmd 'packadd! nvim-treesitter-textobjects'
+vim.cmd 'packadd nvim-treesitter'
+vim.cmd 'packadd nvim-treesitter-refactor'
+vim.cmd 'packadd nvim-treesitter-textobjects'
+vim.cmd 'packadd playground'
+vim.cmd 'packadd nvim-treesitter-context'
 
 require'nvim-treesitter.configs'.setup {
     highlight = {
@@ -36,5 +38,9 @@ require'nvim-treesitter.configs'.setup {
                 ['<leader>A'] = '@parameter.inner',
             },
         },
+    },
+    playground = {
+        enable = true,
+        updatetime = 25,
     },
 }

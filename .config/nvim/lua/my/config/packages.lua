@@ -38,6 +38,8 @@ packer.startup(function(use)
         requires = {
             { 'nvim-treesitter/nvim-treesitter-refactor', opt = true },
             { 'nvim-treesitter/nvim-treesitter-textobjects', opt = true },
+            { 'nvim-treesitter/playground', opt = true },
+            { 'romgrk/nvim-treesitter-context', opt = true },
         },
     }
     use {

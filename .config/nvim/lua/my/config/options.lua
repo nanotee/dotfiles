@@ -24,6 +24,7 @@ vim.o.showmode = false
 vim.o.pumblend = 10
 vim.o.pumheight = 25
 vim.o.title = true
+vim.g.vimsyn_embed = 'l'
 
 -- Cursor
 vim.wo.cursorline = true

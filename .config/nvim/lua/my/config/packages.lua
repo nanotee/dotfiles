@@ -213,6 +213,16 @@ packer.startup(function(use)
         cmd = 'VCoolor',
     }
     use 'norcalli/profiler.nvim'
+    use {
+        'thinca/vim-quickrun',
+        setup = function()
+            vim.g.quickrun_no_default_key_mappings = 1
+            local map = require('my.utils').map
+            map[''].qr = { '<Plug>(quickrun-op)' }
+            map.x.qr = { '<Plug>(quickrun)' }
+        end,
+    }
+    use 'kergoth/vim-hilinks'
 
     -- My plugins
     use '~/Projets/dev/zoxide.vim'

@@ -21,9 +21,9 @@ fzf() {
 }
 
 neovim_package_manager() {
-    if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/opt/packer.nvim" ]; then
+    if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]; then
         echo 'Installing a package manager for Neovim...'
-        git clone "https://github.com/wbthomason/packer.nvim" "$HOME/.local/share/nvim/site/pack/packer/opt/packer.nvim"
+        git clone "https://github.com/wbthomason/packer.nvim" "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
         echo 'Done.'
     fi
 }

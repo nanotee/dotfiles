@@ -1,5 +1,3 @@
-vim.cmd 'packadd! packer.nvim'
-
 package.loaded['packer'] = nil
 local packer = require('packer')
 
@@ -8,7 +6,7 @@ packer.init {
 }
 
 packer.startup(function(use)
-    use { 'wbthomason/packer.nvim', opt = true }
+    use 'wbthomason/packer.nvim'
     use { 'sheerun/vim-polyglot', opt = true }
     use { 'dracula/vim', as = 'dracula' }
     use {
@@ -227,8 +225,8 @@ packer.startup(function(use)
     use 'kergoth/vim-hilinks'
 
     -- My plugins
-    use '~/Projets/dev/zoxide.vim'
-    use '~/Projets/dev/nvim-if-lua-compat'
+    use '~/Projets/dev/nvim/zoxide.vim'
+    use '~/Projets/dev/nvim/nvim-if-lua-compat'
 end
 )
 

@@ -1,14 +1,11 @@
 local M = {}
 
 local function custom_attach()
-    vim.cmd 'packadd! diagnostic-nvim'
     require'diagnostic'.on_attach()
 
     local mappings = {
         -- Remap keys for gotos
         {'n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>'},
-        {'n', '<leader>gy', '<Cmd>lua vim.lsp.buf.type_definition()<CR>'},
-        {'n', '<leader>gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>'},
         {'n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>'},
 
         -- Rename current word

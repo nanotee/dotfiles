@@ -1,5 +1,3 @@
-vim.cmd 'packadd coc.nvim'
-
 local M = {}
 
 vim.g.coc_snippet_next = '<Tab>'

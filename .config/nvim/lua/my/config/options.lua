@@ -1,5 +1,4 @@
 -- Appearence
-vim.cmd 'packadd dracula'
 vim.g.colors_name = 'dracula'
 vim.o.termguicolors = true
 vim.wo.number = true

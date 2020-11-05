@@ -52,3 +52,6 @@ map.x.ad = {'gg0oG$', 'noremap'}
 -- Run code quickly
 map.n['<leader>rr'] = {'<Cmd>Run<CR>', 'noremap'}
 map.n['<leader>rl'] = {'<Cmd>.Run<CR>', 'noremap'}
+
+-- Break current line and stay in normal mode
+map.n['<leader><CR>'] = {'i<CR><Esc>', 'noremap'}

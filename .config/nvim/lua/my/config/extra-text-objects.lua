@@ -6,8 +6,8 @@ end
 -- pairs
 for _, mapmode in ipairs{'o', 'x'} do
     for _, delimiter in ipairs{'{}', '()', '[]', '<>'} do
-        local opening = string.sub(delimiter, 1, 1)
-        local closing = string.sub(delimiter, 2, 2)
+        local opening = delimiter:sub(1, 1)
+        local closing = delimiter:sub(2, 2)
         for _, modifier in ipairs{'i', 'a'} do
             for _, trigger in ipairs{opening, closing} do
                 mapper(mapmode, modifier .. 'n' .. trigger, ':<C-u>normal! f' .. opening .. 'v' .. modifier .. closing .. '<CR>')

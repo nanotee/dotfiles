@@ -6,11 +6,6 @@ _G.statusline = {}
 
 local fn, api = vim.fn, vim.api
 local o, bo, wo = vim.o, vim.bo, vim.wo
-local filter = vim.tbl_filter
-
-local function cat(tbl, sep)
-    return table.concat(filter(function(x) return x ~= nil end, tbl), sep)
-end
 
 local path = '%f'
 local modified_flag = '%m'
@@ -44,34 +39,23 @@ local function get_mode_info()
     return modes[fn.mode()] or {val = 'Unknown', color = '%#SLNormalMode#'}
 end
 
-local function static_section(color)
-    return function(module)
-        return ('%s%s'):format(color, module or '')
-    end
-end
-
-local function dynamic_section(fun)
-    return function(module)
-        return ('%s%s'):format(fun(), module or '')
-    end
-end
-
 local function include_on_filetypes(filetypes, fun)
     return function()
         if filetypes[bo.filetype] then
             return fun()
         end
+        return ''
     end
 end
 
-local mode_color = dynamic_section(function() return get_mode_info().color end)
-local secondary_color = static_section('%#SLSecondary#')
-local end_of_buffer = static_section('%#EndOfBuffer#')
-local normal_color = static_section('%#SLNormal#')
-local modified_color = dynamic_section(function()
+local mode_color = function() return get_mode_info().color end
+local secondary_color = '%#SLSecondary#'
+local end_of_buffer = '%#EndOfBuffer#'
+local normal_color = '%#SLNormal#'
+local modified_color = function()
     if bo.modified then return '%#NormalNC#' end
     return '%#SLNormal#'
-end)
+end
 
 local function mode_module()
     return (' %s '):format(get_mode_info().val)
@@ -81,6 +65,7 @@ local function spell_module()
     if wo.spell then
         return ' SPELL [%{toupper(&spelllang)}] '
     end
+    return ''
 end
 
 local function git_module()
@@ -91,6 +76,7 @@ local function git_module()
         end
         return (' %s '):format(branch)
     end
+    return ''
 end
 
 local file_module = (' %s %s%s%s '):format(
@@ -132,29 +118,42 @@ local right_section_separator = ''
 local left_section_separator = ''
 
 function _G.statusline.active()
-    return cat{
-        mode_color(cat({
-                    mode_module(),
-                    spell_module(),
-            }, left_section_separator)),
-        secondary_color(git_module()),
-        modified_color(cat{
-                file_module,
-                truncate,
-                align,
-                filetype_module,
-            }),
-        secondary_color(fileencoding_module),
-        mode_color(cat({
-                    wordcount_module(),
-                    buffer_info_module,
-            }, right_section_separator)),
+    local spell = spell_module()
+    local left_sep = spell ~= '' and left_section_separator or ''
+    local wordcount = wordcount_module()
+    local right_sep = wordcount ~= '' and right_section_separator or ''
+    return table.concat{
+        mode_color(),
+        mode_module(),
+        left_sep,
+        spell,
+
+        secondary_color,
+        git_module(),
+
+        modified_color(),
+        file_module,
+
+        truncate,
+        align,
+
+        filetype_module,
+
+        secondary_color,
+        fileencoding_module,
+
+        mode_color(),
+        wordcount,
+        right_sep,
+        buffer_info_module,
     }
 end
 
 function _G.statusline.inactive()
-    return cat{
-        normal_color(file_module),
-        end_of_buffer(),
+    return table.concat{
+        normal_color,
+        file_module,
+
+        end_of_buffer,
     }
 end

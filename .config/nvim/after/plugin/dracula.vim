@@ -13,13 +13,17 @@ function! s:set_dracula_custom() abort
   hi! link TSOperator        Operator
   hi! link TSParameter       DraculaOrangeItalic
   hi! link TSVariableBuiltin Constant
+  hi! link TSKeywordOperator DraculaPinkBold
+  hi! link TSConstBuiltin    Constant
   " pangloss/vim-javascript
   hi! link jsBuiltins        DraculaCyan
   hi! link jsClassDefinition DraculaCyan
   hi! link jsFuncArgs        DraculaOrangeItalic
+  hi! link jsNull            Constant
   hi! link jsObjectColon     DraculaPink
   hi! link jsSuper           DraculaPurpleItalic
   hi! link jsThis            DraculaPurpleItalic
+  hi! link jsUndefined       Constant
   " HerringtonDarkholme/yats.vim
   hi! link typescriptArrayMethod          DraculaCyan
   hi! link typescriptArrayStaticMethod    DraculaCyan

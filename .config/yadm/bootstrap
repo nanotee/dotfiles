@@ -4,24 +4,28 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+# Utility functions
+
+file_exists() {
+    test -f "$1"
+}
+
+directory_exists() {
+    test -d "$1"
+}
+
+# Operations
+
 xdg_variables() {
-    if [ ! -e "/etc/profile.d/xdg.sh" ]; then
+    if ! file_exists "/etc/profile.d/xdg.sh"; then
         echo 'Setting up XDG environement variables...'
         sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
         echo 'Done.'
     fi
 }
 
-fzf() {
-    if [ ! -e "$HOME/.config/nvim/after/plugin/fzf.vim" ]; then
-        echo 'Creating symbolic link to fzf.vim in ~/.config/nvim/after/plugin...'
-        ln -s "/usr/share/vim/vimfiles/plugin/fzf.vim" "$HOME/.config/nvim/after/plugin/fzf.vim"
-        echo 'Done.'
-    fi
-}
-
 neovim_package_manager() {
-    if [ ! -d "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]; then
+    if ! directory_exists "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"; then
         echo 'Installing a package manager for Neovim...'
         git clone "https://github.com/wbthomason/packer.nvim" "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
         echo 'Done.'
@@ -34,7 +38,6 @@ neovim_packages() {
 
 main() {
     xdg_variables
-    fzf
     neovim_package_manager
     neovim_packages
     exit 0

@@ -33,8 +33,8 @@ local function custom_attach()
 end
 
 function M.init()
-    local lsp = require'nvim_lsp'
-    local configs = require'nvim_lsp/configs'
+    local lsp = require'lspconfig'
+    local configs = require'lspconfig/configs'
     local servers = {
         lsp.tsserver,
         lsp.jsonls,

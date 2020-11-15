@@ -1,4 +1,3 @@
-package.loaded['packer'] = nil
 local packer = require('packer')
 
 packer.init {
@@ -12,11 +11,6 @@ packer.startup(function(use)
     use {
         'neovim/nvim-lspconfig',
         cond = 'not vim.g.minimal_config',
-        requires = {
-            'nvim-lua/diagnostic-nvim',
-            cond = 'not vim.g.minimal_config',
-            config = 'vim.g.diagnostic_insert_delay = 1',
-        },
         config = 'require("my.config.plugins.nvim-lsp").init()',
     }
     use {
@@ -39,12 +33,6 @@ packer.startup(function(use)
             { 'nvim-treesitter/playground', opt = true },
             { 'romgrk/nvim-treesitter-context', opt = true },
         },
-    }
-    use {
-        'neoclide/coc.nvim',
-        branch = 'release',
-        -- cond = 'not vim.g.minimal_config',
-        opt = true,
     }
     use {
         'neomake/neomake',
@@ -70,7 +58,7 @@ packer.startup(function(use)
             map.n['<Space>'] = {'<Cmd>Buffers<CR>', 'noremap'}
             map.n['<leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
 
-            -- Quickly search through my config files
+            -- Search through my config files
             map.n['<leader>sc'] = {'<Cmd>Files ' .. vim.fn.stdpath('config') .. '<CR>', 'noremap'}
 
             -- Search through my packages
@@ -110,12 +98,25 @@ packer.startup(function(use)
                 viewer = 'okular',
             }
         end,
+        cmd = {
+            'WikiEnable',
+            'WikiFzfPages',
+            'WikiFzfTags',
+            'WikiIndex',
+            'WikiJournal',
+            'WikiOpen',
+            'WikiReload',
+        },
+        event = {
+            ('BufReadPre %s/*.md'):format(vim.g.wiki_root),
+        },
+        keys = {'<leader>w'},
     }
     use 'tweekmonster/helpful.vim'
     use {
         'glacambre/firenvim',
         cond = 'vim.g.started_by_firenvim',
-        run = ':packadd firenvim | call firenvim#install(0)',
+        run = ':packadd firenvim | call firenvim#install(0, "export VIMRUNTIME=' .. vim.env.VIMRUNTIME .. '")',
         setup = function()
             vim.g.firenvim_config = {
                 localSettings = {
@@ -167,8 +168,8 @@ packer.startup(function(use)
     use {
         'machakann/vim-sandwich',
         setup = function()
-            vim.cmd("packadd! vim-sandwich")
-            vim.cmd("runtime macros/sandwich/keymap/surround.vim")
+            vim.cmd 'packadd! vim-sandwich'
+            vim.cmd 'runtime macros/sandwich/keymap/surround.vim'
         end,
     }
     use {
@@ -213,15 +214,6 @@ packer.startup(function(use)
         cmd = 'VCoolor',
     }
     use 'norcalli/profiler.nvim'
-    use {
-        'thinca/vim-quickrun',
-        setup = function()
-            vim.g.quickrun_no_default_key_mappings = 1
-            local map = require('my.utils').map
-            map[''].qr = { '<Plug>(quickrun-op)' }
-            map.x.qr = { '<Plug>(quickrun)' }
-        end,
-    }
     use 'kergoth/vim-hilinks'
 
     -- My plugins

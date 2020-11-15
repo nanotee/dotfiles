@@ -3,3 +3,4 @@ syntax keyword luaSpecialTable
             \ jit
             \ bit
             \ love
+syntax match luaFuncCall /\k\+\%(\s*\[\[\)\@=/

@@ -28,6 +28,7 @@ vim.g.vimsyn_embed = 'l'
 -- Cursor
 vim.wo.cursorline = true
 vim.o.mouse = 'a'
+vim.o.mousetime = 0
 vim.o.whichwrap = 'b,h,l,s,<,>,[,],~'
 local guicursor = {
     'n-v-c:block',

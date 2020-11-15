@@ -29,31 +29,18 @@ end
 M.map = setmetatable({}, {
         __index = function(_, mode)
             return setmetatable({}, {
-                    __newindex = function(_, rhs, tbl)
-                        local lhs = table.remove(tbl, 1)
+                    __newindex = function(_, lhs, tbl)
+                        if tbl == nil then api.nvim_del_keymap(mode, lhs); return end
+                        local rhs = table.remove(tbl, 1)
                         local opts = {}
                         for _, v in ipairs(tbl) do
                             opts[v] = true
                         end
-                        api.nvim_set_keymap(mode, rhs, lhs, opts)
+                        api.nvim_set_keymap(mode, lhs, rhs, opts)
                     end
                 })
         end
     })
-
-function M.setup_keymaps(mappings)
-    local default_opts = {noremap = true}
-    for _, mapping in ipairs(mappings) do
-        vim.api.nvim_set_keymap(mapping[1], mapping[2], mapping[3], mapping[4] or default_opts)
-    end
-end
-
-function M.setup_buf_keymaps(mappings)
-    local default_opts = {noremap = true}
-    for _, mapping in ipairs(mappings) do
-        vim.api.nvim_buf_set_keymap(0, mapping[1], mapping[2], mapping[3], mapping[4] or default_opts)
-    end
-end
 
 function M.quickfix_make_signs(make_type)
     fn.sign_define('MakeError', {text = 'x', texthl = 'DraculaError'})

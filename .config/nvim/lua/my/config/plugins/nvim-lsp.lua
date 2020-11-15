@@ -1,24 +1,30 @@
 local M = {}
 
-local function custom_attach()
-    require'diagnostic'.on_attach()
-
-    local mappings = {
-        -- Remap keys for gotos
-        {'n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>'},
-        {'n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>'},
-
-        -- Rename current word
-        {'n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>'},
-
-        -- Use K to show documentation in preview window
-        {'n', 'K', "<Cmd>lua vim.lsp.buf.hover()<CR>"},
-
-        -- Show diagnostics popup
-        {'n', '<leader>di', "<Cmd>lua require'jumpLoc'.openLineDiagnostics()<CR>"},
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false,
     }
+)
 
-    require'my.utils'.setup_buf_keymaps(mappings)
+local function bmap(mapping)
+    vim.api.nvim_buf_set_keymap(0, mapping[1], mapping[2], mapping[3], {noremap = true})
+end
+
+local function custom_attach()
+    -- Remap keys for gotos
+    bmap{'n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>'}
+    bmap{'n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>'}
+    bmap{'n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'}
+    bmap{'n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'}
+
+    -- Rename current word
+    bmap{'n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>'}
+
+    -- Use K to show documentation in preview window
+    bmap{'n', 'K', "<Cmd>lua vim.lsp.buf.hover()<CR>"}
+
+    -- Show diagnostics popup
+    bmap{'n', '<leader>di', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'}
 
     -- Stop all language servers
     vim.cmd 'command! LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())'

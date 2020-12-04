@@ -13,7 +13,6 @@ alias mkdirs="mkdir -p"
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
 alias nvimm='nvim --cmd "let minimal_config=v:true"'
-alias vim="TERM=xterm-256color VIM=$XDG_CONFIG_HOME/vim vim"
 
 detach() { "$@" &>/dev/null &! }
 

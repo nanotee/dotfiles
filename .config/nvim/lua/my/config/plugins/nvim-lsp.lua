@@ -60,11 +60,12 @@ function M.init()
                 root_dir = function(fname)
                     return lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
                 end,
-                on_attach = custom_attach,
             }
         }
     end
-    lsp.lua_lsp.setup{}
+    lsp.lua_lsp.setup{
+        on_attach = custom_attach,
+    }
 
     if not configs.sqls then
         configs.sqls = {
@@ -74,11 +75,12 @@ function M.init()
                 root_dir = function(fname)
                     return lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
                 end,
-                on_attach = custom_attach,
             }
         }
     end
-    lsp.sqls.setup{}
+    lsp.sqls.setup{
+        on_attach = custom_attach,
+    }
 
 end
 

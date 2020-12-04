@@ -2,6 +2,7 @@ vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 vim.g.completion_enable_auto_paren = 1
 vim.g.completion_confirm_key = ''
 vim.g.completion_enable_snippet = 'snippets.nvim'
+vim.g.completion_auto_change_source = 1
 
 vim.g.completion_chain_complete_list = {
     default = {

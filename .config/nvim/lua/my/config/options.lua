@@ -77,11 +77,6 @@ vim.g.loaded_2html_plugin = 1
 vim.g.did_install_default_menus = 1
 vim.g.did_install_syntax_menu = 1
 
--- Providers
-vim.g.loaded_python_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_ruby_provider = 0
-
 -- Miscellaneous
 vim.o.lazyredraw = true
 vim.o.updatetime = 300

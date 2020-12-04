@@ -5,7 +5,6 @@ vim.cmd [[runtime! ftdetect/polyglot.vim]]
 vim.o.runtimepath = vim.o.runtimepath .. ',/usr/share/vim/vimfiles'
 vim.o.runtimepath = vim.o.runtimepath .. ',/usr/share/vim/addons'
 require'profiler'
-require'my.utils.debug'
 require'my.utils'
 require'my.statusline'
 reload'my.config.options'

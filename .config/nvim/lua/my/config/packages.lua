@@ -6,8 +6,8 @@ packer.init {
 
 packer.startup(function(use)
     use 'wbthomason/packer.nvim'
-    use { 'sheerun/vim-polyglot', opt = true }
-    use { 'dracula/vim', as = 'dracula' }
+    use {'sheerun/vim-polyglot', opt = true}
+    use {'dracula/vim', as = 'dracula'}
     use {
         'neovim/nvim-lspconfig',
         cond = 'not vim.g.minimal_config',
@@ -28,10 +28,10 @@ packer.startup(function(use)
         opt = true,
         config = 'require("my.config.plugins.nvim-treesitter")',
         requires = {
-            { 'nvim-treesitter/nvim-treesitter-refactor', opt = true },
-            { 'nvim-treesitter/nvim-treesitter-textobjects', opt = true },
-            { 'nvim-treesitter/playground', opt = true },
-            { 'romgrk/nvim-treesitter-context', opt = true },
+            {'nvim-treesitter/nvim-treesitter-refactor', opt = true},
+            {'nvim-treesitter/nvim-treesitter-textobjects', opt = true},
+            {'nvim-treesitter/playground', opt = true},
+            {'romgrk/nvim-treesitter-context', opt = true},
         },
     }
     use {
@@ -72,8 +72,8 @@ packer.startup(function(use)
         end,
     }
     use 'tjdevries/nlua.nvim'
-    use { 'nvim-lua/plenary.nvim', opt = true }
-    use { 'nvim-lua/popup.nvim', opt = true }
+    use {'nvim-lua/plenary.nvim', opt = true}
+    use {'nvim-lua/popup.nvim', opt = true}
     use 'KabbAmine/zeavim.vim'
     use {
         'liuchengxu/vista.vim',
@@ -107,9 +107,7 @@ packer.startup(function(use)
             'WikiOpen',
             'WikiReload',
         },
-        event = {
-            ('BufReadPre %s/*.md'):format(vim.g.wiki_root),
-        },
+        event = 'BufReadPre ~/Documents/wiki/*.md',
         keys = {'<leader>w'},
     }
     use 'tweekmonster/helpful.vim'
@@ -132,18 +130,18 @@ packer.startup(function(use)
             vim.bo.filetype = 'markdown'
         end,
     }
-    use { 'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
+    use {'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
     use 'tpope/vim-fugitive'
-    use { 'TimUntersberger/neogit', opt = true }
+    use {'TimUntersberger/neogit', opt = true}
     use 'tpope/vim-rhubarb'
     use 'tpope/vim-eunuch'
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
-    use { 'kristijanhusak/vim-dadbod-ui', cmd = 'DBUI'}
-    use { 'kristijanhusak/vim-dadbod-completion', ft = {'sql'} }
+    use {'kristijanhusak/vim-dadbod-ui', cmd = 'DBUI'}
+    use {'kristijanhusak/vim-dadbod-completion', ft = {'sql'}}
     use {
         'ptzz/lf.vim',
-        requires = { 'rbgrouleff/bclose.vim' },
+        requires = 'rbgrouleff/bclose.vim',
         setup = function()
             vim.g.lf_replace_netrw = true
             vim.g.lf_command_override = 'lf -command "map e open"'
@@ -164,7 +162,7 @@ packer.startup(function(use)
             }
         end,
     }
-    use 'tomtom/tcomment_vim'
+    use {'tomtom/tcomment_vim', keys = {'gc'}}
     use {
         'machakann/vim-sandwich',
         setup = function()
@@ -192,7 +190,6 @@ packer.startup(function(use)
                 'javascript',
                 'php',
                 'vim',
-
                 css = {
                     RGB      = true,
                     RRGGBB   = true,
@@ -202,8 +199,7 @@ packer.startup(function(use)
                     hsl_fn   = true,
                     css      = true,
                     css_fn   = true,
-                }
-
+                },
             }
         end,
     }

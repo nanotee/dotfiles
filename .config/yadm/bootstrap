@@ -33,7 +33,7 @@ neovim_package_manager() {
 }
 
 neovim_packages() {
-    nvim -u NONE +'lua packer = require("my.config.packages"); packer.install(); packer.compile(); vim.cmd("quit")'
+    nvim --headless +PackerSync +qa
 }
 
 main() {

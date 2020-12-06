@@ -1,14 +1,32 @@
 local api = vim.api
 
+--- Wrapper class to interact with scratch buffers
+--- @class ScratchPad
 local ScratchPad = {}
 
+--- List to store references to wrapper objects and discard them once the buffer closes
+--- @type table<string, ScratchPad>
 local list = {}
 
+--- Dumb hack I need to remove once nvim-lua supports user-commands and autocommands
+--- @param mods     string command modifiers
+--- @param range    number number of items in the command range
+--- @param line1    number starting line of the command range
+--- @param line2    number final line of the command range
+--- @param filetype string filetype of the scratch buffer
 local function create(mods, range, line1, line2, filetype)
     local refname = vim.fn.tempname()
     list[refname] = ScratchPad:new(mods, range, line1, line2, filetype, refname):create_buf():open_win()
 end
 
+--- Instantiates a new ScratchPad object
+--- @param mods     string command modifiers
+--- @param range    number number of items in the command range
+--- @param line1    number starting line of the command range
+--- @param line2    number final line of the command range
+--- @param filetype string filetype of the scratch buffer
+--- @param refname  string dumb hack
+--- @return ScratchPad
 function ScratchPad:new(mods, range, line1, line2, filetype, refname)
     local o = {}
     o.mods = mods
@@ -30,6 +48,8 @@ function ScratchPad:new(mods, range, line1, line2, filetype, refname)
     return setmetatable(o, self)
 end
 
+--- Creates the scratch buffer
+--- @return ScratchPad
 function ScratchPad:create_buf()
     self.bufnr = api.nvim_create_buf(false, false)
     vim.bo[self.bufnr].filetype = self.filetype
@@ -48,12 +68,15 @@ function ScratchPad:create_buf()
     return self
 end
 
+--- Opens the window containing the scratch buffer
+--- @return ScratchPad
 function ScratchPad:open_win()
     vim.cmd(('%s split'):format(self.mods))
     api.nvim_win_set_buf(0, self.bufnr)
     return self
 end
 
+--- Sends the code in the scratch buffer back to its original buffer
 function ScratchPad:send_back()
     if vim.bo[self.original_bufnr].buflisted == 0 then
         api.nvim_err_writeln('The original buffer was closed')

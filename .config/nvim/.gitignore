@@ -1,8 +1,6 @@
 /*
 !.gitignore
 
-!init.vim
 !init.lua
-!coc-settings.json
 !lua/
 !after/

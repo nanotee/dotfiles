@@ -63,8 +63,33 @@ function M.init()
             }
         }
     end
-    lsp.lua_lsp.setup{
+    -- lsp.lua_lsp.setup{
+    --     on_attach = custom_attach,
+    -- }
+    require'lspconfig'.sumneko_lua.setup {
+        cmd = {
+            vim.env.HOME .. '/.local/bin/lua-language-server-src/bin/Linux/lua-language-server',
+            '-E',
+            vim.env.HOME .. '/.local/bin/lua-language-server-src/main.lua',
+        },
         on_attach = custom_attach,
+        settings = {
+            Lua = {
+                runtime = {
+                    version = 'LuaJIT',
+                    path = vim.split(package.path, ';'),
+                },
+                diagnostics = {
+                    globals = {'vim', 'reload', 'love', 'dump'},
+                },
+                workspace = {
+                    library = {
+                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                    },
+                },
+            },
+        },
     }
 
     if not configs.sqls then

@@ -62,6 +62,6 @@ augroup set_dracula_custom
   autocmd ColorScheme dracula call s:set_dracula_custom()
 augroup END
 
-if g:colors_name == 'dracula'
+if get(g:, 'colors_name') == 'dracula'
   call s:set_dracula_custom()
 endif

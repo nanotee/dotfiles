@@ -1,7 +1,7 @@
 local packer = require('packer')
 
 packer.init {
-    max_jobs = 5,
+    max_jobs = 10,
 }
 
 packer.startup(function(use)

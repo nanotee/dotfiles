@@ -3,6 +3,7 @@ local api = vim.api
 --- Wrapper class to interact with scratch buffers
 --- @class ScratchPad
 local ScratchPad = {}
+ScratchPad.__index = ScratchPad
 
 --- List to store references to wrapper objects and discard them once the buffer closes
 --- @type table<string, ScratchPad>
@@ -44,8 +45,7 @@ function ScratchPad:new(mods, range, line1, line2, filetype, refname)
         o.mark_start = api.nvim_buf_set_extmark(o.original_bufnr, o.namespace, o.line1, 0, {})
         o.mark_end = api.nvim_buf_set_extmark(o.original_bufnr, o.namespace, o.line2, 0, {})
     end
-    self.__index = self
-    return setmetatable(o, self)
+    return setmetatable(o, ScratchPad)
 end
 
 --- Creates the scratch buffer

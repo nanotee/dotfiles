@@ -8,9 +8,9 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
-function _G.reload(module)
-    package.loaded[module] = nil
-    return require(module)
+function _G.reload(modname)
+    package.loaded[modname] = nil
+    return require(modname)
 end
 
 -- Taken from https://github.com/norcalli/nvim_utils/blob/master/lua/nvim_utils.lua#L554-L567
@@ -93,7 +93,7 @@ function M.run(line1, line2, cmd)
     else
         local filetype_cmds = {
             javascript = {'node'},
-            typescript = {'deno'},
+            typescript = {'deno', 'run', '--quiet', '-'},
             r = {'R', '--vanilla', '--quiet'},
         }
         local stdout = fn.system(filetype_cmds[cmd] or cmd, lines)

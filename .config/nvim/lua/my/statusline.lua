@@ -103,7 +103,7 @@ local wordcount_module = include_on_filetypes(
         text = true,
     },
     function()
-        return ' %{"[vs]" =~? mode() ? wordcount().visual_words : wordcount().words} words '
+        return ' %{"[\22\19vs]" =~? mode() ? wordcount().visual_words : wordcount().words} words '
     end
     )
 

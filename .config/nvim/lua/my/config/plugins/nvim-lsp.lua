@@ -41,7 +41,6 @@ function M.init()
         lsp.intelephense,
         lsp.html,
         lsp.cssls,
-        lsp.nimls,
         lsp.pyls,
         lsp.clangd,
     }

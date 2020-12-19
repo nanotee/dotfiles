@@ -11,10 +11,9 @@ export SUDO_ASKPASS="$HOME/.local/bin/gui-askpass"
 
 # Path
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/Applications:$PATH"
 export PATH="$NODENV_ROOT/bin:$PATH"
 export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$HOME/.nimble/bin:$PATH"
+export PATH="$XDG_DATA_HOME/nimble/bin:$PATH"
 export PATH="$HOME/.luarocks/bin:$PATH"
 
 # Nix

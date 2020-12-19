@@ -65,12 +65,13 @@ packer.startup(function(use)
             map.n['<leader>sp'] = {'<Cmd>Files ' .. vim.fn.stdpath('data') .. '/site<CR>', 'noremap'}
 
             -- Search through my personal wiki
-            map.n['<leader>sw'] = {'<Cmd>Files ' .. vim.g.wiki_root .. '<CR>', 'noremap'}
+            map.n['<leader>sw'] = {':<C-u>Files <C-r>=g:wiki_root<CR><CR>', 'noremap', 'silent'}
 
             -- Use Rg on the word under my cursor
             map.n['<leader>rw'] = {':<C-u>Rg <C-r><C-w><CR>', 'noremap'}
         end,
     }
+    use {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'}
     use 'tjdevries/nlua.nvim'
     use {'nvim-lua/plenary.nvim', opt = true}
     use {'nvim-lua/popup.nvim', opt = true}

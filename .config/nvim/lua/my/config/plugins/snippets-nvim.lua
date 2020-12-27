@@ -1,10 +1,6 @@
 local U = require'snippets.utils'
 local idt = U.match_indentation
 
-local map = require('my.utils').map
-map.i['<C-A-k>'] = {"<Cmd>lua require'snippets'.expand_or_advance()<CR>", 'noremap'}
-map.i['<C-A-j>'] = {"<Cmd>lua require'snippets'.expand_or_advance(-1)<CR>", 'noremap'}
-
 require'snippets'.snippets = {
     lua = {
         ['for'] = idt'for ${1:k}, ${2:v} in ipairs($3) do\n$0\nend',

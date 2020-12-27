@@ -33,7 +33,7 @@ command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-
 function! s:align(line1, line2, ...)
     let l:separator = shellescape(a:1)
     let l:output_separator = exists('a:2') ? shellescape(a:2) : l:separator
-    execute a:line1..","..a:line2.."!column -t -s"..l:separator.." -o"..l:output_separator
+    execute printf('%s,%s!column -t -s%s -o%s', a:line1, a:line2, l:separator, l:output_separator)
 endfunction
 
 command! -nargs=+ -range Align call s:align(<line1>, <line2>, <f-args>)

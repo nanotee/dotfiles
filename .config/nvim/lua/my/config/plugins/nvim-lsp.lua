@@ -85,7 +85,7 @@ function M.init()
                 cmd = {'sqls'},
                 filetypes = {'sql'},
                 root_dir = function(fname)
-                    return lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
+                    return lsp.util.root_pattern('.git', 'package.json')(fname) or lsp.util.path.dirname(fname)
                 end,
             }
         }

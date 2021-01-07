@@ -13,6 +13,7 @@ command! -nargs=* -complete=command Redirect
 " whole buffer is run by default)
 " Accepts a shell command to run the code in a specific program
 command! -range=% -nargs=? -complete=shellcmd RunCode lua require'my.utils'.run(<line1>, <line2>, <q-args>)
+command! -range=% -nargs=? -complete=shellcmd QuickRun lua require'my.utils'.run(<line1>, <line2>, <q-args>)
 
 " Creates a scratch buffer in a new window.
 " Accepts a range to copy a set of lines over from the current buffer

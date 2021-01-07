@@ -67,7 +67,7 @@ function M.init()
                     path = vim.split(package.path, ';'),
                 },
                 diagnostics = {
-                    globals = {'vim', 'reload', 'love', 'dump'},
+                    globals = {'vim', 'love', 'dump', 'describe', 'it'},
                 },
                 workspace = {
                     library = {

@@ -40,7 +40,6 @@ packer.startup(function(use)
         config = function()
             -- Already handled by language servers
             vim.g.neomake_lua_enabled_makers = {}
-            vim.g.neomake_nim_enabled_makers = {}
             vim.g.neomake_typescript_enabled_makers = {}
             vim.g.neomake_c_enabled_makers = {}
 

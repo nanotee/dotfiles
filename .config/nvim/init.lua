@@ -1,4 +1,4 @@
-vim.g.polyglot_disabled = {'sensible'}
+vim.g.polyglot_disabled = {'sensible', 'sleuth'}
 vim.g.javascript_plugin_jsdoc = 1
 vim.cmd [[packadd! vim-polyglot]]
 vim.cmd [[runtime! ftdetect/polyglot.vim]]

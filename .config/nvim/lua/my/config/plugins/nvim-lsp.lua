@@ -47,30 +47,12 @@ function M.init()
 
     for _, server in ipairs(servers) do
         server.setup {
-            on_attach = custom_attach
+            on_attach = custom_attach,
         }
     end
 
-    if not configs.lua_lsp then
-        configs.lua_lsp = {
-            default_config = {
-                cmd = {'lua-lsp'},
-                filetypes = {'lua'},
-                root_dir = function(fname)
-                    return lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
-                end,
-            }
-        }
-    end
-    -- lsp.lua_lsp.setup{
-    --     on_attach = custom_attach,
-    -- }
     require'lspconfig'.sumneko_lua.setup {
-        cmd = {
-            vim.env.HOME .. '/.local/bin/lua-language-server-src/bin/Linux/lua-language-server',
-            '-E',
-            vim.env.HOME .. '/.local/bin/lua-language-server-src/main.lua',
-        },
+        cmd = {'lua-language-server'},
         on_attach = custom_attach,
         settings = {
             Lua = {

@@ -6,30 +6,36 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     }
 )
 
-local function bmap(mapping)
-    vim.api.nvim_buf_set_keymap(0, mapping[1], mapping[2], mapping[3], {noremap = true})
+local function bmap(mode, lhs, rhs)
+    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, {noremap = true})
 end
 
-local function custom_attach()
-    -- Remap keys for gotos
-    bmap{'n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>'}
-    bmap{'n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>'}
-    bmap{'n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'}
-    bmap{'n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'}
+local function custom_attach(client)
+    if client.config.flags then
+        client.config.flags.allow_incremental_sync = true
+    end
 
-    -- Rename current word
-    bmap{'n', '<leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>'}
+    -- Remap keys for gotos
+    bmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+    bmap('n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+    bmap('n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 
     -- Use K to show documentation in preview window
-    bmap{'n', 'K', "<Cmd>lua vim.lsp.buf.hover()<CR>"}
+    bmap('n', 'K', "<Cmd>lua vim.lsp.buf.hover()<CR>")
 
     -- Show diagnostics popup
-    bmap{'n', '<leader>di', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'}
+    bmap('n', '<leader>di', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
 
     -- Stop all language servers
-    vim.cmd 'command! LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())'
+    vim.cmd 'command! -buffer LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())'
     -- CodeAction
-    vim.cmd 'command! CodeAction lua vim.lsp.buf.code_action()'
+    vim.cmd 'command! -buffer LspCodeAction lua vim.lsp.buf.code_action()'
+    -- Rename current word
+    vim.cmd 'command! -buffer LspRename lua vim.lsp.buf.rename()'
+    -- References
+    vim.cmd 'command! -buffer LspReferences lua vim.lsp.buf.references()'
+    -- Formatting
+    vim.cmd 'command! -buffer LspFormat lua vim.lsp.buf.formatting_sync()'
 end
 
 function M.init()

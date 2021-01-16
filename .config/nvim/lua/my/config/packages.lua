@@ -58,16 +58,16 @@ packer.startup(function(use)
             map.n['<leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
 
             -- Search through my config files
-            map.n['<leader>sc'] = {'<Cmd>Files ' .. vim.fn.stdpath('config') .. '<CR>', 'noremap'}
+            map.n['<leader>sc'] = {'<Cmd>exe "Files" stdpath("config")<CR>', 'noremap'}
 
             -- Search through my packages
-            map.n['<leader>sp'] = {'<Cmd>Files ' .. vim.fn.stdpath('data') .. '/site<CR>', 'noremap'}
+            map.n['<leader>sp'] = {'<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', 'noremap'}
 
             -- Search through my personal wiki
-            map.n['<leader>sw'] = {':<C-u>Files <C-r>=g:wiki_root<CR><CR>', 'noremap', 'silent'}
+            map.n['<leader>sw'] = {'<Cmd>exe "Files" g:wiki_root<CR>', 'noremap'}
 
             -- Use Rg on the word under my cursor
-            map.n['<leader>rw'] = {':<C-u>Rg <C-r><C-w><CR>', 'noremap'}
+            map.n['<leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
         end,
     }
     use {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'}

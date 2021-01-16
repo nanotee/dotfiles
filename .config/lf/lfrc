@@ -54,8 +54,8 @@ cmd q :quit
 map . set hidden!
 
 # preview files
-set previewer ~/.config/lf/pv.sh
-map i $~/.config/lf/pv.sh $f | less -R
+set previewer lf-preview
+map i $lf-preview $f | less -R
 
 # move current file or selected files to trash folder
 cmd trash $kioclient5 move $fx trash:/

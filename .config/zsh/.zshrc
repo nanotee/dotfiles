@@ -14,7 +14,6 @@ antibody bundle < "$ZDOTDIR/zsh_plugins.txt"
 [ -s "${ZDOTDIR:-$HOME}/.plug-options.zsh" ] && source "${ZDOTDIR:-$HOME}/.plug-options.zsh"
 
 eval "$(zoxide init zsh)"
-[ -s "$XDG_CONFIG_HOME/lf/lfcd.sh" ] && source "$XDG_CONFIG_HOME/lf/lfcd.sh"
 [ -s "$XDG_CONFIG_HOME/lf/lf-icons" ] && source "$XDG_CONFIG_HOME/lf/lf-icons"
 [ -s "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
 [ -s "/usr/share/zsh/site-functions/_fzf" ] && source "/usr/share/zsh/site-functions/_fzf"

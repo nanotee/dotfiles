@@ -10,3 +10,6 @@ bindkey '^[[B' history-substring-search-down
 
 # FZF tab
 zstyle ':completion:*:descriptions' format '[%d]'
+
+# lfcd
+bindkey -s '^o' 'lfcd\n'

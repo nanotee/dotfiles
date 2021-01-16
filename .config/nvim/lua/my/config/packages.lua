@@ -114,7 +114,7 @@ packer.startup(function(use)
     use {
         'glacambre/firenvim',
         cond = 'vim.g.started_by_firenvim',
-        run = ':packadd firenvim | call firenvim#install(0, "export VIMRUNTIME=' .. vim.env.VIMRUNTIME .. '")',
+        run = [[:packadd firenvim | call firenvim#install(0, printf('export VIMRUNTIME="%s"', $VIMRUNTIME))]],
         setup = function()
             vim.g.firenvim_config = {
                 localSettings = {

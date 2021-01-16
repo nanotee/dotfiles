@@ -23,6 +23,13 @@ set icons
 set incsearch
 set hiddenfiles ".*:~/snap"
 
+cmd open &{{
+    case $(file --mime-type --brief "$f") in
+    text/* || */json) lf -remote "send $id $\"$EDITOR\" \"$f\"" ;;
+    *) $OPENER "$f" ;;
+    esac
+}}
+
 # zoxide wrappers
 cmd z %{{
     dir=$(zoxide query "$@")
@@ -44,7 +51,7 @@ cmd za %zoxide add "$@"
 cmd zr %zoxide remove "$@"
 
 # konsole wrapper
-cmd tabnew &konsole --new-tab -e $(which lf) $PWD
+cmd tabnew &konsole --new-tab -e lf $PWD
 map <c-t> tabnew
 
 # habits die hard

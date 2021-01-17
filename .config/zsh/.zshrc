@@ -5,18 +5,23 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-[ -s "${ZDOTDIR:-$HOME}/.options.zsh" ] && source "${ZDOTDIR:-$HOME}/.options.zsh"
-[ -s "${ZDOTDIR:-$HOME}/.aliases.sh" ] && source "${ZDOTDIR:-$HOME}/.aliases.sh"
+source_if_exists() {
+    [ -f "$1" ] && source "$1"
+}
+
+source_if_exists "${ZDOTDIR:-$HOME}/.options.zsh"
+source_if_exists "${ZDOTDIR:-$HOME}/.aliases.sh"
 
 # Plugins
 source <(antibody init)
 antibody bundle < "$ZDOTDIR/zsh_plugins.txt"
-[ -s "${ZDOTDIR:-$HOME}/.plug-options.zsh" ] && source "${ZDOTDIR:-$HOME}/.plug-options.zsh"
+source_if_exists "${ZDOTDIR:-$HOME}/.plug-options.zsh"
 
 eval "$(zoxide init zsh)"
-[ -s "$XDG_CONFIG_HOME/lf/lf-icons" ] && source "$XDG_CONFIG_HOME/lf/lf-icons"
-[ -s "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
-[ -s "/usr/share/zsh/site-functions/_fzf" ] && source "/usr/share/zsh/site-functions/_fzf"
+source_if_exists "$XDG_CONFIG_HOME/lf/lf-icons"
+source_if_exists "$XDG_CONFIG_HOME/lf/lfcd.sh"
+source_if_exists "/usr/share/fzf/key-bindings.zsh"
+source_if_exists "/usr/share/zsh/site-functions/_fzf"
 
 # Environment
 eval "$(nodenv init -)"
@@ -28,7 +33,7 @@ export GPG_TTY=$(tty)
 gpgconf --launch gpg-agent
 
 # Vim emulation
-[ -s "${ZDOTDIR:-$HOME}/.vim.zsh" ] && source "${ZDOTDIR:-$HOME}/.vim.zsh"
+source_if_exists "${ZDOTDIR:-$HOME}/.vim.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

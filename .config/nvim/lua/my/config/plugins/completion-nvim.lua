@@ -18,7 +18,7 @@ vim.g.completion_chain_complete_list = {
             {mode = '<c-n>'},
             {mode = '<c-p>'},
         },
-        ['string'] = {
+        string = {
             {complete_items = {'path'}},
         },
         vim = {

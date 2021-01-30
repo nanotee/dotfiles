@@ -14,7 +14,7 @@ mkcd() { mkdir -p "$@" && cd "$@"; }
 
 alias nvimm='nvim --cmd "let minimal_config=v:true"'
 
-detach() { "$@" &>/dev/null &! }
+detach() { "$@" > /dev/null 2>&1 &!; }
 
 define() { curl "dict://dict.org/d:$1"; }
 

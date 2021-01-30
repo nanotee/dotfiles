@@ -108,7 +108,7 @@ packer.startup(function(use)
             'WikiReload',
         },
         event = 'BufReadPre ~/Documents/wiki/*.md',
-        keys = {'<leader>w'},
+        keys = '<leader>w',
     }
     use 'tweekmonster/helpful.vim'
     use {
@@ -162,7 +162,7 @@ packer.startup(function(use)
             }
         end,
     }
-    use {'tomtom/tcomment_vim', keys = {'gc'}}
+    use {'tomtom/tcomment_vim', keys = 'gc'}
     use {
         'machakann/vim-sandwich',
         setup = function()

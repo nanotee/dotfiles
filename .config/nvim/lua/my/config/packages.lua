@@ -215,6 +215,7 @@ packer.startup(function(use)
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'
     use '~/Projets/dev/nvim/nvim-if-lua-compat'
+    use '~/Projets/dev/nvim/sqls.nvim'
 end
 )
 

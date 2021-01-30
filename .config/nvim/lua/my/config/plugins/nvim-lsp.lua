@@ -14,6 +14,10 @@ local function custom_attach(client)
     if client.config.flags then
         client.config.flags.allow_incremental_sync = true
     end
+    if client.name == 'sqls' then
+        client.resolved_capabilities.execute_command = true
+        require'sqls'.setup{}
+    end
 
     -- Remap keys for gotos
     bmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
@@ -40,7 +44,6 @@ end
 
 function M.init()
     local lsp = require'lspconfig'
-    local configs = require'lspconfig/configs'
     local servers = {
         lsp.tsserver,
         lsp.jsonls,
@@ -49,6 +52,7 @@ function M.init()
         lsp.cssls,
         lsp.pyright,
         lsp.clangd,
+        lsp.sqls,
     }
 
     for _, server in ipairs(servers) do
@@ -57,7 +61,7 @@ function M.init()
         }
     end
 
-    require'lspconfig'.sumneko_lua.setup {
+    lsp.sumneko_lua.setup {
         cmd = {'lua-language-server'},
         on_attach = custom_attach,
         settings = {
@@ -72,28 +76,11 @@ function M.init()
                 workspace = {
                     library = {
                         [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
                     },
                 },
             },
         },
     }
-
-    if not configs.sqls then
-        configs.sqls = {
-            default_config = {
-                cmd = {'sqls'},
-                filetypes = {'sql'},
-                root_dir = function(fname)
-                    return lsp.util.root_pattern('.git', 'package.json')(fname) or lsp.util.path.dirname(fname)
-                end,
-            }
-        }
-    end
-    lsp.sqls.setup{
-        on_attach = custom_attach,
-    }
-
 end
 
 return M

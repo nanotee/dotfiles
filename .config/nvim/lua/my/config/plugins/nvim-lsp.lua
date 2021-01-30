@@ -20,7 +20,7 @@ local function custom_attach(client)
     end
 
     -- Remap keys for gotos
-    bmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+    bmap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>')
     bmap('n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
     bmap('n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 

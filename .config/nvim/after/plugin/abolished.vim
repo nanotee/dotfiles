@@ -1,7 +1,8 @@
-Abolish docotr{,s} doctor{}
+Abolish docotr{,ate}{,s} doctor{}{}
 Abolish -cmdline func{toi,ito,oti}n{,s} func{tio}n{}
 Abolish lan{gau,uga}ge{,s} lan{gua}ge{}
-Abolish pariticipant{,s,e,es} participant{}
+Abolish pariticipant{,e}{,s} participant{}{}
 Abolish phtoo{,s} photo{}
-Abolish conatin{,s,er,ers} contain{}
+Abolish conatin{,er}{,s} contain{}{}
 Abolish -cmdline ver{iso,soi}n{,s} ver{sio}n{}
+Abolish refacotr{,ed,ing} refactor{}

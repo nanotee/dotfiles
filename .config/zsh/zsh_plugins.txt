@@ -4,6 +4,5 @@ zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
 zsh-users/zsh-history-substring-search
 Aloxaf/fzf-tab
-spwhitt/nix-zsh-completions
 ekalinin/github-markdown-toc kind:path
 ryanmjacobs/c kind:path

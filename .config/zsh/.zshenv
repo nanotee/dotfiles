@@ -14,7 +14,3 @@ export PATH="$NODENV_ROOT/bin:$PATH"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$XDG_DATA_HOME/nimble/bin:$PATH"
 export PATH="$XDG_DATA_HOME/luarocks/bin:$PATH"
-
-# Nix
-export XDG_DATA_DIRS="$HOME/.nix-profile/share/applications:$XDG_DATA_DIRS"
-source "$HOME/.nix-profile/etc/profile.d/nix.sh"

@@ -14,9 +14,9 @@ packer.startup(function(use)
         config = 'require("my.config.plugins.nvim-lsp").init()',
     }
     use {
-        'nvim-lua/completion-nvim',
+        'hrsh7th/nvim-compe',
         cond = 'not vim.g.minimal_config',
-        config = 'require("my.config.plugins.completion-nvim")',
+        config = 'require("my.config.plugins.nvim-compe")',
     }
     use {
         'norcalli/snippets.nvim',

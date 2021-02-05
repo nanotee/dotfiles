@@ -12,6 +12,10 @@ packer.startup(function(use)
         'neovim/nvim-lspconfig',
         cond = 'not vim.g.minimal_config',
         config = 'require("my.config.plugins.nvim-lsp").init()',
+        requires = {
+            'kosayoda/nvim-lightbulb',
+            {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'},
+        }
     }
     use {
         'hrsh7th/nvim-compe',
@@ -20,7 +24,7 @@ packer.startup(function(use)
     }
     use {
         'norcalli/snippets.nvim',
-        config = 'require("my.config.plugins.snippets-nvim")'
+        config = 'require("my.config.plugins.snippets-nvim")',
     }
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -49,7 +53,6 @@ packer.startup(function(use)
     use {
         'junegunn/fzf.vim',
         setup = function()
-            vim.g.fzf_layout = {window = {width = 0.9, height = 0.9}}
             vim.g.fzf_buffers_jump = 1
 
             local map = require('my.utils').map
@@ -70,10 +73,8 @@ packer.startup(function(use)
             map.n['<leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
         end,
     }
-    use {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'}
     use 'tjdevries/nlua.nvim'
     use {'nvim-lua/plenary.nvim', opt = true}
-    use {'nvim-lua/popup.nvim', opt = true}
     use 'KabbAmine/zeavim.vim'
     use {
         'liuchengxu/vista.vim',
@@ -131,14 +132,15 @@ packer.startup(function(use)
         end,
     }
     use {'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
-    use 'tpope/vim-fugitive'
+    use {
+        'tpope/vim-fugitive',
+        requires = 'tpope/vim-rhubarb',
+    }
     use {'TimUntersberger/neogit', opt = true}
-    use 'tpope/vim-rhubarb'
     use 'tpope/vim-eunuch'
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
     use {'kristijanhusak/vim-dadbod-ui', cmd = 'DBUI'}
-    use {'kristijanhusak/vim-dadbod-completion', ft = {'sql'}}
     use {
         'ptzz/lf.vim',
         requires = 'rbgrouleff/bclose.vim',

@@ -16,7 +16,9 @@ local function custom_attach(client)
     end
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
-        require'sqls'.setup{}
+        require'sqls'.setup{
+            picker = 'fzf',
+        }
     end
 
     -- Remap keys for gotos
@@ -30,12 +32,16 @@ local function custom_attach(client)
     -- Show diagnostics popup
     bmap('n', '<leader>di', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
 
+    -- CodeAction
+    bmap('n', 'gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+    bmap('x', 'gA', '<Cmd>lua vim.lsp.buf.range_code_action()<CR>')
+    -- Lightbulb for CodeActions
+    vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+
     -- Stop all language servers
     vim.cmd 'command! -buffer LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())'
-    -- CodeAction
-    vim.cmd 'command! -buffer LspCodeAction lua vim.lsp.buf.code_action()'
     -- Rename current word
-    vim.cmd 'command! -buffer LspRename lua vim.lsp.buf.rename()'
+    vim.cmd 'command! -nargs=? -buffer LspRename lua vim.lsp.buf.rename("<args>" ~= "" and "<args>" or nil)'
     -- References
     vim.cmd 'command! -buffer LspReferences lua vim.lsp.buf.references()'
     -- Formatting

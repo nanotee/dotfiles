@@ -6,3 +6,4 @@ Abolish phtoo{,s} photo{}
 Abolish conatin{,er}{,s} contain{}{}
 Abolish -cmdline ver{iso,soi}n{,s} ver{sio}n{}
 Abolish refacotr{,ed,ing} refactor{}
+Abolish anwser{,s,ing} answer{}

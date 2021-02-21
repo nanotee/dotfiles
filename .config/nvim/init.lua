@@ -2,8 +2,6 @@ vim.g.polyglot_disabled = {'sensible', 'sleuth'}
 vim.g.javascript_plugin_jsdoc = 1
 vim.cmd [[packadd! vim-polyglot]]
 vim.cmd [[runtime! ftdetect/polyglot.vim]]
-vim.o.runtimepath = vim.o.runtimepath .. ',/usr/share/vim/vimfiles'
-vim.o.runtimepath = vim.o.runtimepath .. ',/usr/share/vim/addons'
 -- require'profiler'
 require'my.utils'
 require'my.statusline'

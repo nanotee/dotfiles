@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+SUMNEKO_SRC_DIR="$HOME/.local/bin/lua-language-server-src"
+
+exec "$SUMNEKO_SRC_DIR/bin/Linux/lua-language-server" -E "$SUMNEKO_SRC_DIR/main.lua" "$@"

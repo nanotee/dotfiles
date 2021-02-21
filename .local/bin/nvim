@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+SRC_DIR="$HOME/.local/bin/neovim-src"
+export VIMRUNTIME="$SRC_DIR/runtime"
+
+exec "$SRC_DIR/build/bin/nvim" \
+    --cmd \
+    'set runtimepath+=/usr/share/vim/vimfiles
+    set runtimepath+=/usr/share/vim/addons' \
+    "$@"

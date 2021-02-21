@@ -58,19 +58,19 @@ packer.startup(function(use)
             local map = require('my.utils').map
 
             map.n['<Space>'] = {'<Cmd>Buffers<CR>', 'noremap'}
-            map.n['<leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
+            map.n['<Leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
 
             -- Search through my config files
-            map.n['<leader>sc'] = {'<Cmd>exe "Files" stdpath("config")<CR>', 'noremap'}
+            map.n['<Leader>sc'] = {'<Cmd>exe "Files" stdpath("config")<CR>', 'noremap'}
 
             -- Search through my packages
-            map.n['<leader>sp'] = {'<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', 'noremap'}
+            map.n['<Leader>sp'] = {'<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', 'noremap'}
 
             -- Search through my personal wiki
-            map.n['<leader>sw'] = {'<Cmd>exe "Files" g:wiki_root<CR>', 'noremap'}
+            map.n['<Leader>sw'] = {'<Cmd>exe "Files" g:wiki_root<CR>', 'noremap'}
 
             -- Use Rg on the word under my cursor
-            map.n['<leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
+            map.n['<Leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
         end,
     }
     use 'tjdevries/nlua.nvim'
@@ -109,7 +109,7 @@ packer.startup(function(use)
             'WikiReload',
         },
         event = 'BufReadPre ~/Documents/wiki/*.md',
-        keys = '<leader>w',
+        keys = '<Leader>w',
     }
     use 'tweekmonster/helpful.vim'
     use {

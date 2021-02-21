@@ -6,16 +6,16 @@ vim.g.mapleader = 'ù'
 map.i.jk = {'<Esc>'}
 
 -- Better shortcut to exit insert mode in the terminal
-map.t['<leader>jk'] = {[[<C-\><C-n>]], 'noremap'}
+map.t['<Leader>jk'] = {[[<C-\><C-n>]], 'noremap'}
 
 -- Make Y more consistent with other commands
 map[''].Y = {'y$'}
 
 -- Copy to/paste from system clipboard more easily
-map['']['<leader>y'] = {'"+y'}
-map['']['<leader>Y'] = {'"+Y'}
-map['']['<leader>p'] = {'"+p'}
-map['']['<leader>P'] = {'"+P'}
+map['']['<Leader>y'] = {'"+y'}
+map['']['<Leader>Y'] = {'"+Y'}
+map['']['<Leader>p'] = {'"+p'}
+map['']['<Leader>P'] = {'"+P'}
 
 -- Ex-mode be gone
 map[''].Q = {'', 'noremap'}
@@ -28,7 +28,7 @@ map.i['<C-w>'] = {'<C-g>u<C-w>', 'noremap'}
 map[''].gx = {'<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>'}
 
 -- Quickly edit my Neovim configuration
-map.n['<leader>rc'] = {'<Cmd>tabedit $MYVIMRC<CR>', 'noremap'}
+map.n['<Leader>rc'] = {'<Cmd>tabedit $MYVIMRC<CR>', 'noremap'}
 
 -- Turn off hlsearch quickly
 map.n['<C-l>'] = {'<Cmd>nohlsearch<CR><C-l>', 'noremap'}
@@ -38,9 +38,9 @@ map[''].j = {"(v:count? 'j' : 'gj')", 'noremap', 'expr'}
 map[''].k = {"(v:count? 'k' : 'gk')", 'noremap', 'expr'}
 
 -- Quickly open a terminal in a different window/tab
-map.n['<leader>ts'] = {'<Cmd>new +term<CR>', 'noremap'}
-map.n['<leader>tv'] = {'<Cmd>vnew +term<CR>', 'noremap'}
-map.n['<leader>tt'] = {'<Cmd>tabedit +term<CR>', 'noremap'}
+map.n['<Leader>ts'] = {'<Cmd>new +term<CR>', 'noremap'}
+map.n['<Leader>tv'] = {'<Cmd>vnew +term<CR>', 'noremap'}
+map.n['<Leader>tt'] = {'<Cmd>tabedit +term<CR>', 'noremap'}
 
 -- Expand current window to take the entire screen
 map.n['<C-w>e'] = {'<Cmd>wincmd _ | wincmd |<CR>', 'noremap'}
@@ -50,5 +50,5 @@ map.o.ad = {'<Cmd>normal! ggVG<CR>', 'noremap'}
 map.x.ad = {'gg0oG$', 'noremap'}
 
 -- Run code quickly
-map.n['<leader>rr'] = {'<Cmd>RunCode<CR>', 'noremap'}
-map.n['<leader>rl'] = {'<Cmd>.RunCode<CR>', 'noremap'}
+map.n['<Leader>rr'] = {'<Cmd>RunCode<CR>', 'noremap'}
+map.n['<Leader>rl'] = {'<Cmd>.RunCode<CR>', 'noremap'}

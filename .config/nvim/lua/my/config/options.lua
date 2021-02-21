@@ -56,6 +56,8 @@ vim.o.inccommand = 'split'
 -- Splits
 vim.o.splitright = true
 vim.o.splitbelow = true
+vim.o.winwidth = 100
+vim.o.winheight = 25
 
 -- External programs
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case'
@@ -95,7 +97,6 @@ vim.o.undofile = true
 vim.o.switchbuf = 'usetab'
 vim.o.shortmess = vim.o.shortmess .. 'cI'
 local completeopt = {
-    'menu',
     'menuone',
     'noselect',
 }

@@ -142,11 +142,20 @@ packer.startup(function(use)
     use 'tpope/vim-dadbod'
     use {'kristijanhusak/vim-dadbod-ui', cmd = 'DBUI'}
     use {
-        'ptzz/lf.vim',
-        requires = 'rbgrouleff/bclose.vim',
-        setup = function()
-            vim.g.lf_replace_netrw = true
-            vim.g.lf_command_override = 'lf -command "map e open"'
+        'mroavi/lf.vim',
+        config = function()
+            vim.g['lf#replace_netrw'] = 1
+            vim.g['lf#set_default_mappings'] = 0
+            vim.g['lf#action'] = {
+                ['<C-t>'] = 'tab split',
+                ['<C-x>'] = 'split',
+                ['<C-v>'] = 'vsplit',
+            }
+            vim.g['lf#layout'] = {window = {width = 0.9, height = 0.6}}
+            vim.g['lf#command'] = 'lf -command "map e open; map <esc> quit; map <enter> open"'
+
+            local map = require('my.utils').map
+            map.n['<Leader>f'] = {'<Cmd>LfPicker %:p:h<CR>', 'noremap'}
         end,
     }
     use {

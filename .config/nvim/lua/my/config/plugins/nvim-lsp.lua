@@ -53,7 +53,6 @@ function M.init()
     local servers = {
         lsp.tsserver,
         lsp.jsonls,
-        lsp.intelephense,
         lsp.html,
         lsp.cssls,
         lsp.pyright,
@@ -66,6 +65,13 @@ function M.init()
             on_attach = custom_attach,
         }
     end
+
+    lsp.intelephense.setup {
+        on_attach = custom_attach,
+        init_options = {
+            globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'
+        }
+    }
 
     lsp.sumneko_lua.setup {
         cmd = {'lua-language-server'},

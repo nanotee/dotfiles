@@ -10,7 +10,4 @@ function! s:make_abbrevs() abort
     Abolish anwser{,s,ing} answer{}
 endfunction
 
-augroup make_abbrevs
-    autocmd!
-    autocmd InsertEnter,CmdlineEnter * call <SID>make_abbrevs()
-augroup END
+autocmd InsertEnter,CmdlineEnter * ++once call <SID>make_abbrevs()

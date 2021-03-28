@@ -19,21 +19,26 @@ directory_exists() {
 xdg_variables() {
     if ! file_exists "/etc/profile.d/xdg.sh"; then
         echo 'Setting up XDG environement variables...'
-        sudo ln -s "$HOME/.config/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
+        sudo ln -s "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
         echo 'Done.'
     fi
 }
 
 neovim_package_manager() {
-    if ! directory_exists "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"; then
+    PACKER_DIRECTORY="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
+
+    if ! directory_exists "$PACKER_DIRECTORY"; then
         echo 'Installing a package manager for Neovim...'
-        git clone "https://github.com/wbthomason/packer.nvim" "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
+        git clone "https://github.com/wbthomason/packer.nvim" "$PACKER_DIRECTORY"
         echo 'Done.'
     fi
 }
 
 neovim_packages() {
-    nvim --headless +PackerSync +qa
+    nvim -u NONE \
+        +'autocmd User PackerComplete quitall' \
+        +'lua require("my.config.packages")' \
+        +'lua require("packer").sync()'
 }
 
 main() {

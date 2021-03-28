@@ -6,8 +6,6 @@ local compe = require('compe')
 local snippets = require('snippets')
 
 compe.setup{
-    enabled = true,
-    preselect = 'always',
     source = {
         path = true,
         buffer = true,

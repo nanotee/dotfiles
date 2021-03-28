@@ -1,8 +1,10 @@
-vim.cmd 'packadd nvim-treesitter'
-vim.cmd 'packadd nvim-treesitter-refactor'
-vim.cmd 'packadd nvim-treesitter-textobjects'
-vim.cmd 'packadd playground'
-vim.cmd 'packadd nvim-treesitter-context'
+vim.api.nvim_exec([[
+packadd nvim-treesitter
+packadd nvim-treesitter-refactor
+packadd nvim-treesitter-textobjects
+packadd playground
+packadd nvim-treesitter-context
+]], false)
 
 require'nvim-treesitter.configs'.setup {
     highlight = {

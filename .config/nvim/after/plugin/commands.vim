@@ -1,14 +1,13 @@
 command! ReloadInit luafile $MYVIMRC
-command! LspLog exe '<mods>' 'split' v:lua.vim.lsp.get_log_path()
+command! LspLog execute '<mods> pedit +$' v:lua.vim.lsp.get_log_path()
 command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('MakeWarnings')
 
 " Redirects the output of an ex command in a scratch buffer. May become
 " obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
 command! -nargs=* -complete=command Redirect
-            \ let s:result = execute(<q-args>) |
             \ <mods> new |
             \ setlocal nonumber nolist noswapfile bufhidden=wipe buftype=nofile |
-            \ put =s:result | unlet s:result
+            \ call append(0, split(execute(<q-args>), "\n"))
 
 " Takes a range of lines of code from the current buffer and runs them (the
 " whole buffer is run by default)
@@ -31,14 +30,6 @@ command! -nargs=+ -complete=file T
 cabbrev ! T
 
 command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)
-
-function! s:align(line1, line2, ...)
-    let l:separator = shellescape(a:1)
-    let l:output_separator = exists('a:2') ? shellescape(a:2) : l:separator
-    execute printf('%s,%s!column -t -s%s -o%s', a:line1, a:line2, l:separator, l:output_separator)
-endfunction
-
-command! -nargs=+ -range Align call s:align(<line1>, <line2>, <f-args>)
 
 command! -bang Trash
             \ let s:file = fnamemodify(bufname(<q-args>),':p') |

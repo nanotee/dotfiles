@@ -23,7 +23,7 @@ vim.o.showmode = false
 vim.o.pumblend = 10
 vim.o.pumheight = 25
 vim.o.title = true
-vim.g.vimsyn_embed = 'l'
+vim.o.guifont = 'mononoki Nerd Font'
 
 -- Cursor
 vim.wo.cursorline = true
@@ -56,8 +56,6 @@ vim.o.inccommand = 'split'
 -- Splits
 vim.o.splitright = true
 vim.o.splitbelow = true
-vim.o.winwidth = 100
-vim.o.winheight = 25
 
 -- External programs
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case'

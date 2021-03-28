@@ -18,7 +18,7 @@ map['']['<Leader>p'] = {'"+p'}
 map['']['<Leader>P'] = {'"+P'}
 
 -- Ex-mode be gone
-map[''].Q = {'', 'noremap'}
+map[''].Q = {''}
 
 -- Make <C-u> and <C-w> undoable
 map.i['<C-u>'] = {'<C-g>u<C-u>', 'noremap'}
@@ -52,3 +52,4 @@ map.x.ad = {'gg0oG$', 'noremap'}
 -- Run code quickly
 map.n['<Leader>rr'] = {'<Cmd>RunCode<CR>', 'noremap'}
 map.n['<Leader>rl'] = {'<Cmd>.RunCode<CR>', 'noremap'}
+map.v['<leader>r'] = {[[:RunCode<CR>]], 'noremap'}

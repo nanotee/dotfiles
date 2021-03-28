@@ -13,7 +13,7 @@ local readonly_flag = '%r'
 local help_buffer_flag = '%h'
 local line_number = '%3l'
 local total_lines_in_buffer = '%L'
-local column_number = '%3c'
+local column_number = '%3v'
 local percentage_through_file = '%3p%%'
 
 local truncate = '%<'

@@ -52,7 +52,7 @@ packer.startup(function(use)
     }
     use {
         'junegunn/fzf.vim',
-        setup = function()
+        config = function()
             vim.g.fzf_buffers_jump = 1
 
             local map = require('my.utils').map
@@ -78,7 +78,7 @@ packer.startup(function(use)
     use 'KabbAmine/zeavim.vim'
     use {
         'liuchengxu/vista.vim',
-        setup = function()
+        config = function()
             vim.g.vista_fzf_preview = {'right:50%'}
             vim.g.vista_default_executive = 'nvim_lsp'
         end,
@@ -135,12 +135,13 @@ packer.startup(function(use)
     use {
         'tpope/vim-fugitive',
         requires = 'tpope/vim-rhubarb',
+        setup = 'vim.g.fugitive_legacy_commands = 0'
     }
     use {'TimUntersberger/neogit', opt = true}
     use 'tpope/vim-eunuch'
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
-    use {'kristijanhusak/vim-dadbod-ui', cmd = 'DBUI'}
+    use 'kristijanhusak/vim-dadbod-ui'
     use {
         'mroavi/lf.vim',
         config = function()
@@ -160,7 +161,7 @@ packer.startup(function(use)
     }
     use {
         'mattn/emmet-vim',
-        setup = function()
+        config = function()
             vim.g.user_emmet_settings = {
                 html = {
                     snippets = {
@@ -183,7 +184,7 @@ packer.startup(function(use)
     }
     use {
         'tmsvg/pear-tree',
-        setup = function()
+        config = function()
             vim.g.pear_tree_repeatable_expand = 0
             vim.g.pear_tree_smart_backspace = 1
         end,
@@ -216,12 +217,13 @@ packer.startup(function(use)
     }
     use {
         'KabbAmine/vCoolor.vim',
-        setup = 'vim.g.vcoolor_custom_picker = "kdialog --getcolor"',
+        config = 'vim.g.vcoolor_custom_picker = "kdialog --getcolor"',
         ft = {'html', 'css', 'scss', 'javascript'},
         cmd = 'VCoolor',
     }
     use 'norcalli/profiler.nvim'
     use 'kergoth/vim-hilinks'
+    use 'junegunn/vim-easy-align'
 
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'

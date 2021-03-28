@@ -8,13 +8,6 @@ function! s:set_dracula_custom() abort
   hi! link VertSplit EndOfBuffer
   " Make inactive windows darker
   hi! link NormalNC Pmenu
-  " tree-sitter
-  hi! link TSFuncBuiltin     DraculaCyan
-  hi! link TSOperator        Operator
-  hi! link TSParameter       DraculaOrangeItalic
-  hi! link TSVariableBuiltin Constant
-  hi! link TSKeywordOperator DraculaPinkBold
-  hi! link TSConstBuiltin    Constant
   " pangloss/vim-javascript
   hi! link jsBuiltins        DraculaCyan
   hi! link jsClassDefinition DraculaCyan
@@ -51,6 +44,8 @@ function! s:set_dracula_custom() abort
   hi! link typescriptStringMethod         DraculaCyan
   " vim-python/python-syntax
   hi! link pythonBuiltinFunc DraculaCyan
+  " tbastos/vim-lua
+  hi! link luaFuncKeyword DraculaPink
   " vim/vim.vim
   hi! link vimFuncName DraculaCyan
   hi! link vimFuncVar  DraculaOrangeItalic

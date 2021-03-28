@@ -6,14 +6,15 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     }
 )
 
-local function bmap(mode, lhs, rhs)
-    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, {noremap = true})
-end
+-- Lightbulb for CodeActions
+vim.api.nvim_exec([[
+augroup LspLightBulb
+    autocmd!
+    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+augroup END
+]], false)
 
-local function custom_attach(client)
-    if client.config.flags then
-        client.config.flags.allow_incremental_sync = true
-    end
+local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
         require'sqls'.setup{
@@ -21,40 +22,14 @@ local function custom_attach(client)
         }
     end
 
-    -- Remap keys for gotos
-    bmap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>')
-    bmap('n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-    bmap('n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-
-    -- Use K to show documentation in preview window
-    bmap('n', 'K', "<Cmd>lua vim.lsp.buf.hover()<CR>")
-
-    -- Show diagnostics popup
-    bmap('n', '<leader>di', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-
-    -- CodeAction
-    bmap('n', 'gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
-    bmap('x', 'gA', '<Cmd>lua vim.lsp.buf.range_code_action()<CR>')
-    -- Lightbulb for CodeActions
-    vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-
-    -- Stop all language servers
-    vim.cmd 'command! -buffer LspStop lua vim.lsp.stop_client(vim.lsp.get_active_clients())'
-    -- Rename current word
-    vim.cmd 'command! -nargs=? -buffer LspRename lua vim.lsp.buf.rename("<args>" ~= "" and "<args>" or nil)'
-    -- References
-    vim.cmd 'command! -buffer LspReferences lua vim.lsp.buf.references()'
-    -- Formatting
-    vim.cmd 'command! -buffer LspFormat lua vim.lsp.buf.formatting_sync()'
+    require'my.utils.lsp'.make_lsp_commands(client, bufnr)
+    require'my.utils.lsp'.make_lsp_mappings(client, bufnr)
 end
 
 function M.init()
     local lsp = require'lspconfig'
     local servers = {
         lsp.tsserver,
-        lsp.jsonls,
-        lsp.html,
-        lsp.cssls,
         lsp.pyright,
         lsp.clangd,
         lsp.sqls,
@@ -65,6 +40,21 @@ function M.init()
             on_attach = custom_attach,
         }
     end
+
+    lsp.jsonls.setup {
+        cmd = {'vscode-json-language-server', '--stdio'},
+        on_attach = custom_attach,
+    }
+
+    lsp.html.setup {
+        cmd = {'vscode-html-language-server', '--stdio'},
+        on_attach = custom_attach,
+    }
+
+    lsp.cssls.setup {
+        cmd = {'vscode-css-language-server', '--stdio'},
+        on_attach = custom_attach,
+    }
 
     lsp.intelephense.setup {
         on_attach = custom_attach,

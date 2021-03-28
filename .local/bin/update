@@ -13,7 +13,7 @@ nvim() {
 
     cd "$SRC_DIR"
     git pull --rebase origin master
-    CMAKE_BUILD_TYPE=RelWithDebInfo make
+    CMAKE_BUILD_TYPE=RelWithDebInfo make -j4
     "$XDG_BIN_HOME/nvim" -u NONE +"helptags ALL" +q
 }
 

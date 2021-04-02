@@ -6,7 +6,7 @@ packer.init {
 
 packer.startup(function(use)
     use 'wbthomason/packer.nvim'
-    use {'sheerun/vim-polyglot', opt = true}
+    use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
     use {
         'neovim/nvim-lspconfig',
@@ -52,12 +52,7 @@ packer.startup(function(use)
         -- cond = 'not vim.g.minimal_config',
         opt = true,
         config = 'require("my.config.plugins.nvim-treesitter")',
-        requires = {
-            {'nvim-treesitter/nvim-treesitter-refactor', opt = true},
-            {'nvim-treesitter/nvim-treesitter-textobjects', opt = true},
-            {'nvim-treesitter/playground', opt = true},
-            {'romgrk/nvim-treesitter-context', opt = true},
-        },
+        requires = {'nvim-treesitter/playground', opt = true},
     }
     use {
         'neomake/neomake',
@@ -156,12 +151,12 @@ packer.startup(function(use)
     use {
         'tpope/vim-fugitive',
         requires = 'tpope/vim-rhubarb',
-        setup = 'vim.g.fugitive_legacy_commands = 0'
+        config = 'vim.g.fugitive_legacy_commands = 0'
     }
-    use {'TimUntersberger/neogit', opt = true}
     use 'tpope/vim-eunuch'
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
+    use 'tpope/vim-projectionist'
     use 'kristijanhusak/vim-dadbod-ui'
     use {
         'mroavi/lf.vim',
@@ -195,14 +190,8 @@ packer.startup(function(use)
             }
         end,
     }
-    use {'tomtom/tcomment_vim', keys = 'gc'}
-    use {
-        'machakann/vim-sandwich',
-        setup = function()
-            vim.cmd 'packadd! vim-sandwich'
-            vim.cmd 'runtime macros/sandwich/keymap/surround.vim'
-        end,
-    }
+    use {'tomtom/tcomment_vim', keys = 'gc', cmd = 'TComment'}
+    use {'machakann/vim-sandwich', config = 'vim.cmd "runtime macros/sandwich/keymap/surround.vim"'}
     use {
         'tmsvg/pear-tree',
         config = function()
@@ -242,7 +231,6 @@ packer.startup(function(use)
         ft = {'html', 'css', 'scss', 'javascript'},
         cmd = 'VCoolor',
     }
-    use 'norcalli/profiler.nvim'
     use 'kergoth/vim-hilinks'
     use 'junegunn/vim-easy-align'
 

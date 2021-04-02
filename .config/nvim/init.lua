@@ -1,8 +1,5 @@
 vim.g.polyglot_disabled = {'sensible', 'autoindent'}
 vim.g.javascript_plugin_jsdoc = 1
-vim.cmd [[packadd! vim-polyglot]]
-vim.cmd [[runtime! ftdetect/polyglot.vim]]
--- require'profiler'
 require'my.utils'
 require'my.statusline'
 require'my.config.options'

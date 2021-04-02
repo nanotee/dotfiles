@@ -19,12 +19,33 @@ packer.startup(function(use)
     }
     use {
         'hrsh7th/nvim-compe',
-        cond = 'not vim.g.minimal_config',
-        config = 'require("my.config.plugins.nvim-compe")',
+        config = function()
+            require('compe').setup {
+                source = {
+                    path = true,
+                    buffer = true,
+                    nvim_lsp = true,
+                    nvim_lua = true,
+                    vsnip = true,
+                },
+            }
+        end,
+        event = 'InsertEnter *',
     }
     use {
-        'norcalli/snippets.nvim',
-        config = 'require("my.config.plugins.snippets-nvim")',
+        'hrsh7th/vim-vsnip',
+        config = function()
+            local map = require'my.utils'.map
+
+            map.i['<Tab>'] = {[[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : compe#confirm("\<Tab>")]], 'expr'}
+            map.i['<S-Tab>'] = {[[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], 'expr'}
+            map.s['<Tab>'] = {[[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], 'expr'}
+            map.s['<S-Tab>'] = {[[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], 'expr'}
+
+            vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. '/snippets'
+            vim.g.vsnip_snippet_dirs = {vim.fn.stdpath('data') .. '/site/pack/packer/start/friendly-snippets/snippets'}
+        end,
+        requires = 'rafamadriz/friendly-snippets',
     }
     use {
         'nvim-treesitter/nvim-treesitter',

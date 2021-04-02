@@ -1,0 +1,34 @@
+{
+    "function": {
+        "prefix": "function",
+        "body": [
+            "function! ${1:name}($2) abort",
+            "\t$0",
+            "endfunction"
+        ]
+    },
+    "if": {
+        "prefix": "if",
+        "body": [
+            "if ${1:expr1}",
+            "\t$0",
+            "endif"
+        ]
+    },
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for ${1:var} in ${2:list}",
+            "\t$0",
+            "endfor"
+        ]
+    },
+    "while": {
+        "prefix": "while",
+        "body": [
+            "while ${expr1}",
+            "\t$0",
+            "endwhle"
+        ]
+    }
+}

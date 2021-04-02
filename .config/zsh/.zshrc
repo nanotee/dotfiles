@@ -27,6 +27,7 @@ source_if_exists "/usr/share/zsh/site-functions/_fzf"
 eval "$(nodenv init -)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+eval "$(phpenv init -)"
 
 # GPG
 export GPG_TTY=$(tty)

@@ -26,6 +26,7 @@ export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
 ## Data
 export NODENV_ROOT="$XDG_DATA_HOME/nodenv"
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+export PHPENV_ROOT="$XDG_DATA_HOME/phpenv"
 export GEM_HOME="$XDG_DATA_HOME/gem"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 export MYSQL_HISTFILE="$XDG_DATA_HOME/mysql_history"

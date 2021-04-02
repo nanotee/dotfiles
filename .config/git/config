@@ -8,7 +8,7 @@
     diffFilter = delta --color-only
 [delta]
     syntax-theme = Dracula
-    # navigate = true
+    navigate = true
     features = side-by-side line-numbers decorations
 [delta "decorations"]
     commit-decoration-style = yellow box ul

@@ -69,14 +69,16 @@ local function spell_module()
 end
 
 local function git_module()
-    if vim.g.loaded_fugitive == 1 then
+    if not vim.g.loaded_fugitive then return '' end
+
+    git_module = function()
         local branch = fn.FugitiveHead()
         if branch ~= '' then
             branch = ' ' .. branch
         end
         return (' %s '):format(branch)
     end
-    return ''
+    return git_module()
 end
 
 local file_module = (' %s %s%s%s '):format(

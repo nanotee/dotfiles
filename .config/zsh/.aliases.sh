@@ -19,3 +19,6 @@ detach() { (nohup "$@" &>/dev/null &) }
 define() { curl "dict://dict.org/d:$1"; }
 
 alias path='echo $PATH | tr ":" "\n" | nl'
+
+alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
+alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'

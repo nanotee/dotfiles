@@ -6,14 +6,6 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     }
 )
 
--- Lightbulb for CodeActions
-vim.api.nvim_exec([[
-augroup LspLightBulb
-    autocmd!
-    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-augroup END
-]], false)
-
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
@@ -83,6 +75,14 @@ function M.init()
             },
         },
     }
+
+    -- Lightbulb for CodeActions
+    vim.api.nvim_exec([[
+    augroup LspLightBulb
+        autocmd!
+        autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+    augroup END
+    ]], false)
 end
 
 return M

@@ -1,13 +1,14 @@
-command! ReloadInit luafile $MYVIMRC
 command! LspLog execute '<mods> pedit +$' v:lua.vim.lsp.get_log_path()
 command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('MakeWarnings')
 
 " Redirects the output of an ex command in a scratch buffer. May become
 " obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
-command! -nargs=* -complete=command Redirect
+command! -nargs=1 -complete=command Redirect
+            \ let s:output = split(execute(<q-args>), "\n") |
             \ <mods> new |
             \ setlocal nonumber nolist noswapfile bufhidden=wipe buftype=nofile |
-            \ call append(0, split(execute(<q-args>), "\n"))
+            \ call append(0, s:output) |
+            \ unlet s:output
 
 " Takes a range of lines of code from the current buffer and runs them (the
 " whole buffer is run by default)

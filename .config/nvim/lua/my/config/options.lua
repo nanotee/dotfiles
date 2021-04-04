@@ -61,12 +61,6 @@ vim.o.splitbelow = true
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case'
 vim.o.formatprg = 'prettier --stdin-filepath=%'
 
--- Filesystem
-local wildignore = {
-    'node_modules/',
-}
-vim.o.wildignore = table.concat(wildignore, ',')
-
 -- Deactivate plugins I don't use
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_tutor_mode_plugin = 1

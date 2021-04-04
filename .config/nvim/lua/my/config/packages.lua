@@ -45,7 +45,7 @@ packer.startup(function(use)
     use {
         'hrsh7th/vim-vsnip',
         config = function()
-            local map = require'my.utils'.map
+            local map = require('my.utils').map
 
             map.i['<Tab>'] = {[[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : compe#confirm("\<Tab>")]], 'expr'}
             map.i['<S-Tab>'] = {[[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], 'expr'}
@@ -59,9 +59,8 @@ packer.startup(function(use)
     }
     use {
         'nvim-treesitter/nvim-treesitter',
-        -- cond = 'not vim.g.minimal_config',
         opt = true,
-        config = 'require("my.config.plugins.nvim-treesitter")',
+        config = 'require("my.config.treesitter")',
         requires = {'nvim-treesitter/playground', opt = true},
     }
     use {

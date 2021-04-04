@@ -6,6 +6,7 @@ require'my.config.mappings'
 require'my.config.extra-text-objects'
 require'my.config.packages'
 require'my.config.autocommands'
+require'my.config.lsp'.init()
 
 local log_levels = {
     [0] = 'trace',

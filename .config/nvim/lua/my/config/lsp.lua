@@ -1,5 +1,11 @@
 local M = {}
 
+local map = require('my.utils').map
+
+map.n[']E'] = {'<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', 'noremap'}
+map.n['[E'] = {'<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', 'noremap'}
+map.n['gl'] = {'<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', 'noremap'}
+
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,
@@ -19,6 +25,8 @@ local function custom_attach(client, bufnr)
 end
 
 function M.init()
+    if vim.g.minimal_config then return end
+
     local lsp = require'lspconfig'
     local servers = {
         lsp.tsserver,

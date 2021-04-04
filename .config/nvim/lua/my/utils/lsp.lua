@@ -59,9 +59,6 @@ function M.make_lsp_mappings(client, bufnr)
     end
 
     local cap = client.resolved_capabilities
-    bmap('n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-    bmap('n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-    bmap('n', 'gl', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
     if cap.goto_definition then
         bmap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>')
     end

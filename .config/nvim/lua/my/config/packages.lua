@@ -22,8 +22,6 @@ packer.startup(function(use)
     }
     use {
         'neovim/nvim-lspconfig',
-        cond = 'not vim.g.minimal_config',
-        config = 'require("my.config.plugins.nvim-lsp").init()',
         requires = {
             'kosayoda/nvim-lightbulb',
             {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'},
@@ -67,15 +65,19 @@ packer.startup(function(use)
         requires = {'nvim-treesitter/playground', opt = true},
     }
     use {
-        'neomake/neomake',
-        event = 'InsertEnter,CmdlineEnter *',
+        'mfussenegger/nvim-lint',
         config = function()
-            -- Already handled by language servers
-            vim.g.neomake_lua_enabled_makers = {}
-            vim.g.neomake_typescript_enabled_makers = {}
-            vim.g.neomake_c_enabled_makers = {}
+            require('lint').linters_by_ft = {
+                sh = {'shellcheck'},
+                html = {'tidy'},
+            }
 
-            vim.fn['neomake#configure#automake']('rw', 1000)
+            vim.api.nvim_exec([[
+            augroup nvim_lint
+                autocmd!
+                autocmd BufReadPost,BufWritePost * lua require('lint').try_lint()
+            augroup END
+            ]], false)
         end,
     }
     use {

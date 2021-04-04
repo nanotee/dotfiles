@@ -1,9 +1,4 @@
 local autocmds = {
-    statusline = {
-        {'WinEnter,BufEnter', '*', 'setlocal statusline=%!v:lua.statusline.active()'},
-        {'WinLeave,BufLeave', '*', 'setlocal statusline=%!v:lua.statusline.inactive()'},
-        {'ColorScheme', 'dracula', 'luafile ' .. vim.fn.stdpath('config') .. '/lua/my/statusline_colors.lua'},
-    },
     terminal_settings = {
         {'TermOpen', '*', 'setlocal bufhidden=hide'},
         {'TermOpen', '*', 'setlocal nonumber'},

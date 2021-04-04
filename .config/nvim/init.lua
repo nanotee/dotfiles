@@ -1,7 +1,6 @@
 vim.g.polyglot_disabled = {'sensible', 'autoindent'}
 vim.g.javascript_plugin_jsdoc = 1
 require'my.utils'
-require'my.statusline'
 require'my.config.options'
 require'my.config.mappings'
 require'my.config.extra-text-objects'

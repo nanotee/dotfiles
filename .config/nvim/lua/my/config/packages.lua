@@ -9,6 +9,18 @@ packer.startup(function(use)
     use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
     use {
+        'hoob3rt/lualine.nvim',
+        config = function()
+            require('lualine').setup {
+                options = {
+                    theme = 'dracula',
+                    section_separators = {'', ''},
+                    component_separators = {'', ''},
+                },
+            }
+        end,
+    }
+    use {
         'neovim/nvim-lspconfig',
         cond = 'not vim.g.minimal_config',
         config = 'require("my.config.plugins.nvim-lsp").init()',

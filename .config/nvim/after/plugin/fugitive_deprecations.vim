@@ -1,5 +1,3 @@
-delcommand Glog
-delcommand Gstatus
 delcommand GcLog
 delcommand GlLog
 

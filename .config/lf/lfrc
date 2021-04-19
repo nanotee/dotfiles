@@ -47,9 +47,6 @@ cmd zi ${{
     fi
 }}
 
-cmd za %zoxide add "$@"
-cmd zr %zoxide remove "$@"
-
 # konsole wrapper
 cmd tabnew &konsole --new-tab -e lf $PWD
 map <c-t> tabnew

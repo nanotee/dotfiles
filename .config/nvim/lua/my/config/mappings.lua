@@ -1,6 +1,7 @@
 local map = require('my.utils').map
 
 vim.g.mapleader = 'ù'
+vim.g.maplocalleader = 'à'
 
 -- Better shortcut to exit insert mode
 map.i.jk = {'<Esc>'}

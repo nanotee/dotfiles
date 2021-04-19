@@ -1,3 +1,5 @@
+leader='ù'
+
 # Autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=blue"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
@@ -12,4 +14,4 @@ bindkey '^[[B' history-substring-search-down
 zstyle ':completion:*:descriptions' format '[%d]'
 
 # lfcd
-bindkey -s '^o' 'lfcd\n'
+bindkey -s "${leader}f" 'lfcd\n'

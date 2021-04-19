@@ -8,7 +8,7 @@ set -o errexit
 XDG_BIN_HOME="$HOME/.local/bin"
 
 nvim() {
-    export LUAROCKS_CONFIG=''
+    unset LUAROCKS_CONFIG
     local SRC_DIR="$XDG_BIN_HOME/neovim-src"
 
     cd "$SRC_DIR"
@@ -80,6 +80,39 @@ delta() {
     local BINARY_LOCATION="$XDG_BIN_HOME/delta"
 
     mv --interactive "delta" "$BINARY_LOCATION"
+}
+
+tokei() {
+    local TMP
+    TMP=$(mktemp --directory)
+
+    gh release download \
+        --repo XAMPPRocky/tokei \
+        --pattern "tokei-x86_64-unknown-linux-musl.tar.gz" \
+        --dir="$TMP"
+
+    cd "$TMP"
+    tar xf tokei-x86_64-unknown-linux-musl.tar.gz
+
+    local BINARY_LOCATION="$XDG_BIN_HOME/tokei"
+
+    mv --interactive "tokei" "$BINARY_LOCATION"
+}
+
+zeta() {
+    local TMP
+    TMP=$(mktemp --directory)
+
+    gh release download \
+        --repo artempyanykh/zeta-note \
+        --pattern "zeta-note-linux" \
+        --dir="$TMP"
+
+    cd "$TMP"
+
+    local BINARY_LOCATION="$XDG_BIN_HOME/zeta-note"
+
+    mv --interactive "zeta-note-linux" "$BINARY_LOCATION"
 }
 
 "$@"

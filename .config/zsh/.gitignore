@@ -3,10 +3,10 @@
 
 !.zshrc
 !.zshenv
+!.zprofile
 !.options.zsh
 !.plug-options.zsh
 !.vim.zsh
 !.aliases.sh
-!xdg.sh
 !zsh_plugins.txt
 !.p10k.zsh

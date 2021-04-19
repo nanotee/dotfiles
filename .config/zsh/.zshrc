@@ -23,15 +23,13 @@ source_if_exists "$XDG_CONFIG_HOME/lf/lfcd.sh"
 source_if_exists "/usr/share/fzf/key-bindings.zsh"
 source_if_exists "/usr/share/zsh/site-functions/_fzf"
 
-# Environment
-eval "$(nodenv init -)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-eval "$(phpenv init -)"
+# *env completions
+source_if_exists "$NODENV_ROOT/completions/nodenv.zsh"
+source_if_exists "$PYENV_ROOT/completions/pyenv.zsh"
+source_if_exists "$PHPENV_ROOT/completions/phpenv.zsh"
 
 # GPG
-export GPG_TTY=$(tty)
-gpgconf --launch gpg-agent
+export GPG_TTY=$TTY
 
 # Vim emulation
 source_if_exists "${ZDOTDIR:-$HOME}/.vim.zsh"

@@ -1,5 +1,3 @@
-# Put an alias to this file in /etc/profile.d
-
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_BIN_HOME="$HOME/.local/bin"
@@ -22,6 +20,7 @@ export HTML_TIDY="$XDG_CONFIG_HOME/tidy/tidyrc"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME/java"
 export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+export TODOTXT_CFG_FILE="$XDG_CONFIG_HOME/todo.txt/todo.cfg"
 
 ## Data
 export NODENV_ROOT="$XDG_DATA_HOME/nodenv"
@@ -40,3 +39,14 @@ export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export PSQL_HISTORY="$XDG_CACHE_HOME/pg/psql_history"
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+
+# Path
+export PATH="$XDG_BIN_HOME:$PATH"
+export PATH="$NODENV_ROOT/bin:$PATH"
+export PATH="$NODENV_ROOT/shims:$PATH"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PYENV_ROOT/shims:$PATH"
+export PATH="$PHPENV_ROOT/bin:$PATH"
+export PATH="$PHPENV_ROOT/shims:$PATH"
+export PATH="$XDG_DATA_HOME/nimble/bin:$PATH"
+export PATH="$XDG_DATA_HOME/luarocks/bin:$PATH"

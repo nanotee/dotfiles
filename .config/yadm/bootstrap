@@ -16,16 +16,8 @@ directory_exists() {
 
 # Operations
 
-xdg_variables() {
-    if ! file_exists "/etc/profile.d/xdg.sh"; then
-        echo 'Setting up XDG environement variables...'
-        sudo ln -s "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/xdg.sh" "/etc/profile.d/xdg.sh"
-        echo 'Done.'
-    fi
-}
-
 neovim_package_manager() {
-    PACKER_DIRECTORY="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
+    local PACKER_DIRECTORY="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
 
     if ! directory_exists "$PACKER_DIRECTORY"; then
         echo 'Installing a package manager for Neovim...'
@@ -42,7 +34,6 @@ neovim_packages() {
 }
 
 main() {
-    xdg_variables
     neovim_package_manager
     neovim_packages
     exit 0

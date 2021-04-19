@@ -6,3 +6,4 @@ zsh-users/zsh-history-substring-search
 Aloxaf/fzf-tab
 ryanmjacobs/c kind:path
 troydm/exp kind:path
+todotxt/todo.txt-cli kind:path

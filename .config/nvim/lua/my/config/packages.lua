@@ -1,21 +1,29 @@
-local packer = require('packer')
-
-packer.init {
-    max_jobs = 10,
-}
-
-packer.startup(function(use)
+require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
     use {
         'hoob3rt/lualine.nvim',
         config = function()
+            local utils = require('lualine.utils.utils')
+
             require('lualine').setup {
                 options = {
                     theme = 'dracula',
                     section_separators = {'', ''},
                     component_separators = {'', ''},
+                },
+                sections = {
+                    lualine_c = {
+                        'filename',
+                        {
+                            'diagnostics',
+                            sources = {'nvim_lsp'},
+                            color_error = utils.extract_highlight_colors('LspDiagnosticsDefaultError', 'guifg'),
+                            color_warn = utils.extract_highlight_colors('LspDiagnosticsDefaultWarning', 'guifg'),
+                            color_info = utils.extract_highlight_colors('LspDiagnosticsDefaultInformation', 'guifg')
+                        },
+                    },
                 },
             }
         end,
@@ -38,6 +46,7 @@ packer.startup(function(use)
                     nvim_lua = true,
                     vsnip = true,
                 },
+                preselect = 'always',
             }
         end,
         event = 'InsertEnter *',
@@ -53,7 +62,6 @@ packer.startup(function(use)
             map.s['<S-Tab>'] = {[[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], 'expr'}
 
             vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. '/snippets'
-            vim.g.vsnip_snippet_dirs = {vim.fn.stdpath('data') .. '/site/pack/packer/start/friendly-snippets/snippets'}
         end,
         requires = 'rafamadriz/friendly-snippets',
     }
@@ -69,6 +77,7 @@ packer.startup(function(use)
             require('lint').linters_by_ft = {
                 sh = {'shellcheck'},
                 html = {'tidy'},
+                php = {'psalm'}
             }
 
             vim.api.nvim_exec([[
@@ -119,7 +128,6 @@ packer.startup(function(use)
             vim.g.wiki_filetypes = {'md'}
             vim.g.wiki_link_extension = '.md'
             vim.g.wiki_link_target_type = 'md'
-            vim.g.wiki_list_todos = {'TODO', 'DOING', 'DONE'}
             vim.g.wiki_export = {
                 args = '--highlight-style=tango --template=eisvogel',
                 from_format = 'markdown',
@@ -141,25 +149,6 @@ packer.startup(function(use)
         keys = '<Leader>w',
     }
     use 'tweekmonster/helpful.vim'
-    use {
-        'glacambre/firenvim',
-        cond = 'vim.g.started_by_firenvim',
-        run = [[:packadd firenvim | call firenvim#install(0, printf('export VIMRUNTIME="%s"', $VIMRUNTIME))]],
-        setup = function()
-            vim.g.firenvim_config = {
-                localSettings = {
-                    ['.*'] = {
-                        cmdline = 'firenvim',
-                        takeover = 'never',
-                    }
-                }
-            }
-        end,
-        config = function()
-            vim.o.laststatus = 0
-            vim.bo.filetype = 'markdown'
-        end,
-    }
     use {'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
     use {
         'tpope/vim-fugitive',
@@ -246,12 +235,15 @@ packer.startup(function(use)
     }
     use 'kergoth/vim-hilinks'
     use 'junegunn/vim-easy-align'
+    use 'mfussenegger/nvim-dap'
+    use 'jbyuki/one-small-step-for-vimkind'
 
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'
     use '~/Projets/dev/nvim/nvim-if-lua-compat'
     use '~/Projets/dev/nvim/sqls.nvim'
-end
+end,
+{
+    max_jobs = 10,
+}
 )
-
-return packer

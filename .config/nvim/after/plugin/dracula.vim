@@ -4,19 +4,8 @@ endif
 let g:loaded_dracula_custom_colors = 1
 
 function! s:set_dracula_custom() abort
-  " Subtler highlight for splits
-  hi! link VertSplit EndOfBuffer
   " Make inactive windows darker
   hi! link NormalNC Pmenu
-  " pangloss/vim-javascript
-  hi! link jsBuiltins        DraculaCyan
-  hi! link jsClassDefinition DraculaCyan
-  hi! link jsFuncArgs        DraculaOrangeItalic
-  hi! link jsNull            Constant
-  hi! link jsObjectColon     DraculaPink
-  hi! link jsSuper           DraculaPurpleItalic
-  hi! link jsThis            DraculaPurpleItalic
-  hi! link jsUndefined       Constant
   " HerringtonDarkholme/yats.vim
   hi! link typescriptArrayMethod          DraculaCyan
   hi! link typescriptArrayStaticMethod    DraculaCyan

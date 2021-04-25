@@ -1,4 +1,4 @@
-require('packer').startup(function(use)
+require('packer').startup{function(use)
     use 'wbthomason/packer.nvim'
     use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
@@ -112,15 +112,9 @@ require('packer').startup(function(use)
         end,
     }
     use 'tjdevries/nlua.nvim'
-    use {'nvim-lua/plenary.nvim', opt = true}
+    use 'nvim-lua/plenary.nvim'
     use 'KabbAmine/zeavim.vim'
-    use {
-        'liuchengxu/vista.vim',
-        config = function()
-            vim.g.vista_fzf_preview = {'right:50%'}
-            vim.g.vista_default_executive = 'nvim_lsp'
-        end,
-    }
+    use {'simrat39/symbols-outline.nvim', config = 'require("symbols-outline").setup{}'}
     use {
         'lervag/wiki.vim',
         setup = function()
@@ -230,8 +224,6 @@ require('packer').startup(function(use)
     use {
         'KabbAmine/vCoolor.vim',
         config = 'vim.g.vcoolor_custom_picker = "kdialog --getcolor"',
-        ft = {'html', 'css', 'scss', 'javascript'},
-        cmd = 'VCoolor',
     }
     use 'kergoth/vim-hilinks'
     use 'junegunn/vim-easy-align'
@@ -244,7 +236,6 @@ require('packer').startup(function(use)
     use '~/Projets/dev/nvim/sqls.nvim'
     use '~/Projets/dev/nvim/nvim-lsp-basics'
 end,
-{
+config = {
     max_jobs = 10,
-}
-)
+}}

@@ -13,19 +13,6 @@ function _G.reload(modname)
     return require(modname)
 end
 
--- Taken from https://github.com/norcalli/nvim_utils/blob/master/lua/nvim_utils.lua#L554-L567
-function M.nvim_create_augroups(definitions)
-    for group_name, definition in pairs(definitions) do
-        vim.cmd('augroup ' .. group_name)
-        vim.cmd('autocmd!')
-        for _, def in ipairs(definition) do
-            local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
-            vim.cmd(command)
-        end
-        vim.cmd('augroup END')
-    end
-end
-
 M.map = setmetatable({}, {
         __index = function(_, mode)
             return setmetatable({}, {

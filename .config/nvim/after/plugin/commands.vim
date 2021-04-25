@@ -1,4 +1,3 @@
-command! LspLog execute '<mods> pedit +$' v:lua.vim.lsp.get_log_path()
 command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('MakeWarnings')
 
 " Redirects the output of an ex command in a scratch buffer. May become

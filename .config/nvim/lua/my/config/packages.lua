@@ -242,6 +242,7 @@ require('packer').startup(function(use)
     use '~/Projets/dev/nvim/zoxide.vim'
     use '~/Projets/dev/nvim/nvim-if-lua-compat'
     use '~/Projets/dev/nvim/sqls.nvim'
+    use '~/Projets/dev/nvim/nvim-lsp-basics'
 end,
 {
     max_jobs = 10,

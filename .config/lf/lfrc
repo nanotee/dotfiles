@@ -46,7 +46,7 @@ set previewer lf-preview
 map i $lf-preview $f | less -R
 
 # move current file or selected files to trash folder
-cmd trash $kioclient5 move $fx trash:/
+cmd trash &kioclient5 move $fx trash:/ && lf -remote "send $id reload"
 map D trash
 
 # execute current file (must be executable)

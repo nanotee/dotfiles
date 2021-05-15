@@ -9,19 +9,34 @@ source_if_exists() {
     [ -f "$1" ] && source "$1"
 }
 
+source <(antibody init)
+
+# zsh-completions has to be added to fpath early or compinit won't take it into account
+antibody bundle zsh-users/zsh-completions kind:fpath path:src
+
 source_if_exists "${ZDOTDIR:-$HOME}/.options.zsh"
 source_if_exists "${ZDOTDIR:-$HOME}/.aliases.sh"
 
 # Plugins
-source <(antibody init)
-antibody bundle < "$ZDOTDIR/zsh_plugins.txt"
+antibody bundle << EOF
+romkatv/powerlevel10k
+zdharma/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+Aloxaf/fzf-tab
+ryanmjacobs/c kind:path
+troydm/exp kind:path
+todotxt/todo.txt-cli kind:path
+trapd00r/vidir kind:path path:bin
+chubin/cheat.sh kind:path path:share
+EOF
 source_if_exists "${ZDOTDIR:-$HOME}/.plug-options.zsh"
 
 eval "$(zoxide init zsh)"
 source_if_exists "$XDG_CONFIG_HOME/lf/lf-icons"
-source_if_exists "$XDG_CONFIG_HOME/lf/lfcd.sh"
+autoload -Uz lfcd.sh && lfcd.sh
 source_if_exists "/usr/share/fzf/key-bindings.zsh"
-source_if_exists "/usr/share/zsh/site-functions/_fzf"
+autoload -Uz _fzf && _fzf
 
 # *env completions
 source_if_exists "$NODENV_ROOT/completions/nodenv.zsh"

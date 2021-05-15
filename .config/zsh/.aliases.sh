@@ -12,11 +12,7 @@ alias ln="ln -i"
 alias mkdirs="mkdir -p"
 mkcd() { mkdir -p "$@" && cd "$@"; }
 
-alias nvimm='nvim --cmd "let minimal_config=v:true"'
-
 detach() { (nohup "$@" &>/dev/null &) }
-
-define() { curl "dict://dict.org/d:$1"; }
 
 alias path='echo $PATH | tr ":" "\n" | nl'
 

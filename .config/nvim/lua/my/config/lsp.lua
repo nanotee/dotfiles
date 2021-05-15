@@ -33,7 +33,6 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
     }
 )
 
-
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
@@ -62,17 +61,18 @@ local function custom_attach(client, bufnr)
         bmap('n', 'gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
         bmap('x', 'gA', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>')
     end
+
+    require('lsp_signature').on_attach()
 end
 
 function M.init()
     local lsp = require('lspconfig')
     local servers = {
         lsp.tsserver,
-        -- lsp.denols,
         lsp.pyright,
         lsp.clangd,
         lsp.sqls,
-        lsp.phpactor,
+        -- lsp.phpactor,
     }
 
     for _, server in ipairs(servers) do
@@ -80,6 +80,14 @@ function M.init()
             on_attach = custom_attach,
         }
     end
+
+    lsp.denols.setup {
+        autostart = false,
+        on_attach = custom_attach,
+        init_options = {
+            config = './tsconfig.json',
+        },
+    }
 
     lsp.jsonls.setup {
         cmd = {'vscode-json-language-server', '--stdio'},
@@ -97,7 +105,7 @@ function M.init()
     }
 
     lsp.intelephense.setup {
-        autostart = false,
+        autostart = true,
         on_attach = custom_attach,
         init_options = {
             globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'
@@ -120,6 +128,9 @@ function M.init()
                     library = {
                         [vim.fn.stdpath('config') .. '/annotations'] = true,
                     },
+                },
+                completion = {
+                    callSnippet = 'Replace',
                 },
             },
         },

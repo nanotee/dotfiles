@@ -14,7 +14,7 @@ vim.o.listchars = table.concat(listchars, ',')
 local fillchars = {
     'eob: ',
     'stlnc:─',
-    'diff:─',
+    'diff:·',
 }
 vim.o.fillchars = table.concat(fillchars, ',')
 vim.wo.linebreak = true

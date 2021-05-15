@@ -1,12 +1,4 @@
 {
-    "codeblock": {
-        "prefix": "code",
-        "body": [
-            "```$1",
-            "$0",
-            "```"
-        ]
-    },
     "date": {
         "prefix": "date",
         "body": "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}"

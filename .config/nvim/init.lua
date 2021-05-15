@@ -7,19 +7,16 @@ require'my.config.extra-text-objects'
 require'my.config.packages'
 require'my.config.lsp'.init()
 
-local log_levels = {
-    [0] = 'trace',
-    [1] = 'debug',
-    [2] = 'info',
-    [3] = 'warn',
-    [4] = 'error',
-}
-
 function vim.notify(msg, log_level, opts)
+    vim.validate{
+        msg = {msg, 'string'},
+        log_level = {log_level, 'number', true},
+        opts = {opts, 'table', true}
+    }
     vim.fn.jobstart{
         'notify-send',
         '--icon', 'nvim',
-        '--category', ('x-neovim.log.%s'):format(log_levels[log_level] or 'trace'),
+        '--category', ('x-neovim.log.%s'):format(vim.lsp.log_levels[log_level] or vim.lsp.log_levels[0]),
         msg
     }
 end

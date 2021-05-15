@@ -2,6 +2,7 @@ local M = {}
 
 local fn = vim.fn
 local api = vim.api
+local luv = vim.loop
 
 function _G.dump(...)
     local objects = vim.tbl_map(vim.inspect, {...})
@@ -11,6 +12,13 @@ end
 function _G.reload(modname)
     package.loaded[modname] = nil
     return require(modname)
+end
+
+function _G.benchmark(fun, name)
+    local start = luv.hrtime()
+    fun()
+    local total = (luv.hrtime() - start) / 1e6
+    print(total, 'ms', name and '--- ' .. name or '')
 end
 
 M.map = setmetatable({}, {

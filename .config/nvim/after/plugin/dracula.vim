@@ -6,6 +6,15 @@ let g:loaded_dracula_custom_colors = 1
 function! s:set_dracula_custom() abort
   " Make inactive windows darker
   hi! link NormalNC Pmenu
+  " diff
+  hi! DiffAdd guibg=#2B4B3C
+  hi! DiffChange guibg=#4B3D3A
+  hi! DiffDelete guibg=#4B2D38 guifg=NONE
+  hi! DiffText guibg=#725542
+  " sandwich
+  hi! link OperatorSandwichAdd    DraculaGreen
+  hi! link OperatorSandwichChange DraculaOrange
+  hi! link OperatorSandwichDelete DraculaRed
   " HerringtonDarkholme/yats.vim
   hi! link typescriptArrayMethod          DraculaCyan
   hi! link typescriptArrayStaticMethod    DraculaCyan
@@ -31,8 +40,13 @@ function! s:set_dracula_custom() abort
   hi! link typescriptObjectStaticMethod   DraculaCyan
   hi! link typescriptPromiseMethod        DraculaCyan
   hi! link typescriptStringMethod         DraculaCyan
+  " vim/zsh.vim
+  hi! link zshCommands DraculaCyan
+  hi! link zshOptStart DraculaCyan
+  hi! link zshTypes    Keyword
   " vim-python/python-syntax
   hi! link pythonBuiltinFunc DraculaCyan
+  hi! link pythonClass       DraculaCyan
   " tbastos/vim-lua
   hi! link luaFuncKeyword DraculaPink
   " vim/vim.vim

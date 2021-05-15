@@ -14,7 +14,7 @@ nvim() {
     cd "$SRC_DIR"
     git pull --rebase origin master
     CMAKE_BUILD_TYPE=RelWithDebInfo make -j4
-    "$XDG_BIN_HOME/nvim" -u NONE +"helptags ALL" +q
+    "$XDG_BIN_HOME/nvim" -u NONE +"helptags \$VIMRUNTIME/doc" +q
 }
 
 luals() {
@@ -25,7 +25,7 @@ luals() {
     git submodule update --init --recursive
 
     (cd 3rd/luamake
-        ninja -f ./ninja/linux.ninja)
+        ninja -f ./compile/ninja/linux.ninja)
 
     3rd/luamake/luamake rebuild
 }
@@ -53,14 +53,16 @@ zoxide() {
 
     gh release download \
         --repo ajeetdsouza/zoxide \
-        --pattern "zoxide-x86_64-unknown-linux-musl" \
+        --pattern "zoxide-x86_64-unknown-linux-musl.tar.gz" \
         --dir="$TMP"
 
     cd "$TMP"
+    tar xf zoxide-x86_64-unknown-linux-musl.tar.gz
+    cd zoxide-x86_64-unknown-linux-musl
 
     local BINARY_LOCATION="$XDG_BIN_HOME/zoxide"
 
-    mv --interactive "zoxide-x86_64-unknown-linux-musl" "$BINARY_LOCATION"
+    mv --interactive "zoxide" "$BINARY_LOCATION"
     chmod +x "$BINARY_LOCATION"
 }
 
@@ -113,6 +115,23 @@ zeta() {
     local BINARY_LOCATION="$XDG_BIN_HOME/zeta-note"
 
     mv --interactive "zeta-note-linux" "$BINARY_LOCATION"
+}
+
+zk() {
+    local TMP
+    TMP=$(mktemp --directory)
+
+    gh release download \
+        --repo mickael-menu/zk \
+        --pattern "zk-v*-linux-amd64.tar.gz" \
+        --dir="$TMP"
+
+    cd "$TMP"
+    tar xf zk-v*-linux-amd64.tar.gz
+
+    local BINARY_LOCATION="$XDG_BIN_HOME/zk"
+
+    mv --interactive "zk" "$BINARY_LOCATION"
 }
 
 "$@"

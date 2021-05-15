@@ -1,5 +1,3 @@
-command! ClearMakeSigns call sign_unplace('MakeErrors') | call sign_unplace('MakeWarnings')
-
 " Redirects the output of an ex command in a scratch buffer. May become
 " obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
 command! -nargs=1 -complete=command Redirect
@@ -21,15 +19,6 @@ command! -range=% -nargs=? -complete=shellcmd QuickRun lua require'my.utils'.run
 " Accepts a filetype to set the scratch buffer to
 " Accepts a modifier to create a vertical split or a new tab
 command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils.scratch'.create('<mods>', <range>, <line1>, <line2>, <q-args>)
-
-" I want https://github.com/neovim/neovim/pull/10842 so bad
-command! -nargs=+ -complete=file T
-            \ tab new | setlocal nonumber nolist noswapfile bufhidden=wipe |
-            \ call termopen([<f-args>]) |
-            \ startinsert
-cabbrev ! T
-
-command! -nargs=? -complete=dir LiveServer lua require'my.utils'.live_server(<f-args>)
 
 command! -bang Trash
             \ let s:file = fnamemodify(bufname(<q-args>),':p') |

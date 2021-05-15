@@ -29,46 +29,6 @@ M.map = setmetatable({}, {
         end
     })
 
-function M.quickfix_make_signs(make_type)
-    fn.sign_define('MakeError', {text = 'x', texthl = 'DraculaError'})
-    fn.sign_define('MakeWarning', {text = '!', texthl = 'DraculaOrange'})
-    fn.sign_unplace('MakeErrors')
-    fn.sign_unplace('MakeWarnings')
-    local err_list
-    if make_type == 'quickfix' then
-        err_list = fn.getqflist()
-    elseif make_type == 'location' then
-        err_list = fn.getloclist(0)
-    end
-    for _, err_item in ipairs(err_list) do
-        if err_item.valid == 1 then
-            if err_item.type == 'E' then
-                fn.sign_place(0, 'MakeErrors', 'MakeError', err_item.bufnr, {lnum = err_item.lnum, priority = 50})
-            else
-                fn.sign_place(0, 'MakeWarnings', 'MakeWarning', err_item.bufnr, {lnum = err_item.lnum, priority = 40})
-            end
-        end
-    end
-end
-
-local live_server_running = false
-
-function M.live_server(folder)
-    if live_server_running then
-        print('Live server already running')
-        return
-    end
-    local job_id = fn.jobstart({'live-server', folder or '.'})
-    vim.cmd('command! LiveServerStop lua require"my.utils".live_server_stop(' .. job_id .. ')')
-    live_server_running = true
-end
-
-function M.live_server_stop(job_id)
-    fn.jobstop(job_id)
-    live_server_running = false
-    vim.cmd 'delcommand LiveServerStop'
-end
-
 local filetype_cmds = {
     javascript = {'node'},
     typescript = {'env', 'NO_COLOR=1', 'deno', 'run', '--quiet', '--allow-read', '-'},

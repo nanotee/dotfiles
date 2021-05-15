@@ -5,8 +5,6 @@ require('packer').startup{function(use)
     use {
         'hoob3rt/lualine.nvim',
         config = function()
-            local utils = require('lualine.utils.utils')
-
             require('lualine').setup {
                 options = {
                     theme = 'dracula',
@@ -15,14 +13,8 @@ require('packer').startup{function(use)
                 },
                 sections = {
                     lualine_c = {
-                        'filename',
-                        {
-                            'diagnostics',
-                            sources = {'nvim_lsp'},
-                            color_error = utils.extract_highlight_colors('LspDiagnosticsDefaultError', 'guifg'),
-                            color_warn = utils.extract_highlight_colors('LspDiagnosticsDefaultWarning', 'guifg'),
-                            color_info = utils.extract_highlight_colors('LspDiagnosticsDefaultInformation', 'guifg')
-                        },
+                        {'filename', path = 1},
+                        {'diagnostics', sources = {'nvim_lsp'}},
                     },
                 },
             }
@@ -33,6 +25,7 @@ require('packer').startup{function(use)
         requires = {
             'kosayoda/nvim-lightbulb',
             {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'},
+            'ray-x/lsp_signature.nvim',
         }
     }
     use {
@@ -83,9 +76,11 @@ require('packer').startup{function(use)
             vim.api.nvim_exec([[
             augroup nvim_lint
                 autocmd!
-                autocmd BufReadPost,BufWritePost * lua require('lint').try_lint()
+                autocmd BufWritePost * lua require('lint').try_lint()
             augroup END
             ]], false)
+
+            vim.cmd("command! TryLint lua require('lint').try_lint()")
         end,
     }
     use {
@@ -114,7 +109,7 @@ require('packer').startup{function(use)
     use 'tjdevries/nlua.nvim'
     use 'nvim-lua/plenary.nvim'
     use 'KabbAmine/zeavim.vim'
-    use {'simrat39/symbols-outline.nvim', config = 'require("symbols-outline").setup{}'}
+    use 'simrat39/symbols-outline.nvim'
     use {
         'lervag/wiki.vim',
         setup = function()
@@ -153,6 +148,7 @@ require('packer').startup{function(use)
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
     use 'tpope/vim-projectionist'
+    use {'tpope/vim-dispatch', requires = 'radenling/vim-dispatch-neovim'}
     use 'kristijanhusak/vim-dadbod-ui'
     use {
         'mroavi/lf.vim',
@@ -227,7 +223,7 @@ require('packer').startup{function(use)
     }
     use 'kergoth/vim-hilinks'
     use 'junegunn/vim-easy-align'
-    use 'mfussenegger/nvim-dap'
+    use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")', opt = true}
     use 'jbyuki/one-small-step-for-vimkind'
 
     -- My plugins

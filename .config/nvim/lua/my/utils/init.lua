@@ -7,6 +7,7 @@ local luv = vim.loop
 function _G.dump(...)
     local objects = vim.tbl_map(vim.inspect, {...})
     print(unpack(objects))
+    return ...
 end
 
 function _G.reload(modname)

@@ -47,6 +47,15 @@ function! s:set_dracula_custom() abort
   " vim-python/python-syntax
   hi! link pythonBuiltinFunc DraculaCyan
   hi! link pythonClass       DraculaCyan
+  " StanAngeloff/php.vim
+  hi! link phpClass                 DraculaCyan
+  hi! link phpClassExtends          Type
+  hi! link phpFunctions             DraculaCyan
+  hi! link phpFunctionCall          Function
+  hi! link phpMethod                Function
+  hi! link phpThis                  DraculaPurpleItalic
+  hi! link phpUseClass              Type
+  hi! link phpUseNamespaceSeparator DraculaPink
   " tbastos/vim-lua
   hi! link luaFuncKeyword DraculaPink
   " vim/vim.vim

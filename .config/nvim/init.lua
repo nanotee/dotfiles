@@ -5,7 +5,7 @@ require'my.config.options'
 require'my.config.mappings'
 require'my.config.extra-text-objects'
 require'my.config.packages'
-require'my.config.lsp'.init()
+require'my.config.lsp'
 
 function vim.notify(msg, log_level, opts)
     vim.validate{

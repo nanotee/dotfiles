@@ -1,44 +1,22 @@
-local M = {}
-
+local lsp = vim.lsp
 local map = vim.api.nvim_set_keymap
-
 map('n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', {noremap = true})
 map('n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap = true})
-map('n', 'gl', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {noremap = true})
+map('n', 'gl', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>', {noremap = true})
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false,
-    }
-)
+lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics,
+    {virtual_text = false})
 
-local float_border = 'single'
+lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover,
+    {border = 'single'})
 
-local show_line_diagnostics = vim.lsp.diagnostic.show_line_diagnostics
-vim.lsp.diagnostic.show_line_diagnostics = function(opts, ...)
-    opts = opts or {}
-    opts.border = float_border
-    show_line_diagnostics(opts, ...)
-end
-
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
-        border = float_border,
-    }
-)
-
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
-        border = float_border,
-    }
-)
+lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help,
+    {border = 'single'})
 
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
-        require('sqls').setup{
-            picker = 'fzf',
-        }
+        require('sqls').setup{picker = 'fzf'}
     end
 
     require('lsp_basics').make_lsp_commands(client, bufnr)
@@ -62,92 +40,71 @@ local function custom_attach(client, bufnr)
         bmap('x', 'gA', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>')
     end
 
-    require('lsp_signature').on_attach()
+    require('lsp_signature').on_attach{
+        bind = true,
+        handler_opts = {
+            border = 'single',
+        },
+    }
 end
 
-function M.init()
-    local lsp = require('lspconfig')
-    local servers = {
-        lsp.tsserver,
-        lsp.pyright,
-        lsp.clangd,
-        lsp.sqls,
-        -- lsp.phpactor,
+local capabilities = lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+        'documentation',
+        'detail',
+        'additionalTextEdits',
     }
+}
 
-    for _, server in ipairs(servers) do
-        server.setup {
-            on_attach = custom_attach,
-        }
-    end
+local lspconfig = require('lspconfig')
+lspconfig.util.default_config = vim.tbl_extend(
+    'force',
+    lspconfig.util.default_config,
+    {capabilities = capabilities, on_attach = custom_attach})
 
-    lsp.denols.setup {
-        autostart = false,
-        on_attach = custom_attach,
-        init_options = {
-            config = './tsconfig.json',
-        },
-    }
+lspconfig.tsserver.setup{}
+-- lspconfig.denols.setup{init_options = {config = './tsconfig.json'}}
+lspconfig.pyright.setup{}
+lspconfig.clangd.setup{}
+lspconfig.sqls.setup{}
+-- lspconfig.phpactor.setup{}
+lspconfig.intelephense.setup{init_options = {globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'}}
+lspconfig.jsonls.setup{cmd = {'vscode-json-language-server', '--stdio'}}
+lspconfig.html.setup{cmd = {'vscode-html-language-server', '--stdio'}}
+lspconfig.cssls.setup{cmd = {'vscode-css-language-server', '--stdio'}}
+lspconfig.zeta_note.setup{cmd = {'zeta-note'}}
 
-    lsp.jsonls.setup {
-        cmd = {'vscode-json-language-server', '--stdio'},
-        on_attach = custom_attach,
-    }
+local runtime_path = vim.split(package.path, ';', true)
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
 
-    lsp.html.setup {
-        cmd = {'vscode-html-language-server', '--stdio'},
-        on_attach = custom_attach,
-    }
-
-    lsp.cssls.setup {
-        cmd = {'vscode-css-language-server', '--stdio'},
-        on_attach = custom_attach,
-    }
-
-    lsp.intelephense.setup {
-        autostart = true,
-        on_attach = custom_attach,
-        init_options = {
-            globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'
-        }
-    }
-
-    lsp.sumneko_lua.setup {
-        cmd = {'lua-language-server'},
-        on_attach = custom_attach,
-        settings = {
-            Lua = {
-                runtime = {
-                    version = 'LuaJIT',
-                    path = vim.split(package.path, ';'),
-                },
-                diagnostics = {
-                    globals = {'vim', 'love', 'dump', 'describe', 'it'},
-                },
-                workspace = {
-                    library = {
-                        [vim.fn.stdpath('config') .. '/annotations'] = true,
-                    },
-                },
-                completion = {
-                    callSnippet = 'Replace',
-                },
+lspconfig.sumneko_lua.setup{
+    cmd = {'lua-language-server'},
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+                path = runtime_path,
             },
+            diagnostics = {
+                globals = {'vim', 'love', 'dump', 'describe', 'it'},
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file('', true),
+            },
+            -- completion = {
+            --     callSnippet = 'Replace',
+            -- },
         },
-    }
+    },
+}
 
-    lsp.zeta_note.setup {
-        cmd = {'zeta-note'},
-        on_attach = custom_attach,
-    }
-
-    -- Lightbulb for CodeActions
-    vim.api.nvim_exec([[
+-- Lightbulb for CodeActions
+vim.api.nvim_exec([[
     augroup LspLightBulb
         autocmd!
         autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
     augroup END
     ]], false)
-end
-
-return M

@@ -11,9 +11,11 @@ require('packer').startup{function(use)
                     section_separators = {'', ''},
                     component_separators = {'', ''},
                 },
+                extensions = {'quickfix'},
                 sections = {
                     lualine_c = {
                         {'filename', path = 1},
+                        {'quickfix'},
                         {'diagnostics', sources = {'nvim_lsp'}},
                     },
                 },
@@ -36,7 +38,6 @@ require('packer').startup{function(use)
                     path = true,
                     buffer = true,
                     nvim_lsp = true,
-                    nvim_lua = true,
                     vsnip = true,
                 },
                 preselect = 'always',
@@ -80,7 +81,7 @@ require('packer').startup{function(use)
             augroup END
             ]], false)
 
-            vim.cmd("command! TryLint lua require('lint').try_lint()")
+            vim.cmd("command! Lint lua require('lint').try_lint()")
         end,
     }
     use {
@@ -106,7 +107,6 @@ require('packer').startup{function(use)
             map.n['<Leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
         end,
     }
-    use 'tjdevries/nlua.nvim'
     use 'nvim-lua/plenary.nvim'
     use 'KabbAmine/zeavim.vim'
     use 'simrat39/symbols-outline.nvim'
@@ -199,7 +199,6 @@ require('packer').startup{function(use)
                 'html',
                 'htmldjango',
                 'markdown',
-                'css',
                 'scss',
                 'javascript',
                 'php',
@@ -219,18 +218,20 @@ require('packer').startup{function(use)
     }
     use {
         'KabbAmine/vCoolor.vim',
-        config = 'vim.g.vcoolor_custom_picker = "kdialog --getcolor"',
+        config = [[vim.g.vcoolor_custom_picker = "kdialog --title 'vCoolor' --getcolor --default "]],
     }
     use 'kergoth/vim-hilinks'
     use 'junegunn/vim-easy-align'
     use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")', opt = true}
     use 'jbyuki/one-small-step-for-vimkind'
+    use 'folke/lua-dev.nvim'
 
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'
     use '~/Projets/dev/nvim/nvim-if-lua-compat'
     use '~/Projets/dev/nvim/sqls.nvim'
     use '~/Projets/dev/nvim/nvim-lsp-basics'
+    use '~/Projets/dev/nvim/luv-vimdocs'
 end,
 config = {
     max_jobs = 10,

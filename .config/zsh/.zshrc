@@ -41,6 +41,7 @@ autoload -Uz _fzf && _fzf
 # *env completions
 source_if_exists "$NODENV_ROOT/completions/nodenv.zsh"
 source_if_exists "$PYENV_ROOT/completions/pyenv.zsh"
+eval "$(pyenv virtualenv-init -)"
 source_if_exists "$PHPENV_ROOT/completions/phpenv.zsh"
 
 # GPG

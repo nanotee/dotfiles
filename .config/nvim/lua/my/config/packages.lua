@@ -81,7 +81,7 @@ require('packer').startup{function(use)
             augroup END
             ]], false)
 
-            vim.cmd("command! Lint lua require('lint').try_lint()")
+            vim.cmd("command! -nargs=1 Lint lua require('lint').try_lint(<f-args>)")
         end,
     }
     use {
@@ -93,17 +93,9 @@ require('packer').startup{function(use)
 
             map.n['<Space>'] = {'<Cmd>Buffers<CR>', 'noremap'}
             map.n['<Leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
-
-            -- Search through my config files
             map.n['<Leader>sc'] = {'<Cmd>exe "Files" stdpath("config")<CR>', 'noremap'}
-
-            -- Search through my packages
             map.n['<Leader>sp'] = {'<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', 'noremap'}
-
-            -- Search through my personal wiki
             map.n['<Leader>sw'] = {'<Cmd>exe "Files" g:wiki_root<CR>', 'noremap'}
-
-            -- Use Rg on the word under my cursor
             map.n['<Leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
         end,
     }
@@ -222,7 +214,7 @@ require('packer').startup{function(use)
     }
     use 'kergoth/vim-hilinks'
     use 'junegunn/vim-easy-align'
-    use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")', opt = true}
+    use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")'}
     use 'jbyuki/one-small-step-for-vimkind'
     use 'folke/lua-dev.nvim'
 

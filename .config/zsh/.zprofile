@@ -42,11 +42,3 @@ export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
 
 # Path
 export PATH="$XDG_BIN_HOME:$PATH"
-export PATH="$NODENV_ROOT/bin:$PATH"
-export PATH="$NODENV_ROOT/shims:$PATH"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$PYENV_ROOT/shims:$PATH"
-export PATH="$PHPENV_ROOT/bin:$PATH"
-export PATH="$PHPENV_ROOT/shims:$PATH"
-export PATH="$XDG_DATA_HOME/nimble/bin:$PATH"
-export PATH="$XDG_DATA_HOME/luarocks/bin:$PATH"

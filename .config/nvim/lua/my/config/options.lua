@@ -27,18 +27,6 @@ opt.guifont = 'mononoki Nerd Font'
 -- Cursor
 opt.cursorline = true
 opt.mouse = 'a'
-opt.mousetime = 0
-opt.whichwrap = {
-    ['b'] = true,
-    ['h'] = true,
-    ['l'] = true,
-    ['s'] = true,
-    ['<'] = true,
-    ['>'] = true,
-    ['['] = true,
-    [']'] = true,
-    ['~'] = true,
-}
 opt.guicursor = {
     'n-v-c:block',
     'i-ci-ve:ver25',

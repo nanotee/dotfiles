@@ -73,24 +73,21 @@ map <c-f> :fzf-jump
 
 # Create symlinks
 cmd link %{{
-    lf -remote 'load' | while read file; do
-        if [ ! -n "${mode+1}" ]; then
-            mode="$file"
-            continue
-        fi
-        files+=("$file")
-    done
-    if [ "${#files[@]}" -le 1 ]; then
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    if [ "$#" -lt 1 ]; then
         lf -remote "send $id echo no files to link"
         exit 0
     fi
-    # symbolically copy mode is indicating a soft link
-    if [[ "$mode" == copy ]]; then
-        ln -sr $files -t .
-    # while a move mode is indicating a hard link
-    elif [[ "$mode" == move ]]; then
-        ln $files -t .
-    fi
+    case "$mode" in
+        # symbolically copy mode is indicating a soft link
+        copy) ln -sr -t . -- "$@";;
+        # while a move mode is indicating a hard link
+        move) ln -t . -- "$@";;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
 }}
 map P :link
 

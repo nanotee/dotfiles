@@ -133,4 +133,22 @@ zk() {
     mv --interactive "zk" "$BINARY_LOCATION"
 }
 
+stylua() {
+    local TMP
+    TMP=$(mktemp --directory)
+
+    gh release download \
+        --repo JohnnyMorganz/StyLua \
+        --pattern "stylua-*-linux.zip" \
+        --dir="$TMP"
+
+    cd "$TMP"
+    unzip stylua-*-linux.zip
+
+    local BINARY_LOCATION="$XDG_BIN_HOME/stylua"
+
+    mv --interactive "stylua" "$BINARY_LOCATION"
+    chmod +x "$BINARY_LOCATION"
+}
+
 "$@"

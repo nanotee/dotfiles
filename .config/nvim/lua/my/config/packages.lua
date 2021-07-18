@@ -48,12 +48,12 @@ require('packer').startup{function(use)
     use {
         'hrsh7th/vim-vsnip',
         config = function()
-            local map = require('my.utils').map
+            local map = vim.api.nvim_set_keymap
 
-            map.i['<Tab>'] = {[[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : compe#confirm("\<Tab>")]], 'expr'}
-            map.i['<S-Tab>'] = {[[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], 'expr'}
-            map.s['<Tab>'] = {[[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], 'expr'}
-            map.s['<S-Tab>'] = {[[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], 'expr'}
+            map('i', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : compe#confirm("\<Tab>")]], {expr = true})
+            map('i', '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], {expr = true})
+            map('s', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], {expr = true})
+            map('s', '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], {expr = true})
 
             vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. '/snippets'
         end,
@@ -89,14 +89,14 @@ require('packer').startup{function(use)
         config = function()
             vim.g.fzf_buffers_jump = 1
 
-            local map = require('my.utils').map
+            local map = vim.api.nvim_set_keymap
 
-            map.n['<Space>'] = {'<Cmd>Buffers<CR>', 'noremap'}
-            map.n['<Leader>sf'] = {'<Cmd>Files<CR>', 'noremap'}
-            map.n['<Leader>sc'] = {'<Cmd>exe "Files" stdpath("config")<CR>', 'noremap'}
-            map.n['<Leader>sp'] = {'<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', 'noremap'}
-            map.n['<Leader>sw'] = {'<Cmd>exe "Files" g:wiki_root<CR>', 'noremap'}
-            map.n['<Leader>rw'] = {'<Cmd>exe "Rg" expand("<cword>")<CR>', 'noremap'}
+            map('n', '<Space>', '<Cmd>Buffers<CR>', {noremap = true})
+            map('n', '<Leader>sf', '<Cmd>Files<CR>', {noremap = true})
+            map('n', '<Leader>sc', '<Cmd>exe "Files" stdpath("config")<CR>', {noremap = true})
+            map('n', '<Leader>sp', '<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', {noremap = true})
+            map('n', '<Leader>sw', '<Cmd>exe "Files" g:wiki_root<CR>', {noremap = true})
+            map('n', '<Leader>rw', '<Cmd>exe "Rg" expand("<cword>")<CR>', {noremap = true})
         end,
     }
     use 'nvim-lua/plenary.nvim'
@@ -154,8 +154,8 @@ require('packer').startup{function(use)
             vim.g['lf#layout'] = {window = {width = 0.9, height = 0.6}}
             vim.g['lf#command'] = 'lf -command "map e open; map <esc> quit; map <enter> open"'
 
-            local map = require('my.utils').map
-            map.n['<Leader>f'] = {'<Cmd>LfPicker %:p:h<CR>', 'noremap'}
+            local map = vim.api.nvim_set_keymap
+            map('n', '<Leader>f', '<Cmd>LfPicker %:p:h<CR>', {noremap = true})
         end,
     }
     use {

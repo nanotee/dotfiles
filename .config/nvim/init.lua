@@ -1,9 +1,128 @@
-vim.g.polyglot_disabled = {'sensible', 'autoindent'}
-require('my.utils')
-require('my.config.options')
-require('my.config.mappings')
-require('my.config.packages')
-require('my.config.lsp')
+local map = vim.api.nvim_set_keymap
+local g, opt = vim.g, vim.opt
+
+g.polyglot_disabled = {'sensible', 'autoindent'}
+
+function _G.dump(...)
+    local objects = vim.tbl_map(vim.inspect, {...})
+    print(unpack(objects))
+    return ...
+end
+
+function _G.reload(modname)
+    package.loaded[modname] = nil
+    return require(modname)
+end
+
+function _G.benchmark(fun, name)
+    local start = vim.loop.hrtime()
+    fun()
+    local total = (vim.loop.hrtime() - start) / 1e6
+    print(total, 'ms', name and '--- ' .. name or '')
+end
+
+g.colors_name = 'dracula'
+opt.termguicolors = true
+opt.number = true
+opt.signcolumn = 'number'
+opt.list = true
+opt.listchars = {
+     tab = '│ ',
+     eol = '¬',
+     nbsp = '␣',
+     trail = '•',
+}
+opt.fillchars = {
+    eob = ' ',
+    stlnc = '─',
+    diff = '·',
+}
+opt.linebreak = true
+opt.breakindent = true
+opt.showmode = false
+opt.pumblend = 10
+opt.pumheight = 25
+opt.title = true
+opt.guifont = 'mononoki Nerd Font'
+
+opt.cursorline = true
+opt.mouse = 'a'
+opt.guicursor = {
+    'n-v-c:block',
+    'i-ci-ve:ver25',
+    'r-cr:hor20',
+    'o:hor50',
+    'a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor',
+    'sm:block-blinkwait175-blinkoff150-blinkon175',
+}
+opt.virtualedit = 'block'
+
+opt.expandtab = true
+opt.shiftwidth = 4
+opt.tabstop = 4
+
+opt.ignorecase = true
+opt.inccommand = 'split'
+
+opt.splitright = true
+opt.splitbelow = true
+
+opt.grepprg = 'rg --vimgrep --no-heading --smart-case'
+opt.formatprg = 'prettier --stdin-filepath=%'
+
+g.loaded_netrwPlugin = 1
+g.loaded_tutor_mode_plugin = 1
+g.loaded_tarPlugin = 1
+g.loaded_zipPlugin = 1
+g.loaded_gzip = 1
+g.loaded_2html_plugin = 1
+g.did_install_default_menus = 1
+g.did_install_syntax_menu = 1
+
+g.loaded_python_provider = 0
+g.loaded_python3_provider = 0
+g.loaded_node_provider = 0
+g.loaded_perl_provider = 0
+g.loaded_ruby_provider = 0
+
+opt.lazyredraw = true
+opt.updatetime = 300
+opt.spelllang = 'fr'
+opt.hidden = true
+opt.undofile = true
+opt.switchbuf = 'usetab'
+opt.shortmess:append{c = true, I = true}
+opt.completeopt = {'menuone', 'noselect'}
+opt.joinspaces = false
+opt.shada = {'!', "'100", '<50', 's10', 'h', ':1000', '/1000'}
+
+g.mapleader = 'ù'
+g.maplocalleader = 'à'
+
+map('i', 'jk', '<Esc>', {})
+map('', 'Y', 'y$', {})
+map('', 'Q', '', {})
+map('i', '<C-u>', '<C-g>u<C-u>', {noremap = true})
+map('i', '<C-w>', '<C-g>u<C-w>', {noremap = true})
+
+map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', {})
+
+map('n', '<Leader>rc', '<Cmd>tabedit $MYVIMRC<CR>', {noremap = true})
+
+-- Adapted from vim-sensible
+map('n', '<C-l>', '<Cmd>nohlsearch<CR><Cmd>diffupdate<CR><C-l>', {noremap = true})
+
+map('', 'j', "(v:count? 'j' : 'gj')", {noremap = true, expr = true})
+map('', 'k', "(v:count? 'k' : 'gk')", {noremap = true, expr = true})
+
+map('n', '<C-w>e', '<Cmd>wincmd _ | wincmd |<CR>', {noremap = true})
+
+map('o', 'ad', '<Cmd>normal! ggVG<CR>', {noremap = true})
+map('x', 'ad', 'gg0oG$', {noremap = true})
+
+map('n', '<Leader>rr',  '<Cmd>RunCode<CR>', {noremap = true})
+map('n', '<Leader>rl',  '<Cmd>.RunCode<CR>', {noremap = true})
+map('v', '<leader>r', ':RunCode<CR>', {noremap = true})
 
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
 local notify_send_urgency_map = {
@@ -42,3 +161,6 @@ function vim.notify(msg, log_level, opts)
     command[#command+1] = msg
     vim.fn.jobstart(command)
 end
+
+require('my.config.packages')
+require('my.config.lsp')

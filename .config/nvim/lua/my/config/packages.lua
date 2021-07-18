@@ -101,7 +101,6 @@ require('packer').startup{function(use)
     }
     use 'nvim-lua/plenary.nvim'
     use 'KabbAmine/zeavim.vim'
-    use 'simrat39/symbols-outline.nvim'
     use {
         'lervag/wiki.vim',
         setup = function()
@@ -174,7 +173,16 @@ require('packer').startup{function(use)
             }
         end,
     }
-    use {'tomtom/tcomment_vim', keys = 'gc', cmd = 'TComment'}
+    use {
+        'tomtom/tcomment_vim',
+        config = function()
+            vim.g.tcomment_mapleader1 = 0
+            vim.g.tcomment_mapleader2 = 0
+            vim.g.tcomment_mapleader_uncomment_anyway = 0
+            vim.g.tcomment_mapleader_comment_anyway = 0
+            vim.g.tcomment_textobject_inlinecomment = 0
+        end
+    }
     use {'machakann/vim-sandwich', config = 'vim.cmd "runtime macros/sandwich/keymap/surround.vim"'}
     use {
         'tmsvg/pear-tree',
@@ -213,7 +221,6 @@ require('packer').startup{function(use)
         config = [[vim.g.vcoolor_custom_picker = "kdialog --title 'vCoolor' --getcolor --default "]],
     }
     use 'kergoth/vim-hilinks'
-    use 'junegunn/vim-easy-align'
     use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")'}
     use 'jbyuki/one-small-step-for-vimkind'
     use 'folke/lua-dev.nvim'

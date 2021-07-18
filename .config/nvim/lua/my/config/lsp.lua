@@ -1,17 +1,17 @@
 local lsp = vim.lsp
 local map = vim.api.nvim_set_keymap
-map('n', ']E', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', {noremap = true})
-map('n', '[E', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap = true})
-map('n', 'gl', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>', {noremap = true})
+map('n', ']!', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', {noremap = true})
+map('n', '[!', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap = true})
+map('n', 'g!', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "rounded"})<CR>', {noremap = true})
 
 lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics,
     {virtual_text = false})
 
 lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover,
-    {border = 'single'})
+    {border = 'rounded'})
 
 lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_help,
-    {border = 'single'})
+    {border = 'rounded'})
 
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
@@ -20,6 +20,7 @@ local function custom_attach(client, bufnr)
     end
 
     require('lsp_basics').make_lsp_commands(client, bufnr)
+    require('lsp_basics').make_lsp_mappings(client, bufnr)
 
     local function bmap(mode, lhs, rhs)
         vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, {noremap = true})
@@ -32,9 +33,6 @@ local function custom_attach(client, bufnr)
     if cap.hover then
         bmap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
     end
-    if cap.signature_help then
-        bmap('n', 'gS', '<Cmd>lua vim.lsp.buf.signature_help()<CR>')
-    end
     if cap.code_action then
         bmap('n', 'gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
         bmap('x', 'gA', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>')
@@ -43,7 +41,7 @@ local function custom_attach(client, bufnr)
     require('lsp_signature').on_attach{
         bind = true,
         handler_opts = {
-            border = 'single',
+            border = 'rounded',
         },
     }
 end
@@ -62,7 +60,11 @@ local lspconfig = require('lspconfig')
 lspconfig.util.default_config = vim.tbl_extend(
     'force',
     lspconfig.util.default_config,
-    {capabilities = capabilities, on_attach = custom_attach})
+    {
+        capabilities = capabilities,
+        on_attach = custom_attach,
+        flags = { debounce_text_changes = 150 },
+    })
 
 lspconfig.tsserver.setup{}
 -- lspconfig.denols.setup{init_options = {config = './tsconfig.json'}}
@@ -92,19 +94,20 @@ lspconfig.sumneko_lua.setup{
                 globals = {'vim', 'love', 'dump', 'describe', 'it'},
             },
             workspace = {
+                preloadFileSize = 150,
                 library = vim.api.nvim_get_runtime_file('', true),
             },
-            -- completion = {
-            --     callSnippet = 'Replace',
-            -- },
+            completion = {
+                callSnippet = 'Replace',
+            },
         },
     },
 }
 
 -- Lightbulb for CodeActions
-vim.api.nvim_exec([[
-    augroup LspLightBulb
-        autocmd!
-        autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-    augroup END
-    ]], false)
+vim.cmd [[
+augroup LspLightBulb
+    autocmd!
+    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+augroup END
+]]

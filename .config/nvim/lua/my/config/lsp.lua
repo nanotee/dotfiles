@@ -108,6 +108,6 @@ lspconfig.sumneko_lua.setup{
 vim.cmd [[
 augroup LspLightBulb
     autocmd!
-    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+    autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()
 augroup END
 ]]

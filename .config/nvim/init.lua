@@ -21,7 +21,7 @@ function _G.benchmark(fun, name)
     print(total, 'ms', name and '--- ' .. name or '')
 end
 
-g.colors_name = 'dracula'
+vim.cmd [[colorscheme dracula]]
 opt.termguicolors = true
 opt.number = true
 opt.signcolumn = 'number'
@@ -44,6 +44,7 @@ opt.pumblend = 10
 opt.pumheight = 25
 opt.title = true
 opt.guifont = 'mononoki Nerd Font'
+opt.previewheight = 18
 
 opt.cursorline = true
 opt.mouse = 'a'

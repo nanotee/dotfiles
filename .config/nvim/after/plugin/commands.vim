@@ -10,14 +10,14 @@ command! -nargs=1 -complete=command Redirect
 " Takes a range of lines of code from the current buffer and runs them (the
 " whole buffer is run by default)
 " Accepts a shell command to run the code in a specific program
-command! -range=% -nargs=? -complete=shellcmd RunCode lua require'my.utils.runcode'.run(<line1>, <line2>, <q-args>)
+command! -range=% -nargs=? -complete=shellcmd RunCode lua require('my.utils.runcode').run(<line1>, <line2>, <q-args>)
 
 " Creates a scratch buffer in a new window.
 " Accepts a range to copy a set of lines over from the current buffer
 " (The code can be sent back to its original buffer with :SendBack)
 " Accepts a filetype to set the scratch buffer to
 " Accepts a modifier to create a vertical split or a new tab
-command! -range=0 -nargs=? -complete=filetype Scratch lua require'my.utils.scratch'.create('<mods>', <range>, <line1>, <line2>, <q-args>)
+command! -range=0 -nargs=? -complete=filetype Scratch lua require('my.utils.scratch').create('<mods>', <range>, <line1>, <line2>, <q-args>)
 
 command! -bang Trash
             \ let s:file = fnamemodify(bufname(<q-args>),':p') |

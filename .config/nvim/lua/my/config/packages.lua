@@ -26,7 +26,7 @@ require('packer').startup{function(use)
         'neovim/nvim-lspconfig',
         requires = {
             'kosayoda/nvim-lightbulb',
-            {'ojroques/nvim-lspfuzzy', config = 'require"lspfuzzy".setup{}'},
+            {'ojroques/nvim-lspfuzzy', config = 'require("lspfuzzy").setup{}'},
             'ray-x/lsp_signature.nvim',
         }
     }
@@ -81,7 +81,7 @@ require('packer').startup{function(use)
             augroup END
             ]], false)
 
-            vim.cmd("command! -nargs=1 Lint lua require('lint').try_lint(<f-args>)")
+            vim.cmd("command! -nargs=? Lint lua require('lint').try_lint(<f-args>)")
         end,
     }
     use {
@@ -195,7 +195,7 @@ require('packer').startup{function(use)
     use {
         'norcalli/nvim-colorizer.lua',
         config = function()
-            require'colorizer'.setup {
+            require('colorizer').setup {
                 'html',
                 'htmldjango',
                 'markdown',
@@ -221,7 +221,7 @@ require('packer').startup{function(use)
         config = [[vim.g.vcoolor_custom_picker = "kdialog --title 'vCoolor' --getcolor --default "]],
     }
     use 'kergoth/vim-hilinks'
-    use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")'}
+    use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")', opt = true}
     use 'jbyuki/one-small-step-for-vimkind'
     use 'folke/lua-dev.nvim'
 

@@ -155,7 +155,7 @@ require('packer').startup{function(use)
             vim.g['lf#command'] = 'lf -command "map e open; map <esc> quit; map <enter> open"'
 
             local map = vim.api.nvim_set_keymap
-            map('n', '<Leader>f', '<Cmd>LfPicker %:p:h<CR>', {noremap = true})
+            map("n", '<Leader>f', "expand('%') == '' ? '<Cmd>Lp %:p:h<CR>' : '<Cmd>Lp %<CR>'", {noremap = true, expr = true})
         end,
     }
     use {

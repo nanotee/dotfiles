@@ -15,12 +15,12 @@ nnoremap g# <Cmd>let @/ = expand('<cword>')<CR>
 " Visual Mode */# from Scrooloose (with a few tweaks)
 function s:VSetSearch()
     let temp = @@
-    norm! gvy
+    noautocmd silent! normal! y
     let @/ = '\V'..substitute(escape(@@, '\'), '\n', '\\n', 'g')
     let @@ = temp
 endfunction
 
-xnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>
+xnoremap <silent> * <Cmd>call <SID>VSetSearch()<CR>
             \<Cmd>let v:hlsearch = 1<CR>
             \<Cmd>let v:searchforward = 1<CR>
 xnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>

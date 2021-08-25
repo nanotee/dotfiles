@@ -3,7 +3,7 @@ require('packer').startup{function(use)
     use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
     use {
-        'hoob3rt/lualine.nvim',
+        'shadmansaleh/lualine.nvim',
         config = function()
             require('lualine').setup {
                 options = {
@@ -15,8 +15,6 @@ require('packer').startup{function(use)
                 sections = {
                     lualine_c = {
                         {'filename', path = 1},
-                        {'quickfix'},
-                        {'diagnostics', sources = {'nvim_lsp'}},
                     },
                 },
             }

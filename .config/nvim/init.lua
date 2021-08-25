@@ -32,7 +32,7 @@ opt.number = true
 opt.signcolumn = 'number'
 opt.list = true
 opt.listchars = {
-     tab = '│ ',
+     tab = '> ',
      eol = '¬',
      nbsp = '␣',
      trail = '•',
@@ -45,7 +45,7 @@ opt.fillchars = {
 opt.linebreak = true
 opt.breakindent = true
 opt.showmode = false
-opt.pumblend = 10
+opt.pumblend = 20
 opt.pumheight = 25
 opt.title = true
 opt.guifont = 'mononoki Nerd Font'
@@ -93,30 +93,20 @@ g.loaded_ruby_provider = 0
 
 opt.lazyredraw = true
 opt.updatetime = 300
-opt.spelllang = 'fr'
-opt.hidden = true
 opt.undofile = true
-opt.switchbuf = 'usetab'
+opt.switchbuf:append{'usetab'}
 opt.shortmess:append{c = true, I = true}
 opt.completeopt = {'menuone', 'noselect'}
-opt.joinspaces = false
-opt.shada = {'!', "'100", '<50', 's10', 'h', ':1000', '/1000'}
+opt.shada:append{':1000', '/1000'}
 
 g.mapleader = 'ù'
 g.maplocalleader = 'à'
 
 map('i', 'jk', '<Esc>', {})
-map('', 'Y', 'y$', {})
-map('', 'Q', '', {})
-map('i', '<C-u>', '<C-g>u<C-u>', {noremap = true})
-map('i', '<C-w>', '<C-g>u<C-w>', {noremap = true})
 
 map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', {})
 
 map('n', '<Leader>rc', '<Cmd>tabedit $MYVIMRC<CR>', {noremap = true})
-
--- Adapted from vim-sensible
-map('n', '<C-l>', '<Cmd>nohlsearch<CR><Cmd>diffupdate<CR><C-l>', {noremap = true})
 
 map('', 'j', "(v:count? 'j' : 'gj')", {noremap = true, expr = true})
 map('', 'k', "(v:count? 'k' : 'gk')", {noremap = true, expr = true})

@@ -98,6 +98,7 @@ opt.switchbuf:append{'usetab'}
 opt.shortmess:append{c = true, I = true}
 opt.completeopt = {'menuone', 'noselect'}
 opt.shada:append{':1000', '/1000'}
+opt.wildcharm = 9
 
 g.mapleader = 'ù'
 g.maplocalleader = 'à'

@@ -125,6 +125,9 @@ map('n', '<Leader>rr',  '<Cmd>RunCode<CR>', {noremap = true})
 map('n', '<Leader>rl',  '<Cmd>.RunCode<CR>', {noremap = true})
 map('v', '<leader>r', ':RunCode<CR>', {noremap = true})
 
+map('c', '<Tab>', [[getcmdtype() =~# '[/?]' ? "\<C-g>" : "\<Tab>"]], {expr = true, noremap = true})
+map('c', '<S-Tab>', [[getcmdtype() =~# '[/?]' ? "\<C-t>" : "\<S-Tab>"]], {expr = true, noremap = true})
+
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
 local notify_send_urgency_map = {
     [vim.lsp.log_levels.TRACE] = 'low',

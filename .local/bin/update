@@ -8,12 +8,11 @@ set -o errexit
 XDG_BIN_HOME="$HOME/.local/bin"
 
 nvim() {
-    unset LUAROCKS_CONFIG
     local SRC_DIR="$XDG_BIN_HOME/neovim-src"
 
     cd "$SRC_DIR"
     git pull --rebase origin master
-    CMAKE_BUILD_TYPE=RelWithDebInfo make -j4
+    CMAKE_BUILD_TYPE=RelWithDebInfo make
 }
 
 luals() {

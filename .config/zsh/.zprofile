@@ -20,7 +20,6 @@ export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export HTML_TIDY="$XDG_CONFIG_HOME/tidy/tidyrc"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME/java"
-export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
 export TODOTXT_CFG_FILE="$XDG_CONFIG_HOME/todo.txt/todo.cfg"
 
 ## Data

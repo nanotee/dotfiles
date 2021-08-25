@@ -232,4 +232,5 @@ require('packer').startup{function(use)
 end,
 config = {
     max_jobs = 10,
+    default_url_format = 'git://github.com/%s',
 }}

@@ -21,8 +21,6 @@ source_if_exists "${ZDOTDIR:-$HOME}/.aliases.sh"
 antibody bundle << EOF
 romkatv/powerlevel10k
 zdharma/fast-syntax-highlighting
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-history-substring-search
 Aloxaf/fzf-tab
 ryanmjacobs/c kind:path
 troydm/exp kind:path

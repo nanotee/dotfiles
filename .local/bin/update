@@ -113,6 +113,7 @@ zeta() {
     local BINARY_LOCATION="$XDG_BIN_HOME/zeta-note"
 
     mv --interactive "zeta-note-linux" "$BINARY_LOCATION"
+    chmod +x "$BINARY_LOCATION"
 }
 
 zk() {

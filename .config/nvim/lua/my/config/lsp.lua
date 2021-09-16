@@ -66,17 +66,43 @@ lspconfig.util.default_config = vim.tbl_extend(
         flags = { debounce_text_changes = 150 },
     })
 
-lspconfig.tsserver.setup{}
--- lspconfig.denols.setup{init_options = {config = './tsconfig.json'}}
+-- lspconfig.tsserver.setup{}
+lspconfig.denols.setup{init_options = {config = './tsconfig.json'}}
 lspconfig.pyright.setup{}
 lspconfig.clangd.setup{}
 lspconfig.sqls.setup{}
--- lspconfig.phpactor.setup{}
-lspconfig.intelephense.setup{init_options = {globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'}}
-lspconfig.jsonls.setup{cmd = {'vscode-json-language-server', '--stdio'}}
+lspconfig.phpactor.setup{}
+-- lspconfig.intelephense.setup{init_options = {globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'}}
+lspconfig.jsonls.setup{
+    cmd = {'vscode-json-language-server', '--stdio'},
+    filetypes = {'json', 'jsonc'},
+    settings = {
+        json = {
+            schemas = {
+                {
+                    fileMatch = {'composer.json'},
+                    url = 'https://raw.githubusercontent.com/composer/composer/master/res/composer-schema.json',
+                },
+                {
+                    fileMatch = {'package.json'},
+                    url = 'https://json.schemastore.org/package.json',
+                },
+                {
+                    fileMatch = {'tsconfig.json'},
+                    url = 'https://json.schemastore.org/tsconfig.json',
+                },
+                {
+                    fileMatch = {'compile_commands.json'},
+                    url = 'https://json.schemastore.org/compile-commands.json',
+                },
+            },
+        },
+    },
+}
 lspconfig.html.setup{cmd = {'vscode-html-language-server', '--stdio'}}
 lspconfig.cssls.setup{cmd = {'vscode-css-language-server', '--stdio'}}
 lspconfig.zeta_note.setup{cmd = {'zeta-note'}}
+lspconfig.zls.setup{}
 
 local runtime_path = vim.split(package.path, ';', true)
 table.insert(runtime_path, 'lua/?.lua')
@@ -91,7 +117,7 @@ lspconfig.sumneko_lua.setup{
                 path = runtime_path,
             },
             diagnostics = {
-                globals = {'vim', 'love', 'dump', 'describe', 'it'},
+                globals = {'vim', 'love', 'put', 'describe', 'it'},
             },
             workspace = {
                 preloadFileSize = 150,

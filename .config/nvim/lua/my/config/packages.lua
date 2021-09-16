@@ -8,8 +8,8 @@ require('packer').startup{function(use)
             require('lualine').setup {
                 options = {
                     theme = 'dracula',
-                    section_separators = {'', ''},
-                    component_separators = {'', ''},
+                    section_separators = {left = '', right = ''},
+                    component_separators = {left = '', right = ''},
                 },
                 extensions = {'quickfix'},
                 sections = {
@@ -145,9 +145,9 @@ require('packer').startup{function(use)
             vim.g['lf#replace_netrw'] = 1
             vim.g['lf#set_default_mappings'] = 0
             vim.g['lf#action'] = {
-                ['<C-t>'] = 'tab split',
-                ['<C-x>'] = 'split',
-                ['<C-v>'] = 'vsplit',
+                ['<C-T>'] = 'tab split',
+                ['<C-X>'] = 'split',
+                ['<C-V>'] = 'vsplit',
             }
             vim.g['lf#layout'] = {window = {width = 0.9, height = 0.6}}
             vim.g['lf#command'] = 'lf -command "map e open; map <esc> quit; map <enter> open"'
@@ -232,5 +232,4 @@ require('packer').startup{function(use)
 end,
 config = {
     max_jobs = 10,
-    default_url_format = 'git://github.com/%s',
 }}

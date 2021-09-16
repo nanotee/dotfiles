@@ -1,13 +1,13 @@
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
     highlight = {
         enable = true,
     },
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = '<C-A-k>',
-            node_incremental = '<C-A-k>',
-            node_decremental = '<C-A-j>',
+            init_selection = '<C-A-K>',
+            node_incremental = '<C-A-K>',
+            node_decremental = '<C-A-J>',
         },
     },
     playground = {

@@ -98,7 +98,6 @@ opt.switchbuf:append{'usetab'}
 opt.shortmess:append{c = true, I = true}
 opt.completeopt = {'menuone', 'noselect'}
 opt.shada:append{':1000', '/1000'}
-opt.wildcharm = 9
 
 g.mapleader = 'ù'
 g.maplocalleader = 'à'
@@ -107,12 +106,10 @@ map('i', 'jk', '<Esc>', {})
 
 map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', {})
 
-map('n', '<Leader>rc', '<Cmd>tabedit $MYVIMRC<CR>', {noremap = true})
-
 map('', 'j', "(v:count? 'j' : 'gj')", {noremap = true, expr = true})
 map('', 'k', "(v:count? 'k' : 'gk')", {noremap = true, expr = true})
 
-map('n', '<C-w>e', '<Cmd>wincmd _ | wincmd |<CR>', {noremap = true})
+map('n', '<C-W>e', '<Cmd>wincmd _ | wincmd |<CR>', {noremap = true})
 
 map('o', 'ad', '<Cmd>normal! ggVG<CR>', {noremap = true})
 map('x', 'ad', 'gg0oG$', {noremap = true})
@@ -120,9 +117,6 @@ map('x', 'ad', 'gg0oG$', {noremap = true})
 map('n', '<Leader>rr',  '<Cmd>RunCode<CR>', {noremap = true})
 map('n', '<Leader>rl',  '<Cmd>.RunCode<CR>', {noremap = true})
 map('v', '<leader>r', ':RunCode<CR>', {noremap = true})
-
-map('c', '<Tab>', [[getcmdtype() =~# '[/?]' ? "\<C-g>" : "\<Tab>"]], {expr = true, noremap = true})
-map('c', '<S-Tab>', [[getcmdtype() =~# '[/?]' ? "\<C-t>" : "\<S-Tab>"]], {expr = true, noremap = true})
 
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
 local notify_send_urgency_map = {

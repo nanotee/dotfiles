@@ -23,6 +23,6 @@ endfunction
 xnoremap <silent> * <Cmd>call <SID>VSetSearch()<CR>
             \<Cmd>let v:hlsearch = 1<CR>
             \<Cmd>let v:searchforward = 1<CR>
-xnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>
+xnoremap <silent> # <Cmd>call <SID>VSetSearch()<CR>
             \<Cmd>let v:hlsearch = 1<CR>
             \<Cmd>let v:searchforward = 0<CR>

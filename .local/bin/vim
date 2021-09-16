@@ -1,12 +1,10 @@
 #!/usr/bin/env sh
 
-SRC_DIR="$HOME/.local/bin/vim-src"
-
 export VIM=$XDG_CONFIG_HOME/vim
-export VIMRUNTIME="$SRC_DIR/runtime"
+export VIMRUNTIME="/usr/share/vim/vim82"
 export MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
-exec "$SRC_DIR/src/vim" \
+exec "/usr/bin/vim" \
     --cmd \
     'set directory=$XDG_CACHE_HOME/vim,~/,/tmp
     set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp

@@ -1,9 +1,4 @@
 local lsp = vim.lsp
-local map = vim.api.nvim_set_keymap
-map('n', ']!', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', {noremap = true})
-map('n', '[!', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap = true})
-map('n', 'g!', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "rounded"})<CR>', {noremap = true})
-
 lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics,
     {virtual_text = false})
 

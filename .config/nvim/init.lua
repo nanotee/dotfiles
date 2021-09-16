@@ -118,6 +118,10 @@ map('n', '<Leader>rr',  '<Cmd>RunCode<CR>', {noremap = true})
 map('n', '<Leader>rl',  '<Cmd>.RunCode<CR>', {noremap = true})
 map('v', '<leader>r', ':RunCode<CR>', {noremap = true})
 
+map('n', ']!', '<Cmd>lua vim.diagnostic.goto_next({popup_opts = {border = "rounded"}})<CR>', {noremap = true})
+map('n', '[!', '<Cmd>lua vim.diagnostic.goto_prev({popup_opts = {border = "rounded"}})<CR>', {noremap = true})
+map('n', 'g!', '<Cmd>lua vim.diagnostic.show_position_diagnostics({border = "rounded"})<CR>', {noremap = true})
+
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
 local notify_send_urgency_map = {
     [vim.lsp.log_levels.TRACE] = 'low',

@@ -28,31 +28,46 @@ require('packer').startup{function(use)
         }
     }
     use {
-        'hrsh7th/nvim-compe',
+        'hrsh7th/nvim-cmp',
         config = function()
-            require('compe').setup {
-                source = {
-                    path = true,
-                    buffer = true,
-                    nvim_lsp = true,
-                    vsnip = true,
+            local cmp = require('cmp')
+            cmp.setup {
+                sources = {
+                    {name = 'buffer'},
+                    {name = 'nvim_lsp'},
+                    {name = 'luasnip'},
                 },
-                preselect = 'always',
+                snippet = {
+                    expand = function(args)
+                        require('luasnip').lsp_expand(args.body)
+                    end,
+                },
+                mapping = {
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.close(),
+                    ['<CR>'] = cmp.mapping.confirm({select = true}),
+                },
+                documentation = {
+                    border = 'rounded',
+                },
             }
         end,
-        event = 'InsertEnter *',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+            'saadparwaiz1/cmp_luasnip',
+        },
     }
     use {
-        'hrsh7th/vim-vsnip',
+        'L3MON4D3/LuaSnip',
         config = function()
+            require('luasnip.loaders.from_vscode').load()
             local map = vim.api.nvim_set_keymap
 
-            map('i', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : compe#confirm("\<Tab>")]], {expr = true})
-            map('i', '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], {expr = true})
-            map('s', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], {expr = true})
-            map('s', '<S-Tab>', [[vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], {expr = true})
-
-            vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. '/snippets'
+            map('i', '<Tab>', [[luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>']], {expr = true})
+            map('i', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]], {noremap = true})
+            map('s', '<Tab>', [[<Cmd>lua require('luasnip').jump(1)<CR>]], {noremap = true})
+            map('s', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]], {noremap = true})
         end,
         requires = 'rafamadriz/friendly-snippets',
     }

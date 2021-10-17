@@ -1,0 +1,18 @@
+{
+    "contributes": {
+        "snippets": [
+            {
+                "language": "markdown",
+                "path": "./snippets/markdown.json"
+            },
+            {
+                "language": "sh",
+                "path": "./snippets/sh.json"
+            },
+            {
+                "language": "vim",
+                "path": "./snippets/vim.json"
+            }
+        ]
+    }
+}

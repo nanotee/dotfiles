@@ -1,6 +1,5 @@
 require('packer').startup{function(use)
     use 'wbthomason/packer.nvim'
-    use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
     use {
         'lua-line/lualine.nvim',
@@ -59,9 +58,11 @@ require('packer').startup{function(use)
     }
     use {
         'nvim-treesitter/nvim-treesitter',
-        opt = true,
         config = 'require("my.config.treesitter")',
-        requires = {'nvim-treesitter/playground', opt = true},
+        requires = {
+            'nvim-treesitter/playground',
+            'JoosepAlviste/nvim-ts-context-commentstring',
+        },
     }
     use {
         'mfussenegger/nvim-lint',
@@ -127,6 +128,7 @@ require('packer').startup{function(use)
         keys = '<Leader>w',
     }
     use 'tweekmonster/helpful.vim'
+    use 'tpope/vim-commentary'
     use {'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
     use {
         'tpope/vim-fugitive',
@@ -172,16 +174,6 @@ require('packer').startup{function(use)
             }
         end,
     }
-    use {
-        'tomtom/tcomment_vim',
-        config = function()
-            vim.g.tcomment_mapleader1 = 0
-            vim.g.tcomment_mapleader2 = 0
-            vim.g.tcomment_mapleader_uncomment_anyway = 0
-            vim.g.tcomment_mapleader_comment_anyway = 0
-            vim.g.tcomment_textobject_inlinecomment = 0
-        end
-    }
     use {'machakann/vim-sandwich', config = 'vim.cmd "runtime macros/sandwich/keymap/surround.vim"'}
     use {
         'tmsvg/pear-tree',
@@ -223,6 +215,17 @@ require('packer').startup{function(use)
     use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")', opt = true}
     use 'jbyuki/one-small-step-for-vimkind'
     use 'folke/lua-dev.nvim'
+
+    -- Language plugins
+    use 'daveyarwood/vim-alda'
+    use 'killphi/vim-ebnf'
+    use 'ziglang/zig.vim'
+    use 'lumiliet/vim-twig'
+    use 'jwalton512/vim-blade'
+    use 'plasticboy/vim-markdown'
+    use 'zah/nim.vim'
+    use 'MTDL9/vim-log-highlighting'
+    use 'mustache/vim-mustache-handlebars'
 
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'

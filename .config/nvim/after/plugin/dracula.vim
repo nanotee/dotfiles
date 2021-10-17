@@ -62,6 +62,14 @@ function! s:set_dracula_custom() abort
   hi! link vimFuncName DraculaCyan
   hi! link vimFuncVar  DraculaOrangeItalic
   hi! link vimNotation Constant
+  " tree-sitter
+  hi! link TSConstBuiltin       Constant
+  hi! link TSField              Identifier
+  hi! link TSNamespace          Identifier
+  hi! link TSParameterReference DraculaOrangeItalic
+  hi! link jsonTSLabel          DraculaCyan
+  hi! link yamlTSField          DraculaCyan
+  hi! link yamlTSPunctDelimiter DraculaPink
 endfunction
 
 augroup set_dracula_custom

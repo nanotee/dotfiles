@@ -1,8 +1,6 @@
 local map = vim.api.nvim_set_keymap
 local g, opt = vim.g, vim.opt
 
-g.polyglot_disabled = {'sensible', 'autoindent'}
-
 function _G.put(...)
     local objects = {}
     for i = 1, select('#', ...) do

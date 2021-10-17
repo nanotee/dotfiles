@@ -14,4 +14,7 @@ require('nvim-treesitter.configs').setup {
         enable = true,
         updatetime = 25,
     },
+    context_commentstring = {
+        enable = true,
+    },
 }

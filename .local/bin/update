@@ -51,12 +51,12 @@ zoxide() {
 
     gh release download \
         --repo ajeetdsouza/zoxide \
-        --pattern "zoxide-x86_64-unknown-linux-musl.tar.gz" \
+        --pattern "zoxide-*-x86_64-unknown-linux-musl.tar.gz" \
         --dir="$TMP"
 
     cd "$TMP"
-    tar xf zoxide-x86_64-unknown-linux-musl.tar.gz
-    cd zoxide-x86_64-unknown-linux-musl
+    tar xf zoxide-*-x86_64-unknown-linux-musl.tar.gz
+    cd zoxide-*-x86_64-unknown-linux-musl
 
     local BINARY_LOCATION="$XDG_BIN_HOME/zoxide"
 

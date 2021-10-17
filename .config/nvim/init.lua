@@ -64,7 +64,7 @@ opt.guicursor = {
 opt.virtualedit = 'block'
 
 opt.expandtab = true
-opt.shiftwidth = 4
+opt.shiftwidth = 0
 opt.tabstop = 4
 
 opt.ignorecase = true
@@ -96,7 +96,7 @@ opt.updatetime = 300
 opt.undofile = true
 opt.switchbuf:append{'usetab'}
 opt.shortmess:append{c = true, I = true}
-opt.completeopt = {'menuone', 'noselect'}
+opt.completeopt = {'menu', 'menuone', 'noselect'}
 opt.shada:append{':1000', '/1000'}
 
 g.mapleader = 'ù'
@@ -122,26 +122,30 @@ map('n', ']!', '<Cmd>lua vim.diagnostic.goto_next({popup_opts = {border = "round
 map('n', '[!', '<Cmd>lua vim.diagnostic.goto_prev({popup_opts = {border = "rounded"}})<CR>', {noremap = true})
 map('n', 'g!', '<Cmd>lua vim.diagnostic.show_position_diagnostics({border = "rounded"})<CR>', {noremap = true})
 
+vim.diagnostic.config{
+    virtual_text = false,
+}
+
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
 local notify_send_urgency_map = {
-    [vim.lsp.log_levels.TRACE] = 'low',
-    [vim.lsp.log_levels.DEBUG] = 'low',
-    [vim.lsp.log_levels.INFO]  = 'normal',
-    [vim.lsp.log_levels.WARN]  = 'normal',
-    [vim.lsp.log_levels.ERROR] = 'critical',
+    [vim.log.levels.TRACE] = 'low',
+    [vim.log.levels.DEBUG] = 'low',
+    [vim.log.levels.INFO]  = 'normal',
+    [vim.log.levels.WARN]  = 'normal',
+    [vim.log.levels.ERROR] = 'critical',
 }
 
 -- https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
 local xdg_icons_map = {
-    [vim.lsp.log_levels.TRACE] = 'nvim',
-    [vim.lsp.log_levels.DEBUG] = 'nvim',
-    [vim.lsp.log_levels.INFO]  = 'dialog-information',
-    [vim.lsp.log_levels.WARN]  = 'dialog-warning',
-    [vim.lsp.log_levels.ERROR] = 'dialog-error',
+    [vim.log.levels.TRACE] = 'nvim',
+    [vim.log.levels.DEBUG] = 'nvim',
+    [vim.log.levels.INFO]  = 'dialog-information',
+    [vim.log.levels.WARN]  = 'dialog-warning',
+    [vim.log.levels.ERROR] = 'dialog-error',
 }
 
 function vim.notify(msg, log_level, opts)
-    log_level = log_level or vim.lsp.log_levels.TRACE
+    log_level = log_level or vim.log.levels.TRACE
     opts = opts or {}
     local command = {
         'notify-send',
@@ -158,6 +162,31 @@ function vim.notify(msg, log_level, opts)
     command[#command+1] = opts.title or 'Neovim'
     command[#command+1] = msg
     vim.fn.jobstart(command)
+end
+
+function vim.ui.select(items, opts, on_choice)
+    vim.validate {
+        items = { items, 'table', false },
+        on_choice = { on_choice, 'function', false },
+    }
+    opts = opts or {}
+    local choices = {}
+    local lookup = {}
+    local format_item = opts.format_item or tostring
+    for i, item in pairs(items) do
+        local choice = ('%s: %s'):format(i, format_item(item))
+        choices[#choices+1] = choice
+        lookup[choice] = item
+    end
+    local fzf_wrapped_options = vim.fn['fzf#wrap']('vim.ui.select', {
+            source = choices,
+            options = {'--prompt', opts.prompt or 'Select one of:'}
+        })
+    fzf_wrapped_options['sink*'] = function(result)
+        on_choice(lookup[result[2]], result)
+    end
+
+    vim.fn['fzf#run'](fzf_wrapped_options)
 end
 
 require('my.config.packages')

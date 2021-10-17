@@ -3,7 +3,7 @@ require('packer').startup{function(use)
     use 'sheerun/vim-polyglot'
     use {'dracula/vim', as = 'dracula'}
     use {
-        'shadmansaleh/lualine.nvim',
+        'lua-line/lualine.nvim',
         config = function()
             require('lualine').setup {
                 options = {
@@ -137,7 +137,7 @@ require('packer').startup{function(use)
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
     use 'tpope/vim-projectionist'
-    use {'tpope/vim-dispatch', requires = 'radenling/vim-dispatch-neovim'}
+    use 'tpope/vim-dispatch'
     use 'kristijanhusak/vim-dadbod-ui'
     use {
         'mroavi/lf.vim',
@@ -159,6 +159,7 @@ require('packer').startup{function(use)
     use {
         'mattn/emmet-vim',
         config = function()
+            vim.g.user_emmet_leader_key = '<C-s>'
             vim.g.user_emmet_settings = {
                 html = {
                     snippets = {

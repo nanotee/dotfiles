@@ -1,7 +1,4 @@
 local lsp = vim.lsp
-lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics,
-    {virtual_text = false})
-
 lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover,
     {border = 'rounded'})
 
@@ -11,7 +8,7 @@ lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_hel
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
-        require('sqls').setup{picker = 'fzf'}
+        require('sqls').setup{}
     end
 
     require('lsp_basics').make_lsp_commands(client, bufnr)

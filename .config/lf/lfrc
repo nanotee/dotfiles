@@ -20,6 +20,7 @@ set ifs "\n"
 set scrolloff 10
 set icons
 set incsearch
+set incfilter
 
 cmd open &{{
     case $(file --mime-type --brief "$f") in
@@ -37,9 +38,6 @@ cmd tabnew &konsole --new-tab -e lf $PWD
 
 # habits die hard
 cmd q :quit
-
-# use . to toggle dotfiles visibility, like nnn
-map . set hidden!
 
 # preview files
 set previewer lf-preview

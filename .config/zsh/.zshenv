@@ -1,6 +1,6 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
-export MANPAGER="nvim -u NORC --noplugin --cmd 'runtime! plugin/man.vim' +Man!"
+export MANPAGER="nvim -u NORC --noplugin --cmd 'runtime! plugin/man.vim' +'color dracula' +'set termguicolors' +Man!"
 export BROWSER="firefox"
 export OPENER="xdg-open"
 export LESS=" -R "

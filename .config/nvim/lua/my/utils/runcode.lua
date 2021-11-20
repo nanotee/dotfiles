@@ -13,7 +13,7 @@ local filetype_cmds = {
         print(fn.execute(lines))
     end,
     c = function()
-        print(fn.system({'c', fn.expand('%')}))
+        print(fn.system({'zig', 'run', '-lc', fn.expand('%')}))
     end,
 }
 

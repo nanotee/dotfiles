@@ -20,9 +20,8 @@ source_if_exists "${ZDOTDIR:-$HOME}/.aliases.sh"
 # Plugins
 antibody bundle << EOF
 romkatv/powerlevel10k
-zdharma/fast-syntax-highlighting
+z-shell/fast-syntax-highlighting
 Aloxaf/fzf-tab
-ryanmjacobs/c kind:path
 troydm/exp kind:path
 todotxt/todo.txt-cli kind:path
 trapd00r/vidir kind:path path:bin

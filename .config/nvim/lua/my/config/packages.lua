@@ -1,8 +1,9 @@
 require('packer').startup{function(use)
     use 'wbthomason/packer.nvim'
+    use 'lewis6991/impatient.nvim'
     use {'dracula/vim', as = 'dracula'}
     use {
-        'lua-line/lualine.nvim',
+        'nvim-lualine/lualine.nvim',
         config = function()
             require('lualine').setup {
                 options = {
@@ -33,7 +34,7 @@ require('packer').startup{function(use)
             local cmp = require('cmp')
             cmp.setup {
                 sources = {
-                    {name = 'buffer'},
+                    {name = 'buffer', keyword_length = 3},
                     {name = 'nvim_lsp'},
                     {name = 'luasnip'},
                 },
@@ -44,7 +45,6 @@ require('packer').startup{function(use)
                 },
                 mapping = {
                     ['<C-Space>'] = cmp.mapping.complete(),
-                    ['<C-e>'] = cmp.mapping.close(),
                     ['<CR>'] = cmp.mapping.confirm({select = true}),
                 },
                 documentation = {
@@ -95,7 +95,7 @@ require('packer').startup{function(use)
             augroup END
             ]], false)
 
-            vim.cmd("command! -nargs=? Lint lua require('lint').try_lint(<f-args>)")
+            vim.cmd("command! -nargs=? -complete=custom,v:lua.nvim_linters Lint lua require('lint').try_lint(<f-args>)")
         end,
     }
     use {
@@ -176,7 +176,6 @@ require('packer').startup{function(use)
     use {
         'mattn/emmet-vim',
         config = function()
-            vim.g.user_emmet_leader_key = '<C-s>'
             vim.g.user_emmet_settings = {
                 html = {
                     snippets = {
@@ -227,17 +226,17 @@ require('packer').startup{function(use)
         config = [[vim.g.vcoolor_custom_picker = "kdialog --title 'vCoolor' --getcolor --default "]],
     }
     use 'kergoth/vim-hilinks'
-    use {'mfussenegger/nvim-dap', config = 'require("my.config.dap")', opt = true}
+    use {
+        'mfussenegger/nvim-dap',
+        -- config = 'require("my.config.dap")'
+    }
     use 'jbyuki/one-small-step-for-vimkind'
     use 'folke/lua-dev.nvim'
 
     -- Language plugins
-    use 'daveyarwood/vim-alda'
-    use 'killphi/vim-ebnf'
     use 'ziglang/zig.vim'
     use 'lumiliet/vim-twig'
-    use 'jwalton512/vim-blade'
-    use 'plasticboy/vim-markdown'
+    use {'plasticboy/vim-markdown', config = 'vim.g.vim_markdown_folding_disabled = 1'}
     use 'zah/nim.vim'
     use 'MTDL9/vim-log-highlighting'
     use 'mustache/vim-mustache-handlebars'

@@ -1,3 +1,5 @@
+require('impatient')
+
 local map = vim.api.nvim_set_keymap
 local g, opt = vim.g, vim.opt
 
@@ -22,6 +24,15 @@ function _G.benchmark(fun, name)
     fun()
     local total = (vim.loop.hrtime() - start) / 1e6
     print(total, 'ms', name and '--- ' .. name or '')
+end
+
+function _G.nvim_linters()
+    local result = {}
+    for _, file in ipairs(vim.api.nvim_get_runtime_file('lua/lint/linters/*', true)) do
+        local linter = vim.fn.fnamemodify(file, ':t:r')
+        table.insert(result, linter)
+    end
+    return table.concat(result, '\n')
 end
 
 vim.cmd [[colorscheme dracula]]
@@ -116,12 +127,15 @@ map('n', '<Leader>rr',  '<Cmd>RunCode<CR>', {noremap = true})
 map('n', '<Leader>rl',  '<Cmd>.RunCode<CR>', {noremap = true})
 map('v', '<leader>r', ':RunCode<CR>', {noremap = true})
 
-map('n', ']!', '<Cmd>lua vim.diagnostic.goto_next({popup_opts = {border = "rounded"}})<CR>', {noremap = true})
-map('n', '[!', '<Cmd>lua vim.diagnostic.goto_prev({popup_opts = {border = "rounded"}})<CR>', {noremap = true})
-map('n', 'g!', '<Cmd>lua vim.diagnostic.show_position_diagnostics({border = "rounded"})<CR>', {noremap = true})
+map('n', ']!', '<Cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
+map('n', '[!', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
+map('n', 'g!', '<Cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>', {noremap = true})
 
 vim.diagnostic.config{
     virtual_text = false,
+    float = {
+        border = 'rounded',
+    },
 }
 
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
@@ -177,9 +191,9 @@ function vim.ui.select(items, opts, on_choice)
         lookup[choice] = item
     end
     local fzf_wrapped_options = vim.fn['fzf#wrap']('vim.ui.select', {
-            source = choices,
-            options = {'--prompt', opts.prompt or 'Select one of:'}
-        })
+        source = choices,
+        options = {'--prompt', opts.prompt or 'Select one of:'}
+    })
     fzf_wrapped_options['sink*'] = function(result)
         on_choice(lookup[result[2]], result)
     end

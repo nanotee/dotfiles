@@ -18,7 +18,7 @@
     "for": {
         "prefix": "for",
         "body": [
-            "for ${1:var} in ${2:list}",
+            "for ${1:var} in ${2:object}",
             "\t$0",
             "endfor"
         ]

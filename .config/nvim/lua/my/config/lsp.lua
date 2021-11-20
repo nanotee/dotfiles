@@ -8,6 +8,7 @@ lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_hel
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
         client.resolved_capabilities.execute_command = true
+        client.commands = require('sqls').commands
         require('sqls').setup{}
     end
 
@@ -81,6 +82,7 @@ lspconfig.jsonls.setup{
         },
     },
 }
+lspconfig.yamlls.setup{}
 lspconfig.html.setup{cmd = {'vscode-html-language-server', '--stdio'}}
 lspconfig.cssls.setup{cmd = {'vscode-css-language-server', '--stdio'}}
 lspconfig.zeta_note.setup{cmd = {'zeta-note'}}
@@ -103,10 +105,13 @@ lspconfig.sumneko_lua.setup{
             },
             workspace = {
                 preloadFileSize = 150,
-                library = vim.api.nvim_get_runtime_file('', true),
+                library = {
+                    vim.fn.stdpath('data') .. '/site/pack/packer/start/lua-dev.nvim',
+                },
             },
             completion = {
                 callSnippet = 'Replace',
+                showWord = 'Disable',
             },
         },
     },

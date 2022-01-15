@@ -151,15 +151,16 @@ function vim.ui.select(items, opts, on_choice)
     local format_item = opts.format_item or tostring
     for i, item in pairs(items) do
         local choice = ('%s: %s'):format(i, format_item(item))
-        choices[#choices+1] = choice
-        lookup[choice] = item
+        table.insert(choices, choice)
+        lookup[choice] = #choices
     end
     local fzf_wrapped_options = vim.fn['fzf#wrap']('vim.ui.select', {
         source = choices,
         options = {'--prompt', opts.prompt or 'Select one of:'}
     })
     fzf_wrapped_options['sink*'] = function(result)
-        on_choice(lookup[result[2]], result)
+        local index = lookup[result[2]]
+        on_choice(items[index], index)
     end
 
     vim.fn['fzf#run'](fzf_wrapped_options)

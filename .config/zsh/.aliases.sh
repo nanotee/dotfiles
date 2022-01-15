@@ -15,6 +15,3 @@ mkcd() { mkdir -p "$@" && cd "$@"; }
 detach() { (nohup "$@" &>/dev/null &) }
 
 alias path='echo $PATH | tr ":" "\n" | nl'
-
-alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
-alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'

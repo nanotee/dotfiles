@@ -7,9 +7,7 @@ lsp.handlers['textDocument/signatureHelp'] = lsp.with(lsp.handlers.signature_hel
 
 local function custom_attach(client, bufnr)
     if client.name == 'sqls' then
-        client.resolved_capabilities.execute_command = true
-        client.commands = require('sqls').commands
-        require('sqls').setup{}
+        require('sqls').on_attach(client, bufnr)
     end
 
     require('lsp_basics').make_lsp_commands(client, bufnr)
@@ -30,13 +28,6 @@ local function custom_attach(client, bufnr)
         bmap('n', 'gA', vim.lsp.buf.code_action)
         bmap('x', 'gA', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>')
     end
-
-    require('lsp_signature').on_attach{
-        bind = true,
-        handler_opts = {
-            border = 'rounded',
-        },
-    }
 end
 
 local lspconfig = require('lspconfig')
@@ -46,11 +37,9 @@ lspconfig.util.default_config = vim.tbl_extend(
     {
         capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
         on_attach = custom_attach,
-        flags = { debounce_text_changes = 150 },
     })
 
--- lspconfig.tsserver.setup{}
-lspconfig.denols.setup{init_options = {config = './tsconfig.json'}}
+lspconfig.denols.setup{init_options = {config = './deno.json'}}
 lspconfig.pyright.setup{}
 lspconfig.clangd.setup{}
 lspconfig.sqls.setup{}
@@ -77,6 +66,14 @@ lspconfig.jsonls.setup{
                 {
                     fileMatch = {'compile_commands.json'},
                     url = 'https://json.schemastore.org/compile-commands.json',
+                },
+                {
+                    fileMatch = {'.prettierrc'},
+                    url = 'https://json.schemastore.org/prettierrc.json',
+                },
+                {
+                    fileMatch = {'deno.json', 'deno.jsonc'},
+                    url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
                 },
             },
         },

@@ -25,7 +25,6 @@ antibody bundle << EOF
 romkatv/powerlevel10k
 z-shell/fast-syntax-highlighting
 Aloxaf/fzf-tab
-troydm/exp kind:path
 todotxt/todo.txt-cli kind:path
 trapd00r/vidir kind:path path:bin
 chubin/cheat.sh kind:path path:share

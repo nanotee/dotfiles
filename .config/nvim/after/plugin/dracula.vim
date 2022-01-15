@@ -4,6 +4,7 @@ endif
 let g:loaded_dracula_custom_colors = 1
 
 function! s:set_dracula_custom() abort
+  hi! link LspSignatureActiveParameter DraculaOrange
   " Make inactive windows darker
   hi! link NormalNC Pmenu
   " diff
@@ -64,11 +65,17 @@ function! s:set_dracula_custom() abort
   hi! link vimNotation Constant
   " tree-sitter
   hi! link TSConstBuiltin       Constant
+  hi! link TSEmphasis           DraculaYellowItalic
   hi! link TSField              Identifier
+  hi! link TSLiteral            DraculaGreen
   hi! link TSNamespace          Identifier
   hi! link TSParameterReference DraculaOrangeItalic
+  hi! link TSStrong             DraculaOrangeBold
+  hi! link TSTitle              DraculaPurpleBold
+  hi! link markdownTSURI        DraculaCyan
   hi! link jsonTSLabel          DraculaCyan
   hi! link yamlTSField          DraculaCyan
+  hi! link yamlTSPunctDelimiter DraculaPink
   hi! link yamlTSPunctDelimiter DraculaPink
 endfunction
 

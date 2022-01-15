@@ -25,7 +25,6 @@ require('packer').startup{function(use)
         requires = {
             'kosayoda/nvim-lightbulb',
             {'ojroques/nvim-lspfuzzy', config = 'require("lspfuzzy").setup{}'},
-            'ray-x/lsp_signature.nvim',
         }
     }
     use {
@@ -37,6 +36,7 @@ require('packer').startup{function(use)
                     {name = 'buffer', keyword_length = 3},
                     {name = 'nvim_lsp'},
                     {name = 'luasnip'},
+                    {name = 'nvim_lsp_signature_help'},
                 },
                 snippet = {
                     expand = function(args)
@@ -56,6 +56,7 @@ require('packer').startup{function(use)
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'saadparwaiz1/cmp_luasnip',
+            'hrsh7th/cmp-nvim-lsp-signature-help',
         },
     }
     use {
@@ -206,30 +207,6 @@ require('packer').startup{function(use)
     }
     use 'editorconfig/editorconfig-vim'
     use {
-        'norcalli/nvim-colorizer.lua',
-        config = function()
-            require('colorizer').setup {
-                'html',
-                'htmldjango',
-                'markdown',
-                'scss',
-                'javascript',
-                'php',
-                'vim',
-                css = {
-                    RGB      = true,
-                    RRGGBB   = true,
-                    names    = true,
-                    RRGGBBAA = true,
-                    rgb_fn   = true,
-                    hsl_fn   = true,
-                    css      = true,
-                    css_fn   = true,
-                },
-            }
-        end,
-    }
-    use {
         'KabbAmine/vCoolor.vim',
         config = [[vim.g.vcoolor_custom_picker = "kdialog --title 'vCoolor' --getcolor --default "]],
     }
@@ -242,7 +219,6 @@ require('packer').startup{function(use)
     use 'folke/lua-dev.nvim'
 
     -- Language plugins
-    use 'ziglang/zig.vim'
     use 'lumiliet/vim-twig'
     use {'plasticboy/vim-markdown', config = 'vim.g.vim_markdown_folding_disabled = 1'}
     use 'zah/nim.vim'
@@ -251,7 +227,6 @@ require('packer').startup{function(use)
 
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'
-    use '~/Projets/dev/nvim/nvim-if-lua-compat'
     use '~/Projets/dev/nvim/sqls.nvim'
     use '~/Projets/dev/nvim/nvim-lsp-basics'
     use '~/Projets/dev/nvim/luv-vimdocs'

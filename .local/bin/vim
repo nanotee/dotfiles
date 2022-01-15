@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 
-export VIM=$XDG_CONFIG_HOME/vim
+export VIM="$XDG_CONFIG_HOME/vim"
 export VIMRUNTIME="/usr/share/vim/vim82"
 export MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
+# shellcheck disable=SC2016
 exec "/usr/bin/vim" \
+    -u "$MYVIMRC" \
     --cmd \
     'set directory=$XDG_CACHE_HOME/vim,~/,/tmp
     set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
@@ -14,5 +16,6 @@ exec "/usr/bin/vim" \
     set packpath+=$XDG_CONFIG_HOME/vim
     let &undodir = $XDG_DATA_HOME .. "/vim/undo"
     set runtimepath+=/usr/share/vim/vimfiles
-    set runtimepath+=/usr/share/vim/addons' \
+    set runtimepath+=/usr/share/vim/addons
+    runtime filetype.vim' \
     "$@"

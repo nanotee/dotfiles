@@ -14,6 +14,9 @@ source <(antibody init)
 # zsh-completions has to be added to fpath early or compinit won't take it into account
 antibody bundle zsh-users/zsh-completions kind:fpath path:src
 
+source_if_exists "$ASDF_DATA_DIR/asdf.sh"
+fpath=($ASDF_DATA_DIR/completions $fpath)
+
 source_if_exists "${ZDOTDIR:-$HOME}/.options.zsh"
 source_if_exists "${ZDOTDIR:-$HOME}/.aliases.sh"
 
@@ -34,12 +37,6 @@ source_if_exists "$XDG_CONFIG_HOME/lf/lf-icons"
 autoload -Uz lfcd.sh && lfcd.sh
 source_if_exists "/usr/share/fzf/key-bindings.zsh"
 autoload -Uz _fzf && _fzf
-
-# *env completions
-source_if_exists "$NODENV_ROOT/completions/nodenv.zsh"
-source_if_exists "$PYENV_ROOT/completions/pyenv.zsh"
-eval "$(pyenv virtualenv-init -)"
-source_if_exists "$PHPENV_ROOT/completions/phpenv.zsh"
 
 # GPG
 export GPG_TTY=$TTY

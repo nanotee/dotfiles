@@ -11,12 +11,6 @@ export GTK_USE_PORTAL=1
 export SUDO_ASKPASS="$XDG_BIN_HOME/gui-askpass"
 
 # env
-export PATH="$NODENV_ROOT/bin:$PATH"
-export PATH="$NODENV_ROOT/shims:$PATH"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$PYENV_ROOT/shims:$PATH"
-export PATH="$PHPENV_ROOT/bin:$PATH"
-export PATH="$PHPENV_ROOT/shims:$PATH"
 export PATH="$XDG_DATA_HOME/nimble/bin:$PATH"
 export PATH="$XDG_DATA_HOME/luarocks/bin:$PATH"
 export PATH="/usr/lib/openjdk-11/bin:$PATH"

@@ -16,18 +16,18 @@ local function custom_attach(client, bufnr)
     require('lsp_basics').make_lsp_mappings(client, bufnr)
 
     local function bmap(mode, lhs, rhs)
-        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, {noremap = true})
+        vim.keymap.set(mode, lhs, rhs, {buffer = bufnr})
     end
 
     local cap = client.resolved_capabilities
     if cap.goto_definition then
-        bmap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+        bmap('n', '<C-]>', vim.lsp.buf.definition)
     end
     if cap.hover then
-        bmap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+        bmap('n', 'K', vim.lsp.buf.hover)
     end
     if cap.code_action then
-        bmap('n', 'gA', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+        bmap('n', 'gA', vim.lsp.buf.code_action)
         bmap('x', 'gA', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>')
     end
 

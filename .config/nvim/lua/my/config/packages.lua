@@ -62,12 +62,11 @@ require('packer').startup{function(use)
         'L3MON4D3/LuaSnip',
         config = function()
             require('luasnip.loaders.from_vscode').load()
-            local map = vim.api.nvim_set_keymap
+            local map = vim.keymap.set
 
-            map('i', '<Tab>', [[luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>']], {expr = true})
-            map('i', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]], {noremap = true})
-            map('s', '<Tab>', [[<Cmd>lua require('luasnip').jump(1)<CR>]], {noremap = true})
-            map('s', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]], {noremap = true})
+            map('i', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]])
+            map('s', '<Tab>', [[<Cmd>lua require('luasnip').jump(1)<CR>]])
+            map('s', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]])
         end,
         requires = 'rafamadriz/friendly-snippets',
     }
@@ -95,6 +94,15 @@ require('packer').startup{function(use)
             augroup END
             ]], false)
 
+            function _G.nvim_linters()
+                local result = {}
+                for _, file in ipairs(vim.api.nvim_get_runtime_file('lua/lint/linters/*', true)) do
+                    local linter = vim.fn.fnamemodify(file, ':t:r')
+                    table.insert(result, linter)
+                end
+                return table.concat(result, '\n')
+            end
+
             vim.cmd("command! -nargs=? -complete=custom,v:lua.nvim_linters Lint lua require('lint').try_lint(<f-args>)")
         end,
     }
@@ -103,14 +111,14 @@ require('packer').startup{function(use)
         config = function()
             vim.g.fzf_buffers_jump = 1
 
-            local map = vim.api.nvim_set_keymap
+            local map = vim.keymap.set
 
-            map('n', '<Space>', '<Cmd>Buffers<CR>', {noremap = true})
-            map('n', '<Leader>sf', '<Cmd>Files<CR>', {noremap = true})
-            map('n', '<Leader>sc', '<Cmd>exe "Files" stdpath("config")<CR>', {noremap = true})
-            map('n', '<Leader>sp', '<Cmd>exe "Files" stdpath("data") .. "/site"<CR>', {noremap = true})
-            map('n', '<Leader>sw', '<Cmd>exe "Files" g:wiki_root<CR>', {noremap = true})
-            map('n', '<Leader>rw', '<Cmd>exe "Rg" expand("<cword>")<CR>', {noremap = true})
+            map('n', '<Space>', '<Cmd>Buffers<CR>')
+            map('n', '<Leader>sf', '<Cmd>Files<CR>')
+            map('n', '<Leader>sc', '<Cmd>exe "Files" stdpath("config")<CR>')
+            map('n', '<Leader>sp', '<Cmd>exe "Files" stdpath("data") .. "/site"<CR>')
+            map('n', '<Leader>sw', '<Cmd>exe "Files" g:wiki_root<CR>')
+            map('n', '<Leader>rw', '<Cmd>exe "Rg" expand("<cword>")<CR>')
         end,
     }
     use 'nvim-lua/plenary.nvim'
@@ -169,8 +177,8 @@ require('packer').startup{function(use)
             vim.g['lf#layout'] = {window = {width = 0.9, height = 0.6}}
             vim.g['lf#command'] = 'lf -command "map e open; map <esc> quit; map <enter> open"'
 
-            local map = vim.api.nvim_set_keymap
-            map("n", '<Leader>f', "expand('%') == '' ? '<Cmd>Lp %:p:h<CR>' : '<Cmd>Lp %<CR>'", {noremap = true, expr = true})
+            local map = vim.keymap.set
+            map("n", '<Leader>f', "expand('%') == '' ? '<Cmd>Lp %:p:h<CR>' : '<Cmd>Lp %<CR>'", {expr = true})
         end,
     }
     use {

@@ -1,39 +1,7 @@
 require('impatient')
 
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 local g, opt = vim.g, vim.opt
-
-function _G.put(...)
-    local objects = {}
-    for i = 1, select('#', ...) do
-        local v = select(i, ...)
-        table.insert(objects, vim.inspect(v))
-    end
-
-    print(table.concat(objects, '\n'))
-    return ...
-end
-
-function _G.reload(modname)
-    package.loaded[modname] = nil
-    return require(modname)
-end
-
-function _G.benchmark(fun, name)
-    local start = vim.loop.hrtime()
-    fun()
-    local total = (vim.loop.hrtime() - start) / 1e6
-    print(total, 'ms', name and '--- ' .. name or '')
-end
-
-function _G.nvim_linters()
-    local result = {}
-    for _, file in ipairs(vim.api.nvim_get_runtime_file('lua/lint/linters/*', true)) do
-        local linter = vim.fn.fnamemodify(file, ':t:r')
-        table.insert(result, linter)
-    end
-    return table.concat(result, '\n')
-end
 
 vim.cmd [[colorscheme dracula]]
 opt.termguicolors = true
@@ -41,10 +9,10 @@ opt.number = true
 opt.signcolumn = 'number'
 opt.list = true
 opt.listchars = {
-     tab = '> ',
-     eol = '¬',
-     nbsp = '␣',
-     trail = '•',
+    tab = '> ',
+    eol = '¬',
+    nbsp = '␣',
+    trail = '•',
 }
 opt.fillchars = {
     eob = ' ',
@@ -111,25 +79,21 @@ opt.shada:append{':1000', '/1000'}
 g.mapleader = 'ù'
 g.maplocalleader = 'à'
 
-map('i', 'jk', '<Esc>', {})
+map('i', 'jk', '<Esc>')
 
-map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', {})
+map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
 
-map('', 'j', "(v:count? 'j' : 'gj')", {noremap = true, expr = true})
-map('', 'k', "(v:count? 'k' : 'gk')", {noremap = true, expr = true})
+map('', 'j', "(v:count? 'j' : 'gj')", {expr = true})
+map('', 'k', "(v:count? 'k' : 'gk')", {expr = true})
 
-map('n', '<C-W>e', '<Cmd>wincmd _ | wincmd |<CR>', {noremap = true})
+map('n', '<C-W>e', '<Cmd>wincmd _ | wincmd |<CR>')
 
-map('o', 'ad', '<Cmd>normal! ggVG<CR>', {noremap = true})
-map('x', 'ad', 'gg0oG$', {noremap = true})
+map('o', 'ad', '<Cmd>normal! ggVG<CR>')
+map('x', 'ad', 'gg0oG$')
 
-map('n', '<Leader>rr',  '<Cmd>RunCode<CR>', {noremap = true})
-map('n', '<Leader>rl',  '<Cmd>.RunCode<CR>', {noremap = true})
-map('v', '<leader>r', ':RunCode<CR>', {noremap = true})
-
-map('n', ']!', '<Cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
-map('n', '[!', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
-map('n', 'g!', '<Cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>', {noremap = true})
+map('n', ']!', vim.diagnostic.goto_next)
+map('n', '[!', vim.diagnostic.goto_prev)
+map('n', 'g!', '<Cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>')
 
 vim.diagnostic.config{
     virtual_text = false,

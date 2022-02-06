@@ -2,6 +2,8 @@ require('impatient')
 
 local map = vim.keymap.set
 local g, opt = vim.g, vim.opt
+local api, fn, cmd = vim.api, vim.fn, vim.cmd
+local split = vim.split
 
 vim.cmd [[colorscheme dracula]]
 opt.termguicolors = true
@@ -86,8 +88,6 @@ map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:
 map('', 'j', "(v:count? 'j' : 'gj')", {expr = true})
 map('', 'k', "(v:count? 'k' : 'gk')", {expr = true})
 
-map('n', '<C-W>e', '<Cmd>wincmd _ | wincmd |<CR>')
-
 map('o', 'ad', '<Cmd>normal! ggVG<CR>')
 map('x', 'ad', 'gg0oG$')
 
@@ -95,12 +95,77 @@ map('n', ']!', vim.diagnostic.goto_next)
 map('n', '[!', vim.diagnostic.goto_prev)
 map('n', 'g!', '<Cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>')
 
-vim.diagnostic.config{
+local mapmodes = {'o', 'x'}
+local map_opts = {silent = true}
+for _, delimiter in ipairs{'_', '.', ':', ',', ';', '<Bar>', '/', '<Bslash>', '*', '#', '%'} do
+    map(mapmodes, 'i' .. delimiter, ':<C-U>normal! t' .. delimiter .. 'vT' .. delimiter .. '<CR>', map_opts)
+    map(mapmodes, 'a' .. delimiter, ':<C-U>normal! f' .. delimiter .. 'vF' .. delimiter .. '<CR>', map_opts)
+    map(mapmodes, 'in' .. delimiter, ':<C-U>normal! f' .. delimiter .. 'lvt' .. delimiter .. '<CR>', map_opts)
+    map(mapmodes, 'an' .. delimiter, ':<C-U>normal! f' .. delimiter .. 'lvf' .. delimiter .. '<CR>', map_opts)
+    map(mapmodes, 'il' .. delimiter, ':<C-U>normal! F' .. delimiter .. 'hvT' .. delimiter .. '<CR>', map_opts)
+    map(mapmodes, 'al' .. delimiter, ':<C-U>normal! F' .. delimiter .. 'vT' .. delimiter .. '<CR>', map_opts)
+end
+
+-- Redirects the output of an ex command in a scratch buffer. May become
+-- obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
+api.nvim_add_user_command('Redirect', function(opts)
+    local buf = api.nvim_create_buf(false, true)
+    cmd(('%s split'):format(opts.mods))
+    local win = api.nvim_get_current_win()
+    vim.wo[win].number = false
+    vim.wo[win].list = false
+    vim.bo[buf].bufhidden = 'wipe'
+
+    local result = fn.execute(opts.args)
+    api.nvim_buf_set_lines(buf, 0, 0, true, split(result, '\n', {plain = true, trimempty = true}))
+    api.nvim_win_set_buf(win, buf)
+end, {nargs = 1, complete = 'command'})
+
+api.nvim_add_user_command('Trash', function(opts)
+    local file = fn.fnamemodify(fn.bufname(opts.args), ':p')
+    cmd('bdelete' .. (opts.bang and '!' or ''))
+    fn.system({'kioclient5', 'move', file, 'trash:/'})
+    if fn.bufloaded(file) == 0 and vim.v.shell_error > 0 then
+        api.nvim_err_writeln(('Failed to move %s to trash'):format(file))
+    end
+end, {bang = true})
+
+api.nvim_add_user_command('WikiFzfSearch', function(opts)
+    fn['fzf#vim#grep'](
+        ('rg --column --line-number --no-heading --color=always --smart-case -- %s %s')
+            :format(fn.shellescape(opts.args), vim.g.wiki_root),
+        1,
+        opts.bang
+    )
+end, {bang = true, nargs = '*'})
+
+api.nvim_add_user_command('Scratch', function(opts)
+    local buf = api.nvim_create_buf(false, false)
+    vim.bo[buf].filetype = opts.args ~= '' and vim.trim(opts.args) or vim.bo.filetype
+    vim.bo[buf].buftype = 'nofile'
+    vim.bo[buf].bufhidden = 'hide'
+    vim.bo[buf].swapfile = false
+    if opts.range ~= 0 then
+        local lines_to_copy = api.nvim_buf_get_lines(api.nvim_get_current_buf(), opts.line1 - 1, opts.line2, false)
+        api.nvim_buf_set_lines(buf, 0, 1, false, lines_to_copy)
+    end
+    vim.cmd(('%s split'):format(opts.mods))
+    api.nvim_win_set_buf(0, buf)
+end, {range = 0, nargs = '?', complete = 'filetype'})
+
+vim.diagnostic.config({
     virtual_text = false,
     float = {
         border = 'rounded',
+        source = 'always',
     },
-}
+})
+
+vim.filetype.add({
+    extension = {
+        mustache = 'html.mustache',
+    },
+})
 
 -- https://www.galago-project.org/specs/notification/0.9/x320.html
 local notify_send_urgency_map = {

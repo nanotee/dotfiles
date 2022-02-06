@@ -20,13 +20,9 @@ require('packer').startup{function(use)
             }
         end,
     }
-    use {
-        'neovim/nvim-lspconfig',
-        requires = {
-            'kosayoda/nvim-lightbulb',
-            {'ojroques/nvim-lspfuzzy', config = 'require("lspfuzzy").setup{}'},
-        }
-    }
+    use 'neovim/nvim-lspconfig'
+    use 'kosayoda/nvim-lightbulb'
+    use {'ojroques/nvim-lspfuzzy', config = 'require("lspfuzzy").setup{}'}
     use {
         'hrsh7th/nvim-cmp',
         config = function()
@@ -52,33 +48,43 @@ require('packer').startup{function(use)
                 },
             }
         end,
-        requires = {
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
-            'saadparwaiz1/cmp_luasnip',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
-        },
     }
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'saadparwaiz1/cmp_luasnip'
+    use 'hrsh7th/cmp-nvim-lsp-signature-help'
     use {
         'L3MON4D3/LuaSnip',
         config = function()
             require('luasnip.loaders.from_vscode').load()
             local map = vim.keymap.set
 
+            map('i', '<Tab>', [[luasnip#expand_or_jumpable() ? "\<Plug>luasnip-expand-or-jump" : "\<Tab>"]], {expr = true, remap = true})
             map('i', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]])
             map('s', '<Tab>', [[<Cmd>lua require('luasnip').jump(1)<CR>]])
             map('s', '<S-Tab>', [[<Cmd>lua require('luasnip').jump(-1)<CR>]])
         end,
-        requires = 'rafamadriz/friendly-snippets',
     }
+    use 'rafamadriz/friendly-snippets'
     use {
         'nvim-treesitter/nvim-treesitter',
-        config = 'require("my.config.treesitter")',
-        requires = {
-            'nvim-treesitter/playground',
-            'JoosepAlviste/nvim-ts-context-commentstring',
-        },
+        config = function()
+            require('nvim-treesitter.configs').setup {
+                highlight = {
+                    enable = true,
+                },
+                playground = {
+                    enable = true,
+                    updatetime = 25,
+                },
+                context_commentstring = {
+                    enable = true,
+                },
+            }
+        end,
     }
+    use 'nvim-treesitter/playground'
+    use 'JoosepAlviste/nvim-ts-context-commentstring'
     use {
         'mfussenegger/nvim-lint',
         config = function()
@@ -154,17 +160,14 @@ require('packer').startup{function(use)
     use 'tweekmonster/helpful.vim'
     use 'tpope/vim-commentary'
     use {'tpope/vim-unimpaired', keys = {'[', ']', '<', '>', '=', 'y'}}
-    use {
-        'tpope/vim-fugitive',
-        requires = 'tpope/vim-rhubarb',
-        config = 'vim.g.fugitive_legacy_commands = 0'
-    }
+    use {'tpope/vim-fugitive', config = 'vim.g.fugitive_legacy_commands = 0'}
+    use 'tpope/vim-rhubarb'
     use 'tpope/vim-eunuch'
     use 'tpope/vim-abolish'
     use 'tpope/vim-dadbod'
+    use 'kristijanhusak/vim-dadbod-ui'
     use 'tpope/vim-projectionist'
     use 'tpope/vim-dispatch'
-    use 'kristijanhusak/vim-dadbod-ui'
     use {
         'mroavi/lf.vim',
         config = function()
@@ -210,12 +213,6 @@ require('packer').startup{function(use)
         'KabbAmine/vCoolor.vim',
         config = [[vim.g.vcoolor_custom_picker = "kdialog --title 'vCoolor' --getcolor --default "]],
     }
-    use 'kergoth/vim-hilinks'
-    use {
-        'mfussenegger/nvim-dap',
-        -- config = 'require("my.config.dap")'
-    }
-    use 'jbyuki/one-small-step-for-vimkind'
     use 'folke/lua-dev.nvim'
 
     -- Language plugins
@@ -223,7 +220,6 @@ require('packer').startup{function(use)
     use {'plasticboy/vim-markdown', config = 'vim.g.vim_markdown_folding_disabled = 1'}
     use 'zah/nim.vim'
     use 'MTDL9/vim-log-highlighting'
-    use 'mustache/vim-mustache-handlebars'
 
     -- My plugins
     use '~/Projets/dev/nvim/zoxide.vim'

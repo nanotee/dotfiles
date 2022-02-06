@@ -2,8 +2,6 @@ augroup terminal_settings
     autocmd!
     autocmd TermOpen * setlocal bufhidden=hide
     autocmd TermOpen * setlocal nonumber
-    autocmd TermOpen * setlocal scrolloff=0
-    autocmd TermOpen *zsh* startinsert
 augroup END
 augroup no_cursorline_in_insert_mode
     autocmd!

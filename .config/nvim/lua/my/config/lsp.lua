@@ -1,4 +1,5 @@
 local lsp = vim.lsp
+local api = vim.api
 lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover,
     {border = 'rounded'})
 
@@ -19,13 +20,13 @@ local function custom_attach(client, bufnr)
 
     local cap = client.resolved_capabilities
     if cap.goto_definition then
-        bmap('n', '<C-]>', vim.lsp.buf.definition)
+        bmap('n', '<C-]>', lsp.buf.definition)
     end
     if cap.hover then
-        bmap('n', 'K', vim.lsp.buf.hover)
+        bmap('n', 'K', lsp.buf.hover)
     end
     if cap.code_action then
-        bmap('n', 'gA', vim.lsp.buf.code_action)
+        bmap('n', 'gA', lsp.buf.code_action)
         bmap('x', 'gA', '<Esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>')
     end
 end
@@ -35,19 +36,17 @@ lspconfig.util.default_config = vim.tbl_extend(
     'force',
     lspconfig.util.default_config,
     {
-        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        capabilities = require('cmp_nvim_lsp').update_capabilities(lsp.protocol.make_client_capabilities()),
         on_attach = custom_attach,
     })
 
-lspconfig.denols.setup{init_options = {config = './deno.json'}}
+lspconfig.denols.setup{}
 lspconfig.pyright.setup{}
 lspconfig.clangd.setup{}
 lspconfig.sqls.setup{}
 lspconfig.phpactor.setup{}
 -- lspconfig.intelephense.setup{init_options = {globalStoragePath = vim.env.XDG_DATA_HOME .. '/intelephense'}}
 lspconfig.jsonls.setup{
-    cmd = {'vscode-json-language-server', '--stdio'},
-    filetypes = {'json', 'jsonc'},
     settings = {
         json = {
             schemas = {
@@ -80,8 +79,8 @@ lspconfig.jsonls.setup{
     },
 }
 lspconfig.yamlls.setup{}
-lspconfig.html.setup{cmd = {'vscode-html-language-server', '--stdio'}}
-lspconfig.cssls.setup{cmd = {'vscode-css-language-server', '--stdio'}}
+lspconfig.html.setup{}
+lspconfig.cssls.setup{}
 lspconfig.zeta_note.setup{cmd = {'zeta-note'}}
 lspconfig.zls.setup{}
 
@@ -90,7 +89,6 @@ table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
 lspconfig.sumneko_lua.setup{
-    cmd = {'lua-language-server'},
     settings = {
         Lua = {
             runtime = {
@@ -115,9 +113,7 @@ lspconfig.sumneko_lua.setup{
 }
 
 -- Lightbulb for CodeActions
-vim.cmd [[
-augroup LspLightBulb
-    autocmd!
-    autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()
-augroup END
-]]
+api.nvim_create_autocmd({'CursorHold', 'CursorHoldI'}, {
+    group = api.nvim_create_augroup('LspLightBulb', {}),
+    callback = function() require('nvim-lightbulb').update_lightbulb() end,
+})

@@ -108,7 +108,7 @@ end
 
 -- Redirects the output of an ex command in a scratch buffer. May become
 -- obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
-api.nvim_add_user_command('Redirect', function(opts)
+api.nvim_create_user_command('Redirect', function(opts)
     local buf = api.nvim_create_buf(false, true)
     cmd(('%s split'):format(opts.mods))
     local win = api.nvim_get_current_win()
@@ -121,7 +121,7 @@ api.nvim_add_user_command('Redirect', function(opts)
     api.nvim_win_set_buf(win, buf)
 end, {nargs = 1, complete = 'command'})
 
-api.nvim_add_user_command('Trash', function(opts)
+api.nvim_create_user_command('Trash', function(opts)
     local file = fn.fnamemodify(fn.bufname(opts.args), ':p')
     cmd('bdelete' .. (opts.bang and '!' or ''))
     fn.system({'kioclient5', 'move', file, 'trash:/'})
@@ -130,7 +130,7 @@ api.nvim_add_user_command('Trash', function(opts)
     end
 end, {bang = true})
 
-api.nvim_add_user_command('WikiFzfSearch', function(opts)
+api.nvim_create_user_command('WikiFzfSearch', function(opts)
     fn['fzf#vim#grep'](
         ('rg --column --line-number --no-heading --color=always --smart-case -- %s %s')
             :format(fn.shellescape(opts.args), vim.g.wiki_root),
@@ -139,7 +139,7 @@ api.nvim_add_user_command('WikiFzfSearch', function(opts)
     )
 end, {bang = true, nargs = '*'})
 
-api.nvim_add_user_command('Scratch', function(opts)
+api.nvim_create_user_command('Scratch', function(opts)
     local buf = api.nvim_create_buf(false, false)
     vim.bo[buf].filetype = opts.args ~= '' and vim.trim(opts.args) or vim.bo.filetype
     vim.bo[buf].buftype = 'nofile'

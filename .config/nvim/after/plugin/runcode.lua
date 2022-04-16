@@ -21,7 +21,7 @@ local filetype_cmds = {
 -- Takes a range of lines of code from the current buffer and runs them (the
 -- whole buffer is run by default)
 -- Accepts a shell command to run the code in a specific program
-api.nvim_add_user_command('RunCode',
+api.nvim_create_user_command('RunCode',
     function(params)
         local line1, line2, cmd = params.line1, params.line2, params.args
         local lines = fn.getline(line1, line2)

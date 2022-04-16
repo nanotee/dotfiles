@@ -10,6 +10,7 @@ require('packer').startup{function(use)
                     theme = 'dracula',
                     section_separators = {left = '', right = ''},
                     component_separators = {left = '', right = ''},
+                    globalstatus = true,
                 },
                 extensions = {'quickfix'},
                 sections = {
@@ -28,23 +29,27 @@ require('packer').startup{function(use)
         config = function()
             local cmp = require('cmp')
             cmp.setup {
-                sources = {
+                sources = cmp.config.sources({
                     {name = 'buffer', keyword_length = 3},
                     {name = 'nvim_lsp'},
                     {name = 'luasnip'},
                     {name = 'nvim_lsp_signature_help'},
-                },
+                }),
                 snippet = {
                     expand = function(args)
                         require('luasnip').lsp_expand(args.body)
                     end,
                 },
-                mapping = {
-                    ['<C-Space>'] = cmp.mapping.complete(),
-                    ['<CR>'] = cmp.mapping.confirm({select = true}),
-                },
-                documentation = {
-                    border = 'rounded',
+                mapping = cmp.mapping.preset.insert({
+                    ['<C-space>'] = {
+                        i = cmp.mapping.complete(),
+                    },
+                    ['<Enter>'] = {
+                        i = cmp.mapping.confirm({select = true}),
+                    },
+                }),
+                window = {
+                    documentation = cmp.config.window.bordered(),
                 },
             }
         end,
@@ -56,7 +61,7 @@ require('packer').startup{function(use)
     use {
         'L3MON4D3/LuaSnip',
         config = function()
-            require('luasnip.loaders.from_vscode').load()
+            require('luasnip.loaders.from_vscode').lazy_load()
             local map = vim.keymap.set
 
             map('i', '<Tab>', [[luasnip#expand_or_jumpable() ? "\<Plug>luasnip-expand-or-jump" : "\<Tab>"]], {expr = true, remap = true})
@@ -72,6 +77,7 @@ require('packer').startup{function(use)
             require('nvim-treesitter.configs').setup {
                 highlight = {
                     enable = true,
+                    disable = {'markdown'},
                 },
                 playground = {
                     enable = true,
@@ -91,15 +97,12 @@ require('packer').startup{function(use)
             require('lint').linters_by_ft = {
                 sh = {'shellcheck'},
                 html = {'tidy'},
-                php = {'psalm'}
             }
 
-            vim.api.nvim_exec([[
-            augroup nvim_lint
-                autocmd!
-                autocmd BufWritePost * lua require('lint').try_lint()
-            augroup END
-            ]], false)
+            vim.api.nvim_create_autocmd('BufWritePost', {
+                group = vim.api.nvim_create_augroup('nvim_lint', {}),
+                callback = function() require('lint').try_lint() end,
+            })
 
             function _G.nvim_linters()
                 local result = {}

@@ -1,7 +1,7 @@
 [user]
     email = timothee-s@mailoo.org
     name = Timothée Sterle
-    signingkey = 22196ED5
+    signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIATCVSnvp1BfvzSaaAY6IUVCHhXAch5bt44MraFrWKMD timothee-s@mailoo.org"
 [core]
     pager = delta
 [interactive]
@@ -23,7 +23,9 @@
 [merge]
     conflictstyle = diff3
 [gpg]
-    program = /usr/bin/gpg2
+    format = ssh
+[gpg "ssh"]
+    allowedSignersFile = /var/home/timothee/.config/git/allowed_signers
 [commit]
     gpgSign = true
 [tag]

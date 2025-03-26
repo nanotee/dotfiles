@@ -1,5 +1,5 @@
 # interpreter for shell commands (needs to be POSIX compatible)
-set shell zsh
+set shell sh
 
 # set '-eu' options for shell commands
 # These options are used to have safer shell commands. Option '-e' is used to
@@ -8,7 +8,7 @@ set shell zsh
 # $fx variables contain names with '*' or '?' characters. However, this option
 # is used selectively within individual commands as it can be limiting at
 # times.
-set shellopts '-eu:--shwordsplit'
+set shellopts '-eu'
 
 # set internal field separator (IFS) to "\n" for shell commands
 # This is useful to automatically split file names in $fs and $fx properly
@@ -22,40 +22,19 @@ set icons
 set incsearch
 set incfilter
 
-cmd open &{{
-    case $(file --mime-type --brief "$f") in
-    text/* || */json) lf -remote "send $id $\"$EDITOR\" \"$f\"" ;;
-    *) $OPENER "$f" ;;
-    esac
-}}
-
-# zoxide wrappers
-cmd z %lf -remote "send $id cd '$(zoxide query $@)'"
-cmd zi $lf -remote "send $id cd '$(zoxide query --interactive $@)'"
-
-# konsole wrapper
-cmd tabnew &konsole --new-tab -e lf $PWD
-
-# habits die hard
-cmd q :quit
-
 # preview files
 set previewer lf-preview
 map i $lf-preview $f | less -R
 
 # move current file or selected files to trash folder
-cmd trash &kioclient5 move $fx trash:/ && lf -remote "send $id reload"
+cmd trash &gio trash $fx && lf -remote "send $id reload"
 map D trash
 
-# execute current file (must be executable)
-map x $$f
-map X !$f
-
 # Yank the full path of a file
-cmd yank-path $echo "$f" | xclip -selection clipboard -in
+cmd yank-path $echo "$f" | wl-copy
 
 # Copy a file to the system clipboard
-map <c-c> $echo "file://$f" | xclip -selection clipboard -in -target text/uri-list
+map <c-c> $echo "file://$f" | wl-copy --type text/uri-list
 
 # jump to directory using fzf
 cmd fzf-jump ${{
@@ -96,14 +75,3 @@ cmd vidir ${{
 
 # Rename without changing the extension
 map R :rename; cmd-word-back; cmd-left
-
-# preview an image
-map I ${{
-    mime_type=$(file -bi $f)
-    if [[ $mime_type != image/* ]]; then
-        lf -remote "send $id echoerr 'Not an image'"
-        exit
-    fi
-
-    display $f
-}}

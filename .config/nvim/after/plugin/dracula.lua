@@ -14,10 +14,6 @@ local highlight_groups = {
     DiffChange = {bg = '#4B3D3A'},
     DiffDelete = {bg = '#4B2D38', fg = 'NONE'},
     DiffText = {bg = '#725542'},
-    -- sandwich
-    OperatorSandwichAdd = {link = 'DraculaGreen'},
-    OperatorSandwichChange = {link = 'DraculaOrange'},
-    OperatorSandwichDelete = {link = 'DraculaRed'},
     -- HerringtonDarkholme/yats.vim
     typescriptArrayMethod = {link = 'DraculaCyan'},
     typescriptArrayStaticMethod = {link = 'DraculaCyan'},

@@ -1,5 +1,0 @@
-globals = {
-    "vim",
-    "dump",
-    "reload"
-}

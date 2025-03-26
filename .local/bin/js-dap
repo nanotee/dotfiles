@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+SRC_DIR="${XDG_BIN_HOME}/js-debug-dap"
+
+exec node "${SRC_DIR}/js-debug/src/dapDebugServer.js" "$@"

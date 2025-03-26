@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [ "$DEBUG" = 1 ]; then
+    set -x
+fi
+set -o errexit
+
+SRC_DIR="$XDG_BIN_HOME/neovim-src"
+
+cd "$SRC_DIR"
+git pull --rebase origin master
+flatpak-spawn --host podman run --rm --env 'CMAKE_BUILD_TYPE=RelWithDebInfo' --workdir '/tmp/nvim-build' -it -v="$SRC_DIR:/tmp/nvim-build:z" nvim-build make
+
+VIMRUNTIME="$SRC_DIR/runtime" nvim -u NORC --noplugin +'helptags ALL' +q

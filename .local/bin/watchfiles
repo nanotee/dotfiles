@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-while inotifywait --quiet .; do
-    clear
-    "$@"
-done

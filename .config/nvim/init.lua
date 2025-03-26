@@ -1,68 +1,50 @@
-require('impatient')
+vim.loader.enable()
 
 local map = vim.keymap.set
-local g, opt = vim.g, vim.opt
-local api, fn, cmd = vim.api, vim.fn, vim.cmd
-local split = vim.split
+local g, o, bo, wo = vim.g, vim.o, vim.bo, vim.wo
+local api, fn, cmd, lsp = vim.api, vim.fn, vim.cmd, vim.lsp
 
-vim.cmd [[colorscheme dracula]]
-opt.termguicolors = true
-opt.number = true
-opt.signcolumn = 'number'
-opt.list = true
-opt.listchars = {
-    tab = '> ',
-    eol = '¬',
-    nbsp = '␣',
-    trail = '•',
-}
-opt.fillchars = {
-    eob = ' ',
-    stlnc = '─',
-    diff = '·',
-}
-opt.linebreak = true
-opt.breakindent = true
-opt.showmode = false
-opt.pumblend = 20
-opt.pumheight = 25
-opt.title = true
-opt.guifont = 'mononoki Nerd Font'
-opt.previewheight = 18
+pcall(cmd.colorscheme, 'dracula')
+o.number = true
+o.signcolumn = 'number'
+o.list = true
+o.linebreak = true
+o.breakindent = true
+o.pumblend = 20
+o.pumheight = 25
+o.previewheight = 18
+o.exrc = true
+o.winborder = 'rounded'
 
-opt.cursorline = true
-opt.mouse = 'a'
-opt.guicursor = {
+o.cursorline = true
+o.guicursor = table.concat({
     'n-v-c:block',
     'i-ci-ve:ver25',
     'r-cr:hor20',
     'o:hor50',
     'a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor',
     'sm:block-blinkwait175-blinkoff150-blinkon175',
-}
-opt.virtualedit = 'block'
+}, ',')
 
-opt.expandtab = true
-opt.shiftwidth = 0
-opt.tabstop = 4
+o.expandtab = true
+o.shiftwidth = 0
+o.tabstop = 4
 
-opt.ignorecase = true
-opt.inccommand = 'split'
+o.ignorecase = true
+o.inccommand = 'split'
 
-opt.splitright = true
-opt.splitbelow = true
+o.splitright = true
+o.splitbelow = true
 
-opt.grepprg = 'rg --vimgrep --no-heading --smart-case'
-opt.formatprg = 'prettier --stdin-filepath=%'
-
-g.loaded_netrwPlugin = 1
-g.loaded_tutor_mode_plugin = 1
-g.loaded_tarPlugin = 1
-g.loaded_zipPlugin = 1
-g.loaded_gzip = 1
-g.loaded_2html_plugin = 1
-g.did_install_default_menus = 1
-g.did_install_syntax_menu = 1
+if fn.has('win32') == 1 then
+    o.shell = 'powershell'
+    o.shellcmdflag = '-Command'
+    o.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
+    o.shellpipe = '2>&1 | %%{ "$_" } | Tee-Object %s; exit $LastExitCode'
+    o.shellquote = ''
+    o.shellxquote = ''
+    o.shelltemp = false
+end
 
 g.loaded_python_provider = 0
 g.loaded_python3_provider = 0
@@ -70,34 +52,41 @@ g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 
-opt.lazyredraw = true
-opt.updatetime = 300
-opt.undofile = true
-opt.switchbuf:append{'usetab'}
-opt.shortmess:append{c = true, I = true}
-opt.completeopt = {'menu', 'menuone', 'noselect'}
-opt.shada:append{':1000', '/1000'}
+o.lazyredraw = true
+o.updatetime = 300
+o.undofile = true
+cmd.set('switchbuf+=usetab')
+o.completeopt = 'menu,menuone,noselect'
+cmd.set('shada+=:1000,/1000')
 
 g.mapleader = 'ù'
 g.maplocalleader = 'à'
 
 map('i', 'jk', '<Esc>')
 
-map('', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
+vim.g['test#strategy'] = 'neovim'
+vim.g['test#neovim#term_position'] = 'belowright'
 
-map('', 'j', "(v:count? 'j' : 'gj')", {expr = true})
-map('', 'k', "(v:count? 'k' : 'gk')", {expr = true})
+g['lf#set_default_mappings'] = 0
+g['lf#replace_netrw'] = 1
+g['lf#layout'] = { window = { width = 0.9, height = 0.6, highlight = 'Debug' } }
+g['lf#action'] = {
+    ['<C-T>'] = 'tab split',
+    ['<C-X>'] = 'split',
+    ['<C-V>'] = 'vsplit',
+}
 
-map('o', 'ad', '<Cmd>normal! ggVG<CR>')
-map('x', 'ad', 'gg0oG$')
+map('n', '<Leader>f', function()
+    return fn.expand('%') == '' and '<Cmd>Lp %:p:h<CR>' or '<Cmd>Lp %<CR>'
+end, { expr = true })
 
-map('n', ']!', vim.diagnostic.goto_next)
-map('n', '[!', vim.diagnostic.goto_prev)
-map('n', 'g!', '<Cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>')
+g.fzf_buffers_jump = 1
 
-local mapmodes = {'o', 'x'}
-local map_opts = {silent = true}
-for _, delimiter in ipairs{'_', '.', ':', ',', ';', '<Bar>', '/', '<Bslash>', '*', '#', '%'} do
+map('n', '<C-p>', '<Cmd>Files<CR>')
+
+local mapmodes = { 'o', 'x' }
+local map_opts = { silent = true }
+for _, delimiter in ipairs { '_', '.', ':', ',', ';', '<Bar>', '/', '<Bslash>', '*', '#', '%' } do
     map(mapmodes, 'i' .. delimiter, ':<C-U>normal! t' .. delimiter .. 'vT' .. delimiter .. '<CR>', map_opts)
     map(mapmodes, 'a' .. delimiter, ':<C-U>normal! f' .. delimiter .. 'vF' .. delimiter .. '<CR>', map_opts)
     map(mapmodes, 'in' .. delimiter, ':<C-U>normal! f' .. delimiter .. 'lvt' .. delimiter .. '<CR>', map_opts)
@@ -106,59 +95,70 @@ for _, delimiter in ipairs{'_', '.', ':', ',', ';', '<Bar>', '/', '<Bslash>', '*
     map(mapmodes, 'al' .. delimiter, ':<C-U>normal! F' .. delimiter .. 'vT' .. delimiter .. '<CR>', map_opts)
 end
 
+map('n', '<F5>', function() require('dap').continue() end, { desc = 'DAP: continue' })
+map('n', '<F10>', function() require('dap').step_over() end, { desc = 'DAP: step over' })
+map('n', '<F11>', function() require('dap').step_into() end, { desc = 'DAP: step into' })
+map('n', '<S-F11>', function() require('dap').step_out() end, { desc = 'DAP: step out' })
+map('n', '<F9>', function() require('dap').toggle_breakpoint() end, { desc = 'DAP: toggle breakpoint' })
+map('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
+    { desc = 'DAP: set log point' })
+map('n', '<Leader>dr', function() require('dap').repl.toggle() end, { desc = 'DAP: toggle REPL' })
+map('n', '<Leader>dl', function() require('dap').run_last() end, { desc = 'DAP: run last' })
+map({ 'n', 'v' }, '<Leader>dh', function()
+    require('dap.ui.widgets').hover()
+end, { desc = 'DAP: show hover' })
+map({ 'n', 'v' }, '<Leader>dp', function()
+    require('dap.ui.widgets').preview()
+end, { desc = 'DAP: show preview' })
+map('n', '<Leader>df', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.frames)
+end, { desc = 'DAP: show frames' })
+map('n', '<Leader>ds', function()
+    local widgets = require('dap.ui.widgets')
+    widgets.centered_float(widgets.scopes)
+end, { desc = 'DAP: show scopes' })
+
 -- Redirects the output of an ex command in a scratch buffer. May become
 -- obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
 api.nvim_create_user_command('Redirect', function(opts)
     local buf = api.nvim_create_buf(false, true)
-    cmd(('%s split'):format(opts.mods))
+    cmd.split({ mods = opts.smods })
     local win = api.nvim_get_current_win()
-    vim.wo[win].number = false
-    vim.wo[win].list = false
-    vim.bo[buf].bufhidden = 'wipe'
+    wo[win].number = false
+    wo[win].list = false
+    bo[buf].bufhidden = 'wipe'
 
     local result = fn.execute(opts.args)
-    api.nvim_buf_set_lines(buf, 0, 0, true, split(result, '\n', {plain = true, trimempty = true}))
+    api.nvim_buf_set_lines(buf, 0, 0, true, vim.split(result, '\n', { plain = true, trimempty = true }))
     api.nvim_win_set_buf(win, buf)
-end, {nargs = 1, complete = 'command'})
+end, { nargs = 1, complete = 'command' })
 
 api.nvim_create_user_command('Trash', function(opts)
     local file = fn.fnamemodify(fn.bufname(opts.args), ':p')
     cmd('bdelete' .. (opts.bang and '!' or ''))
-    fn.system({'kioclient5', 'move', file, 'trash:/'})
+    fn.system({ 'gio', 'trash', file })
     if fn.bufloaded(file) == 0 and vim.v.shell_error > 0 then
-        api.nvim_err_writeln(('Failed to move %s to trash'):format(file))
+        api.nvim_echo({{('Failed to move %s to trash'):format(file)}}, true, {err = true})
     end
-end, {bang = true})
-
-api.nvim_create_user_command('WikiFzfSearch', function(opts)
-    fn['fzf#vim#grep'](
-        ('rg --column --line-number --no-heading --color=always --smart-case -- %s %s')
-            :format(fn.shellescape(opts.args), vim.g.wiki_root),
-        1,
-        opts.bang
-    )
-end, {bang = true, nargs = '*'})
+end, { bang = true })
 
 api.nvim_create_user_command('Scratch', function(opts)
     local buf = api.nvim_create_buf(false, false)
-    vim.bo[buf].filetype = opts.args ~= '' and vim.trim(opts.args) or vim.bo.filetype
-    vim.bo[buf].buftype = 'nofile'
-    vim.bo[buf].bufhidden = 'hide'
-    vim.bo[buf].swapfile = false
+    bo[buf].filetype = opts.args ~= '' and vim.trim(opts.args) or bo.filetype
+    bo[buf].buftype = 'nofile'
+    bo[buf].bufhidden = 'hide'
+    bo[buf].swapfile = false
     if opts.range ~= 0 then
         local lines_to_copy = api.nvim_buf_get_lines(api.nvim_get_current_buf(), opts.line1 - 1, opts.line2, false)
         api.nvim_buf_set_lines(buf, 0, 1, false, lines_to_copy)
     end
-    vim.cmd(('%s split'):format(opts.mods))
+    cmd.split({ mods = opts.smods })
     api.nvim_win_set_buf(0, buf)
-end, {range = 0, nargs = '?', complete = 'filetype'})
+end, { range = 0, nargs = '?', complete = 'filetype' })
 
 vim.diagnostic.config({
-    virtual_text = false,
-    float = {
-        border = 'rounded',
-        source = 'always',
-    },
+    virtual_lines = true,
 })
 
 vim.filetype.add({
@@ -166,51 +166,65 @@ vim.filetype.add({
         mustache = 'html.mustache',
     },
 })
+vim.filetype.add({
+    extension = {
+        importmap = 'json',
+    },
+})
+vim.filetype.add({
+    extension = {
+        ['xml.dist'] = 'xml',
+    },
+})
 
--- https://www.galago-project.org/specs/notification/0.9/x320.html
-local notify_send_urgency_map = {
-    [vim.log.levels.TRACE] = 'low',
-    [vim.log.levels.DEBUG] = 'low',
-    [vim.log.levels.INFO]  = 'normal',
-    [vim.log.levels.WARN]  = 'normal',
-    [vim.log.levels.ERROR] = 'critical',
-}
-
--- https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
-local xdg_icons_map = {
-    [vim.log.levels.TRACE] = 'nvim',
-    [vim.log.levels.DEBUG] = 'nvim',
-    [vim.log.levels.INFO]  = 'dialog-information',
-    [vim.log.levels.WARN]  = 'dialog-warning',
-    [vim.log.levels.ERROR] = 'dialog-error',
-}
-
-function vim.notify(msg, log_level, opts)
-    log_level = log_level or vim.log.levels.TRACE
-    opts = opts or {}
-    local command = {
-        'notify-send',
-        '--icon', xdg_icons_map[log_level],
-        '--urgency', notify_send_urgency_map[log_level],
-        '--category', ('x-neovim.notification.%s'):format(vim.lsp.log_levels[log_level]),
-        '--hint', 'STRING:desktop-entry:nvim',
+if fn.has('linux') == 1 then
+    -- https://www.galago-project.org/specs/notification/0.9/x320.html
+    local notify_send_urgency_map = {
+        [vim.log.levels.TRACE] = 'low',
+        [vim.log.levels.DEBUG] = 'low',
+        [vim.log.levels.INFO]  = 'normal',
+        [vim.log.levels.WARN]  = 'normal',
+        [vim.log.levels.ERROR] = 'critical',
     }
-    if opts.timeout then
-        command[#command+1] = '--expire-time'
-        command[#command+1] = opts.timeout
-    end
 
-    command[#command+1] = opts.title or 'Neovim'
-    command[#command+1] = msg
-    vim.fn.jobstart(command)
+    -- https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
+    local xdg_icons_map = {
+        [vim.log.levels.TRACE] = 'nvim',
+        [vim.log.levels.DEBUG] = 'nvim',
+        [vim.log.levels.INFO]  = 'dialog-information',
+        [vim.log.levels.WARN]  = 'dialog-warning',
+        [vim.log.levels.ERROR] = 'dialog-error',
+    }
+
+    ---@diagnostic disable-next-line
+    function vim.notify(msg, log_level, opts)
+        log_level = log_level or vim.log.levels.TRACE
+        opts = opts or {}
+        local command = {
+            'notify-send',
+            '--icon', xdg_icons_map[log_level],
+            '--urgency', notify_send_urgency_map[log_level],
+            '--category', ('x-neovim.notification.%s'):format(lsp.log_levels[log_level]),
+            '--hint', 'STRING:desktop-entry:nvim',
+        }
+        if opts.timeout then
+            command[#command + 1] = '--expire-time'
+            command[#command + 1] = opts.timeout
+        end
+
+        command[#command + 1] = opts.title or 'Neovim'
+        command[#command + 1] = msg
+        fn.jobstart(command)
+    end
 end
 
+---@diagnostic disable-next-line
 function vim.ui.select(items, opts, on_choice)
     vim.validate {
         items = { items, 'table', false },
+        opts = { opts, 'table', false },
         on_choice = { on_choice, 'function', false },
     }
-    opts = opts or {}
     local choices = {}
     local lookup = {}
     local format_item = opts.format_item or tostring
@@ -219,17 +233,157 @@ function vim.ui.select(items, opts, on_choice)
         table.insert(choices, choice)
         lookup[choice] = #choices
     end
-    local fzf_wrapped_options = vim.fn['fzf#wrap']('vim.ui.select', {
+    local fzf_wrapped_options = fn['fzf#wrap']('vim.ui.select', {
         source = choices,
-        options = {'--prompt', opts.prompt or 'Select one of:'}
+        options = { '--prompt', opts.prompt or 'Select one of:' }
     })
+
     fzf_wrapped_options['sink*'] = function(result)
         local index = lookup[result[2]]
         on_choice(items[index], index)
     end
 
-    vim.fn['fzf#run'](fzf_wrapped_options)
+    fn['fzf#run'](fzf_wrapped_options)
 end
 
 require('my.config.packages')
-require('my.config.lsp')
+require('lualine').setup()
+
+local function has_words_before()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local cmp = require('cmp')
+cmp.setup {
+    sources = {
+        { name = 'nvim_lsp' },
+    },
+    snippet = {
+        expand = function(args)
+            vim.snippet.expand(args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-space>'] = {
+            i = cmp.mapping.complete(),
+        },
+        ['<Enter>'] = {
+            i = cmp.mapping.confirm({ select = true }),
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif vim.snippet.active({ direction = 1 }) then
+                vim.snippet.jump(1)
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif vim.snippet.active({ direction = -1 }) then
+                vim.snippet.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+    }),
+}
+
+vim.keymap.set({ 'i', 's' }, '<Tab>', function()
+    if vim.snippet.active({ direction = 1 }) then
+        return '<Cmd>lua vim.snippet.jump(1)<CR>'
+    else
+        return '<Tab>'
+    end
+end, { expr = true })
+
+lsp.commands['editor.action.triggerParameterHints'] = function()
+    lsp.buf.signature_help()
+end
+
+local lspconfig = require('lspconfig')
+
+lspconfig.lua_ls.setup {
+    settings = {
+        Lua = {
+            completion = {
+                callSnippet = 'Replace',
+            },
+            hint = {
+                enable = true,
+                arrayIndex = false,
+            },
+        },
+    },
+}
+lspconfig.jsonls.setup {
+    schemaDownload = {
+        enable = true,
+    },
+}
+lspconfig.yamlls.setup {}
+-- lspconfig.denols.setup {}
+lspconfig.ts_ls.setup {}
+lspconfig.clangd.setup {}
+lspconfig.vimls.setup {}
+lspconfig.emmet_language_server.setup {
+    filetypes = vim.list_extend(lspconfig.emmet_language_server.config_def.default_config.filetypes, { 'html.twig' }),
+}
+lspconfig.html.setup {
+    filetypes = vim.list_extend(lspconfig.html.config_def.default_config.filetypes, { 'html.twig' }),
+}
+lspconfig.cssls.setup {}
+vim.lsp.enable('sqls')
+lspconfig.zls.setup {}
+lspconfig.intelephense.setup {
+    init_options = {
+        globalStoragePath = (vim.env.XDG_DATA_HOME or '') .. '/intelephense',
+        licenceKey = (vim.env.XDG_DATA_HOME or '') .. '/intelephense/licence.txt',
+    },
+}
+lspconfig.bashls.setup {}
+
+api.nvim_create_augroup('no_cursorline_in_insert_mode', {})
+api.nvim_create_autocmd({ 'InsertLeave', 'WinEnter' }, {
+    group = 'no_cursorline_in_insert_mode',
+    callback = function()
+        wo.cursorline = true
+    end,
+})
+api.nvim_create_autocmd({ 'InsertEnter', 'WinLeave' }, {
+    group = 'no_cursorline_in_insert_mode',
+    callback = function()
+        wo.cursorline = false
+    end,
+})
+
+api.nvim_create_autocmd('QuickFixCmdPost', {
+    pattern = { 'grep', 'helpgrep' },
+    group = api.nvim_create_augroup('quickfix', {}),
+    command = 'cwindow',
+})
+
+api.nvim_create_autocmd('TextYankPost', {
+    group = api.nvim_create_augroup('hl_yank', {}),
+    callback = function() vim.highlight.on_yank() end,
+})
+
+api.nvim_create_autocmd('BufReadPost', {
+    group = api.nvim_create_augroup('restore_curpos', {}),
+    callback = function()
+        if fn.line("'\"") >= 1 and fn.line("'\"") <= fn.line('$') and not bo.filetype:match('commit') then
+            fn.execute('normal! g`"')
+        end
+    end,
+})
+
+api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+    group = api.nvim_create_augroup('LspLightBulb', {}),
+    callback = function() require('nvim-lightbulb').update_lightbulb() end,
+})

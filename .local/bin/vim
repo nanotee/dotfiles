@@ -1,15 +1,2 @@
 #!/usr/bin/env sh
-
-export MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
-# shellcheck disable=SC2016
-export VIMINIT='
-set directory=$XDG_CACHE_HOME/vim,~/,/tmp
-set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
-set viminfofile=$XDG_CACHE_HOME/vim/viminfo
-set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
-set packpath+=$XDG_DATA_HOME/vim/site
-set packpath+=$XDG_CONFIG_HOME/vim
-set undodir=$XDG_DATA_HOME/vim/undo
-source $MYVIMRC'
-
-exec "/usr/bin/vim" "$@"
+exec /usr/bin/flatpak run --branch=stable --arch=x86_64 --filesystem=host --command=vim -- org.vim.Vim "$@"

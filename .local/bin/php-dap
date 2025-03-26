@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+SRC_DIR="${XDG_BIN_HOME}/vscode-php-debug"
+
+exec node "${SRC_DIR}/out/phpDebug.js" "$@"

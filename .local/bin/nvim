@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-SRC_DIR="$HOME/.local/bin/neovim-src"
-export VIMRUNTIME="$SRC_DIR/runtime"
+SRC_DIR="${XDG_BIN_HOME:-$HOME/.local/bin}/neovim-src"
+export VIMRUNTIME="${SRC_DIR}/runtime"
 
-exec "$SRC_DIR/build/bin/nvim" "$@"
+exec "${SRC_DIR}/build/bin/nvim" "$@"

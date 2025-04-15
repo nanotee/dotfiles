@@ -4,7 +4,7 @@ local map = vim.keymap.set
 local g, o, bo, wo = vim.g, vim.o, vim.bo, vim.wo
 local api, fn, cmd, lsp = vim.api, vim.fn, vim.cmd, vim.lsp
 
-pcall(cmd.colorscheme, 'dracula')
+cmd('silent! colorscheme dracula')
 o.number = true
 o.signcolumn = 'number'
 o.list = true
@@ -139,7 +139,7 @@ api.nvim_create_user_command('Trash', function(opts)
     cmd('bdelete' .. (opts.bang and '!' or ''))
     fn.system({ 'gio', 'trash', file })
     if fn.bufloaded(file) == 0 and vim.v.shell_error > 0 then
-        api.nvim_echo({{('Failed to move %s to trash'):format(file)}}, true, {err = true})
+        api.nvim_echo({ { ('Failed to move %s to trash'):format(file) } }, true, { err = true })
     end
 end, { bang = true })
 
@@ -158,7 +158,9 @@ api.nvim_create_user_command('Scratch', function(opts)
 end, { range = 0, nargs = '?', complete = 'filetype' })
 
 vim.diagnostic.config({
-    virtual_lines = true,
+    virtual_lines = {
+        current_line = true,
+    },
 })
 
 vim.filetype.add({
@@ -307,9 +309,7 @@ lsp.commands['editor.action.triggerParameterHints'] = function()
     lsp.buf.signature_help()
 end
 
-local lspconfig = require('lspconfig')
-
-lspconfig.lua_ls.setup {
+vim.lsp.config('lua_ls', {
     settings = {
         Lua = {
             completion = {
@@ -321,33 +321,41 @@ lspconfig.lua_ls.setup {
             },
         },
     },
-}
-lspconfig.jsonls.setup {
+})
+vim.lsp.config('jsonls', {
     schemaDownload = {
         enable = true,
     },
-}
-lspconfig.yamlls.setup {}
--- lspconfig.denols.setup {}
-lspconfig.ts_ls.setup {}
-lspconfig.clangd.setup {}
-lspconfig.vimls.setup {}
-lspconfig.emmet_language_server.setup {
-    filetypes = vim.list_extend(lspconfig.emmet_language_server.config_def.default_config.filetypes, { 'html.twig' }),
-}
-lspconfig.html.setup {
-    filetypes = vim.list_extend(lspconfig.html.config_def.default_config.filetypes, { 'html.twig' }),
-}
-lspconfig.cssls.setup {}
-vim.lsp.enable('sqls')
-lspconfig.zls.setup {}
-lspconfig.intelephense.setup {
+})
+vim.lsp.config('emmet_language_server', {
+    filetypes = vim.list_extend(vim.lsp.config.emmet_language_server.filetypes, { 'html.twig' }),
+})
+vim.lsp.config('html', {
+    filetypes = vim.list_extend(vim.lsp.config.html.filetypes, { 'html.twig' }),
+})
+vim.lsp.config('intelephense', {
     init_options = {
         globalStoragePath = (vim.env.XDG_DATA_HOME or '') .. '/intelephense',
         licenceKey = (vim.env.XDG_DATA_HOME or '') .. '/intelephense/licence.txt',
     },
+})
+
+vim.lsp.enable {
+    'lua_ls',
+    'jsonls',
+    'yamlls',
+    -- 'denols',
+    'ts_ls',
+    'clangd',
+    'vimls',
+    'emmet_language_server',
+    'html',
+    'cssls',
+    'sqls',
+    'zls',
+    'intelephense',
+    'bashls',
 }
-lspconfig.bashls.setup {}
 
 api.nvim_create_augroup('no_cursorline_in_insert_mode', {})
 api.nvim_create_autocmd({ 'InsertLeave', 'WinEnter' }, {

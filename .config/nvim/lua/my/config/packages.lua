@@ -24,6 +24,7 @@ require('paq') {
     'mfussenegger/nvim-dap',
     'noahfrederick/vim-composer',
     'lumiliet/vim-twig',
+    'mfussenegger/nvim-lint',
 }
 
 cmd.set('runtimepath+=~/Projets/dev/nvim/zoxide.vim')

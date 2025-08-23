@@ -1,7 +1,7 @@
 [user]
     email = timothee-s@mailoo.org
     name = Timothée Sterle
-    signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIATCVSnvp1BfvzSaaAY6IUVCHhXAch5bt44MraFrWKMD timothee-s@mailoo.org"
+    signingkey = "~/.ssh/git_signing_key"
 [core]
     pager = delta
 [interactive]
@@ -25,7 +25,7 @@
 [gpg]
     format = ssh
 [gpg "ssh"]
-    allowedSignersFile = /var/home/timothee/.config/git/allowed_signers
+    allowedSignersFile = ~/.config/git/allowed_signers
 [commit]
     gpgSign = true
 [tag]

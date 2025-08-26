@@ -4,6 +4,10 @@ local map = vim.keymap.set
 local g, o, bo, wo = vim.g, vim.o, vim.bo, vim.wo
 local api, fn, cmd, lsp = vim.api, vim.fn, vim.cmd, vim.lsp
 
+if fn.has('nvim-0.12') then
+    require('vim._extui').enable({})
+end
+
 -- Remove when 0.12 comes out
 vim.pack = vim.pack or { add = require('paq') }
 
@@ -53,7 +57,7 @@ o.pumheight = 25
 o.previewheight = 18
 o.exrc = true
 o.winborder = 'rounded'
-
+o.cmdheight = 0
 o.cursorline = true
 o.guicursor = table.concat({
     'n-v-c:block',
@@ -156,21 +160,6 @@ map('n', '<Leader>ds', function()
     local widgets = require('dap.ui.widgets')
     widgets.centered_float(widgets.scopes)
 end, { desc = 'DAP: show scopes' })
-
--- Redirects the output of an ex command in a scratch buffer. May become
--- obsolete once https://github.com/neovim/neovim/issues/5054 is implemented
-api.nvim_create_user_command('Redirect', function(opts)
-    local buf = api.nvim_create_buf(false, true)
-    cmd.split({ mods = opts.smods })
-    local win = api.nvim_get_current_win()
-    wo[win].number = false
-    wo[win].list = false
-    bo[buf].bufhidden = 'wipe'
-
-    local result = fn.execute(opts.args)
-    api.nvim_buf_set_lines(buf, 0, 0, true, vim.split(result, '\n', { plain = true, trimempty = true }))
-    api.nvim_win_set_buf(win, buf)
-end, { nargs = 1, complete = 'command' })
 
 api.nvim_create_user_command('Trash', function(opts)
     local file = fn.fnamemodify(fn.bufname(opts.args), ':p')

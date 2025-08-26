@@ -4,7 +4,7 @@ local map = vim.keymap.set
 local g, o, bo, wo = vim.g, vim.o, vim.bo, vim.wo
 local api, fn, cmd, lsp = vim.api, vim.fn, vim.cmd, vim.lsp
 
-if fn.has('nvim-0.12') then
+if fn.has('nvim-0.12') == 1 then
     require('vim._extui').enable({})
 end
 

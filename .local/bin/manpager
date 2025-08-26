@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+exec nvim \
+    -u NORC \
+    --noplugin \
+    --cmd 'runtime! plugin/man.lua' \
+    +'packadd! dracula' \
+    +'silent! colorscheme dracula' \
+    +'set termguicolors' \
+    +Man! \
+    "$@"

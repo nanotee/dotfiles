@@ -31,7 +31,7 @@ set -gx PATH "$XDG_BIN_HOME" $PATH
 
 set -gx EDITOR "nvim"
 set -gx VISUAL "nvim"
-set -gx MANPAGER "nvim -u NORC --noplugin --cmd 'runtime! plugin/man.lua' +'color dracula' +'set termguicolors' +Man!"
+set -gx MANPAGER "manpager"
 set -gx OPENER "xdg-open"
 set -gx LESS " -R "
 set -gx FZF_DEFAULT_COMMAND "fd --type f --follow"

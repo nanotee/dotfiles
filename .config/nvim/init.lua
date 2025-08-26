@@ -4,6 +4,44 @@ local map = vim.keymap.set
 local g, o, bo, wo = vim.g, vim.o, vim.bo, vim.wo
 local api, fn, cmd, lsp = vim.api, vim.fn, vim.cmd, vim.lsp
 
+-- Remove when 0.12 comes out
+vim.pack = vim.pack or { add = require('paq') }
+
+vim.pack.add({
+    {
+        src = 'https://github.com/dracula/vim',
+        name = 'dracula',
+        -- Remove when 0.12 comes out
+        url = 'https://github.com/dracula/vim',
+        as = 'dracula',
+    },
+    'https://github.com/nvim-lualine/lualine.nvim',
+    'https://github.com/junegunn/fzf.vim',
+    'https://github.com/tpope/vim-abolish',
+    'https://github.com/tpope/vim-eunuch',
+    'https://github.com/tpope/vim-fugitive',
+    'https://github.com/tpope/vim-rhubarb',
+    'https://github.com/tpope/vim-repeat',
+    'https://github.com/tpope/vim-surround',
+    'https://github.com/tpope/vim-dispatch',
+    'https://github.com/tpope/vim-projectionist',
+    'https://github.com/ii14/lsp-command',
+    'https://github.com/kosayoda/nvim-lightbulb',
+    'https://github.com/neovim/nvim-lspconfig',
+    'https://github.com/mroavi/lf.vim',
+    'https://github.com/hrsh7th/nvim-cmp',
+    'https://github.com/hrsh7th/cmp-nvim-lsp',
+    'https://github.com/tweekmonster/helpful.vim',
+    'https://github.com/vim-test/vim-test',
+    'https://codeberg.org/mfussenegger/nvim-dap',
+    'https://github.com/noahfrederick/vim-composer',
+    'https://github.com/lumiliet/vim-twig',
+    'https://codeberg.org/mfussenegger/nvim-lint',
+})
+
+cmd.set('runtimepath+=~/Projets/dev/nvim/zoxide.vim')
+cmd.set('runtimepath+=~/Projets/dev/nvim/sqls.nvim')
+
 cmd('silent! colorscheme dracula')
 o.number = true
 o.signcolumn = 'number'
@@ -248,7 +286,6 @@ function vim.ui.select(items, opts, on_choice)
     fn['fzf#run'](fzf_wrapped_options)
 end
 
-require('my.config.packages')
 require('lualine').setup()
 
 local function has_words_before()

@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+if [ ! -z "$TERMUX__PREFIX" ]; then
+    exec "${TERMUX__PREFIX}/bin/nvim" "$@"
+fi
+
 SRC_DIR="${XDG_BIN_HOME:-$HOME/.local/bin}/neovim-src"
 export VIMRUNTIME="${SRC_DIR}/runtime"
 

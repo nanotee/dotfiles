@@ -111,7 +111,7 @@ vim.g['test#neovim#term_position'] = 'belowright'
 
 g['lf#set_default_mappings'] = 0
 g['lf#replace_netrw'] = 1
-g['lf#layout'] = { window = { width = 0.9, height = 0.6, highlight = 'Debug' } }
+g['lf#layout'] = { window = { width = 0.9, height = 0.6 } }
 g['lf#action'] = {
     ['<C-T>'] = 'tab split',
     ['<C-X>'] = 'split',

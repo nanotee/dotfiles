@@ -218,8 +218,8 @@ if fn.has('linux') == 1 then
 
     -- https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html
     local xdg_icons_map = {
-        [vim.log.levels.TRACE] = 'nvim',
-        [vim.log.levels.DEBUG] = 'nvim',
+        [vim.log.levels.TRACE] = 'io.neovim.nvim',
+        [vim.log.levels.DEBUG] = 'io.neovim.nvim',
         [vim.log.levels.INFO]  = 'dialog-information',
         [vim.log.levels.WARN]  = 'dialog-warning',
         [vim.log.levels.ERROR] = 'dialog-error',
@@ -235,6 +235,7 @@ if fn.has('linux') == 1 then
             '--urgency', notify_send_urgency_map[log_level],
             '--category', ('x-neovim.notification.%s'):format(lsp.log_levels[log_level]),
             '--hint', 'STRING:desktop-entry:nvim',
+            '--app-name', 'Neovim',
         }
         if opts.timeout then
             command[#command + 1] = '--expire-time'
